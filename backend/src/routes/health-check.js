@@ -3,7 +3,7 @@ import { supabase } from '../config/database.js';
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/db-check', async (req, res) => {
   try {
     // 1. Check Supabase API is reachable
     const { error: authError } = await supabase.auth.getSession();
