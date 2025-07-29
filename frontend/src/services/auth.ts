@@ -1,9 +1,12 @@
+import { User } from "@/types/supabase";
 import { apiFetch } from "./api";
 
 interface AuthResponse {
   data?: any;
   error?: string;
   message?: string;
+  token?: string | undefined;
+  user?: User;
 }
 
 export async function registerUser(data: {
@@ -11,20 +14,40 @@ export async function registerUser(data: {
   password: string;
   name?: string;
 }): Promise<AuthResponse> {
-  return apiFetch("/api/auth/register", {
+  const response = await apiFetch("/api/auth/register", {
     method: "POST",
     body: JSON.stringify(data),
   });
+
+  if (response.error) {
+    return { error: response.error };
+  }
+
+  // If registration is successful, return token and user
+  return {
+    token: response.data.token,
+    user: response.data.user,
+  };
 }
 
 export async function loginUser(data: {
   email: string;
   password: string;
 }): Promise<AuthResponse> {
-  return apiFetch("/api/auth/login", {
+  const response = await apiFetch("/api/auth/login", {
     method: "POST",
     body: JSON.stringify(data),
   });
+
+  if (response.error) {
+    return { error: response.error };
+  }
+
+  // On successful login, return the token and user
+  return {
+    token: response.data.tokens.accessToken,
+    user: response.data.user,
+  };
 }
 
 export async function logoutUser(): Promise<AuthResponse> {

@@ -61,7 +61,7 @@ export function SignupForm() {
         "Account created successfully! Redirecting to dashboard..."
       );
       setTimeout(() => {
-        router.push("/dashboard");
+        router.push("/login");
       }, 1500);
     } catch (err: any) {
       if (err.response?.status === 429) {
