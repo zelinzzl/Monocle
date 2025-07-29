@@ -9,7 +9,8 @@
     "lint": "next lint",
     "generate-icons": "tsx scripts/icon-generation.ts",
     "setup-backend-start": "powershell ./scripts/setup-alias.ps1",
-    "setup-backend-start-MACOS": "bash ./scripts/setup-alias.sh"
+    "setup-backend-start-MACOS": "bash ./scripts/setup-alias.sh",
+     "cypress:open": "cypress open"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.0",
