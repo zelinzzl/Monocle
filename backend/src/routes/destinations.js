@@ -1,3 +1,4 @@
+
 import express from 'express';
 import DestinationController from '../controllers/destinationController.js';
 import { authenticateToken } from '../middleware/authMiddleware.js';
@@ -6,6 +7,9 @@ const router = express.Router();
 
 // All destination routes require authentication
 router.use(authenticateToken);
+
+// Debug route - put this BEFORE the /:id routes
+router.get('/debug/:id', (req, res) => DestinationController.debugDestination(req, res));
 
 // CRUD routes
 router.get('/', (req, res) => DestinationController.getDestinations(req, res));
