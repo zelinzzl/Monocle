@@ -20,7 +20,6 @@ import { Table } from "lucide-react";
 export default function DashboardPage() {
   return (
     <main className="flex flex-1">
-      <Sidebar />
       <div className="flex min-h-screen w-full flex-col">
         {/* Header */}
         <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
