@@ -1,79 +1,155 @@
 import Image from "next/image";
 import { Card } from "../UI/card";
 import { H2, H3, P } from "../UI/typography";
-import C1 from "@/assets/images/contributors/Hawa.jpg";
-import C2 from "@/assets/images/contributors/Reta.jpeg";
-import C3 from "@/assets/images/contributors/Zelin.jpg";
+import C1 from "@/assets/images/contributors/hawa.jpg";
+import C2 from "@/assets/images/contributors/nerina.jpg";
+import C3 from "@/assets/images/contributors/Reta.jpeg";
+import C4 from "@/assets/images/contributors/Siya.png";
+import C5 from "@/assets/images/contributors/Zelin.jpg";
 import { AspectRatio } from "../UI/aspect-ratio";
+import Link from "next/link";
 
 function Contributors() {
   return (
-    <section id="contributors">
-      <div className="flex-col gap-4 pl-4 pr-4 pt-40 pb-40">
-        <section className="flex items-center justify-center h-full">
-          <H2 className="text-3xl font-bold mb-4">Our Contributors</H2>
-        </section>
+    <section id="contributors" className="py-20 md:py-40 px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <H2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
+            Our Contributors
+          </H2>
+        </div>
 
-        <div className="flex flex-row items-start justify-center gap-6 ">
-          <Card className="flex flex-col items-center p-4 gap-2 w-64">
-            <AspectRatio ratio={1 / 1}>
-              <Image
-                src={C1}
-                alt="Hawa Ibrahim"
-                className="object-cover w-full h-full"
-              />
-            </AspectRatio>
-            <H3 className="text-center mt-2">Hawa Ibrahim</H3>
-            <P className="text-center -mt-1">AI engineer</P>
-          </Card>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 justify-items-center">
+          {/* Contributor 1 */}
+          <Link
+            href="https://github.com/HawaIbr01"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group w-full"
+          >
+            <Card className="flex flex-col items-center p-4 gap-2 w-full max-w-xs transition-transform duration-300 group-hover:scale-105">
+              <div className="w-3/4 sm:w-full pointer-events-none">
+                <AspectRatio ratio={1 / 1}>
+                  <Image
+                    src={C1}
+                    alt="Hawa Ibrahim"
+                    className="rounded-lg object-cover w-full h-full pointer-events-none"
+                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 20vw"
+                  />
+                </AspectRatio>
+              </div>
+              <H3 className="text-center mt-2 text-lg sm:text-xl pointer-events-none">
+                Hawa Ibrahim
+              </H3>
+              <P className="text-center text-muted-foreground pointer-events-none">
+                AI engineer
+              </P>
+            </Card>
+          </Link>
 
-          <Card className="flex flex-col items-center p-4 gap-2 w-64">
-            <AspectRatio ratio={1 / 1}>
-              <Image
-                src={""}
-                alt="Nerina Borchard"
-                className="object-cover w-full h-full"
-              />
-            </AspectRatio>
-            <H3 className="text-center mt-2">Nerina Borchard</H3>
-            <P className="text-center -mt-1">Design</P>
-          </Card>
+          {/* Contributor 2 */}
+          <Link
+            href="https://github.com/NerinaBorchard"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group w-full"
+          >
+            <Card className="flex flex-col items-center p-4 gap-2 w-full max-w-xs hover:scale-105 transition-transform duration-300">
+              <div className="w-3/4 sm:w-full">
+                <AspectRatio ratio={1 / 1}>
+                  <Image
+                    src={C2}
+                    alt="Nerina Borchard"
+                    className="rounded-lg object-cover w-full h-full"
+                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 20vw"
+                  />
+                </AspectRatio>
+              </div>
+              <H3 className="text-center mt-2 text-lg sm:text-xl">
+                Nerina Borchard
+              </H3>
+              <P className="text-center text-muted-foreground">Design</P>
+            </Card>
+          </Link>
 
-          <Card className="flex flex-col items-center p-4 gap-2 w-64">
-            <AspectRatio ratio={1 / 1}>
-              <Image
-                src={C2}
-                alt="Reta"
-                className="object-cover w-full h-full"
-              />
-            </AspectRatio>
-            <H3 className="text-center mt-2">Reta</H3>
-            <P className="text-center -mt-1">Fullstack developer</P>
-          </Card>
+          {/* Contributor 3 */}
+          <Link
+            href="https://github.com/Rethakgetse-Manaka"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group w-full"
+          >
+            <Card className="flex flex-col items-center p-4 gap-2 w-full max-w-xs hover:scale-105 transition-transform duration-300">
+              <div className="w-3/4 sm:w-full">
+                <AspectRatio ratio={1 / 1}>
+                  <Image
+                    src={C3}
+                    alt="Reta"
+                    className="rounded-lg object-cover w-full h-full"
+                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 20vw"
+                  />
+                </AspectRatio>
+              </div>
+              <H3 className="text-center mt-2 text-lg sm:text-xl">Reta</H3>
+              <P className="text-center text-muted-foreground">
+                Fullstack developer
+              </P>
+            </Card>
+          </Link>
 
-          <Card className="flex flex-col items-center p-4 gap-2 w-64">
-            <AspectRatio ratio={1 / 1}>
-              <Image
-                src={""}
-                alt="Siyamthanda Ndlovu"
-                className="object-cover w-full h-full"
-              />
-            </AspectRatio>
-            <H3 className="text-center mt-2">Siyamthanda Ndlovu</H3>
-            <P className="text-center -mt-1">Fullstack developer</P>
-          </Card>
+          {/* Contributor 4 */}
+          <Link
+            href="https://github.com/siyamthandandlovu"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group w-full"
+          >
+            <Card className="flex flex-col items-center p-4 gap-2 w-full max-w-xs hover:scale-105 transition-transform duration-300">
+              <div className="w-3/4 sm:w-full">
+                <AspectRatio ratio={1 / 1}>
+                  <Image
+                    src={C4}
+                    alt="Siyamthanda Ndlovu"
+                    className="rounded-lg object-cover w-full h-full"
+                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 20vw"
+                  />
+                </AspectRatio>
+              </div>
+              <H3 className="text-center mt-2 text-lg sm:text-xl">
+                Siyamthanda Ndlovu
+              </H3>
+              <P className="text-center text-muted-foreground">
+                Fullstack developer
+              </P>
+            </Card>
+          </Link>
 
-          <Card className="flex flex-col items-center p-4 gap-2 w-64 ">
-            <AspectRatio ratio={1 / 1}>
-              <Image
-                src={C3}
-                alt="Zelin"
-                className="object-cover w-full h-full"
-              />
-            </AspectRatio>
-            <H3 className="text-center mt-2">Zelin Zhang</H3>
-            <P className="text-center -mt-2">Team Lead & Fullstack</P>
-          </Card>
+          {/* Contributor 5 */}
+          <Link
+            href="https://github.com/zelinzzl"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group w-full"
+          >
+            <Card className="flex flex-col items-center p-4 gap-2 w-full max-w-xs hover:scale-105 transition-transform duration-300">
+              <div className="w-3/4 sm:w-full">
+                <AspectRatio ratio={1 / 1}>
+                  <Image
+                    src={C5}
+                    alt="Zelin Zhang"
+                    className="rounded-lg object-cover w-full h-full"
+                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 20vw"
+                  />
+                </AspectRatio>
+              </div>
+              <H3 className="text-center mt-2 text-lg sm:text-xl">
+                Zelin Zhang
+              </H3>
+              <P className="text-center text-muted-foreground">
+                Team Lead & Fullstack
+              </P>
+            </Card>
+          </Link>
         </div>
       </div>
     </section>

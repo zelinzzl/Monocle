@@ -15,14 +15,14 @@
 
 ## 🛠️ Tech Stack
 
-| Layer      | Technology                                        |
-| ---------- | ------------------------------------------------- |
-| Frontend   | Next.js, TypeScript, TailwindCSS, React, ShadCN  |
-| Backend    | Node.js, Express                                  |
-| Database   | Supabase (PostgreSQL)                             |
-| Auth       | JWT tokens                                        |
-| Deployment | Vercel                                            |
-| Testing    | Cypress                                           |
+| Layer      | Technology                                      |
+| ---------- | ----------------------------------------------- |
+| Frontend   | Next.js, TypeScript, TailwindCSS, React, ShadCN |
+| Backend    | Node.js, Express                                |
+| Database   | Supabase (PostgreSQL)                           |
+| Auth       | JWT tokens                                      |
+| Deployment | Vercel                                          |
+| Testing    | Cypress                                         |
 
 ---
 
@@ -58,11 +58,13 @@ monocle/
 ### Required Challenge Features
 
 1. **User Profile & Preferences**
+
    - View and edit user profile (name, email, password)
    - Manage notification settings and risk level thresholds
    - Persistent settings stored in database
 
 2. **Alerts / Notifications Dashboard**
+
    - Display travel risk alerts with timestamps, titles, and status
    - Real-time notifications for destination risk changes
    - Alert history and management
@@ -75,9 +77,49 @@ monocle/
    - Fields: id, location, riskLevel, lastChecked
 
 ### Authentication & Authorization
+
 - JWT-based authentication system
 - Protected routes requiring valid tokens
 - Secure user registration and login flow
+
+---
+
+## 🛠️ Testing
+
+### Backend Tests
+
+### Frontend Tests
+
+This project includes both end-to-end (E2E) and integration tests using Cypress.
+
+#### Directory Structure
+
+```
+cypress/
+├── e2e/
+│   ├── integration-tests/     # Integration-style tests (e.g. API, isolated logic)
+│   └── e2e-tests/             # Full end-to-end UI tests
+│   └── fixtures/
+│   └── support/
+```
+
+#### Run both Integration and End-to-End Tests
+
+```bash
+npx cypress run --e2e
+```
+
+#### Run Integration Tests
+
+```bash
+npx cypress run --spec "cypress/e2e/integration-tests/**/*.cy.ts"
+```
+
+#### Run End-to-End Tests
+
+```bash
+npx cypress run --spec "cypress/e2e/e2e-tests/**/*.cy.ts"
+```
 
 ---
 
@@ -188,28 +230,33 @@ After running tests, results are automatically saved to `/cypress/results/` dire
 ## 🚀 API Endpoints
 
 ### Authentication
+
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/login` - User login
 - `POST /api/auth/logout` - User logout
 - `GET /api/auth/verify` - Verify JWT token
 
 ### User Profile
+
 - `GET /api/user/profile` - Get user profile
 - `PUT /api/user/profile` - Update user profile
 - `PUT /api/user/preferences` - Update user preferences
 
 ### Monitored Destinations
+
 - `GET /api/destinations` - Get all monitored destinations
 - `POST /api/destinations` - Create new destination
 - `PUT /api/destinations/:id` - Update destination
 - `DELETE /api/destinations/:id` - Delete destination
 
 ### Alerts
+
 - `GET /api/alerts` - Get user alerts
 - `POST /api/alerts` - Create new alert
 - `PUT /api/alerts/:id/status` - Update alert status
 
 ### Health Check
+
 - `GET /api/health` - Database connectivity health check
 
 ---
@@ -219,27 +266,27 @@ After running tests, results are automatically saved to `/cypress/results/` dire
 <table>
   <tr>
     <td align="center">
-      <img src="assets/images/contributors/Zelin.jpg" width="100px;" alt="Zelin"/><br />
+      <img src="./frontend/src/assets/images/contributors/Zelin.jpg" width="100px;" alt="Zelin"/><br />
       <sub><b>Zelin</b></sub><br />
       <sub>Team Lead & Full-stack Developer</sub>
     </td>
     <td align="center">
-      <img src="assets/images/contributors/Reta.jpeg" width="100px;" alt="Reta"/><br />
+      <img src="./frontend/src/assets/images/contributors/Reta.jpeg" width="100px;" alt="Reta"/><br />
       <sub><b>Reta</b></sub><br />
       <sub>Full-stack Developer</sub>
     </td>
     <td align="center">
-      <img src="assets/images/contributors/siyamthanda.jpeg" width="100px;" alt="Siyamthanda"/><br />
+      <img src="./frontend/src/assets/images/contributors/Siya.png" width="100px;" alt="Siyamthanda"/><br />
       <sub><b>Siyamthanda</b></sub><br />
       <sub>Full-stack Developer</sub>
     </td>
     <td align="center">
-      <img src="assets/images/contributors/nerina.jpeg" width="100px;" alt="Nerina"/><br />
+      <img src="./frontend/src/assets/images/contributors/nerina.jpg" width="100px;" alt="Nerina"/><br />
       <sub><b>Nerina</b></sub><br />
       <sub>Full-stack Developer</sub>
     </td>
     <td align="center">
-      <img src="assets/images/contributors/hawa.jpeg" width="100px;" alt="Hawa"/><br />
+      <img src="./frontend/src/assets/images/contributors/hawa.jpg" width="100px;" alt="Hawa"/><br />
       <sub><b>Hawa</b></sub><br />
       <sub>Full-stack Developer</sub>
     </td>
@@ -250,10 +297,7 @@ After running tests, results are automatically saved to `/cypress/results/` dire
 
 ## 🔗 Links
 
-- **Repository**: [GitHub Link]
-- **Live Demo**: [Deployment Link]
+- **Live Demo**: Coming soon....
 - **Challenge**: Travel Risk Monitoring
 
 ---
-
-

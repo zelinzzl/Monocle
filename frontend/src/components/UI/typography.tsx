@@ -46,11 +46,7 @@ const H4: React.FC<Props> = ({ className, children }) => {
 };
 
 const P: React.FC<Props> = ({ className, children }) => {
-  return (
-    <p className={`leading-7 [&:not(:first-child)]:mt-6 ${className}`}>
-      {children}
-    </p>
-  );
+  return <p className={`leading-7 ${className}`}>{children}</p>;
 };
 
 const Blockquote: React.FC<Props> = ({ className, children }) => {

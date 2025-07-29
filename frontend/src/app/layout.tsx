@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "Monocle",
   description: "",
   icons: {
-    icon: "/Logo-light.svg",
+    icon: "/Logo.svg",
   },
 };
 
