@@ -21,21 +21,6 @@ export default function DashboardPage() {
   return (
     <main className="flex flex-1">
       <div className="flex min-h-screen w-full flex-col">
-        {/* Header */}
-        <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
-          <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-            <span className="text-lg font-semibold">Acme Inc</span>
-          </nav>
-          <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-            <div className="ml-auto">
-              <Avatar>
-                <AvatarImage src="/avatars/01.png" alt="@shadcn" />
-                <AvatarFallback>SC</AvatarFallback>
-              </Avatar>
-            </div>
-          </div>
-        </header>
-
         {/* Main Content */}
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
           <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
