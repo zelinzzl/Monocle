@@ -27,7 +27,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${roboto.variable} antialiased`}>
         <AuthProvider>
-          <ThemeProvider>{children}</ThemeProvider>
+          
+           <ThemeProvider> 
+               {children}
+             </ThemeProvider> 
         </AuthProvider>
       </body>
     </html>
