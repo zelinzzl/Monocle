@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/UI/button";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/auth-context";
 
 function FloatingPaths({ position }: { position: number }) {
   const centerX = 348;
@@ -71,6 +73,17 @@ function FloatingPaths({ position }: { position: number }) {
 }
 
 function Hero({ title = "Hero" }: { title?: string }) {
+  const { isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  const handleButtonClick = () => {
+    if (isAuthenticated) {
+      router.push("/dashboard");
+    } else {
+      router.push("/login");
+    }
+  };
+
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden --background dark:bg-neutral-950">
       <div className="absolute inset-0">
@@ -106,6 +119,7 @@ function Hero({ title = "Hero" }: { title?: string }) {
                         overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
           >
             <Button
+              onClick={handleButtonClick}
               variant="ghost"
               className="rounded-[1.15rem] px-8 py-6 text-lg font-semibold backdrop-blur-md 
                             bg-white/95  dark:bg-black/95 dark:hover:bg-black/100 

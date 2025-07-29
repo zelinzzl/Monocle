@@ -1,31 +1,18 @@
 "use client";
 
 import { useTheme } from "@/context/theme-provider";
-import { Button } from "@/components/UI/button";
+import { Icon } from "../UI/icons/Icon";
 
 export function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
 
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
   return (
-    <div className="flex gap-2">
-      <Button
-        onClick={() => setTheme("light")}
-        variant={theme === "light" ? "default" : "outline"}
-      >
-        Light
-      </Button>
-      <Button
-        onClick={() => setTheme("dark")}
-        variant={theme === "dark" ? "default" : "outline"}
-      >
-        Dark
-      </Button>
-      <Button
-        onClick={() => setTheme("custom")}
-        variant={theme === "custom" ? "default" : "outline"}
-      >
-        Custom
-      </Button>
+    <div className="cursor-pointer" onClick={toggleTheme}>
+      <Icon name="Swatch" size="md" />
     </div>
   );
 }
