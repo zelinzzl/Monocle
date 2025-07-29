@@ -21,23 +21,32 @@ export default function NotificationPage() {
   const [alerts] = useState<Alert[]>(sampleAlerts)
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-6 bg-gray-50">
-      <div className="space-y-3">
+    <main className="min-h-screen bg-gray-50 p-6">
+      {/* Header */}
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">Notifications</h1>
+      </div>
+
+      {/* Alerts */}
+      <div className="space-y-2">
         {alerts.map(alert => (
-          <Card key={alert.id} className="border-2 border-black w-[320px]">
-            <CardContent className="flex flex-row items-center justify-between px-4 py-2">
-              <span className="text-base font-medium">{alert.title}</span>
-              <span
-                className={clsx(
-                  "text-sm px-2 py-0.5 border rounded",
-                  alert.status === "Success"
-                    ? "text-green-700 border-green-700"
-                    : "text-red-700 border-red-700"
-                )}
-              >
-                {alert.status}
-              </span>
-              <span className="text-sm text-gray-500">{alert.timestamp}</span>
+          <Card
+            key={alert.id}
+            className="border border-gray-200 rounded-md bg-white shadow-sm hover:shadow transition"
+          >
+            <CardContent className="flex items-center justify-between px-4 py-2">
+              <div className="text-sm text-gray-800">{alert.title}</div>
+
+              <div className="flex items-center gap-3">
+                <span
+                  className={clsx(
+                    "text-xs font-medium px-2 py-1 rounded-md bg-gray-200 text-gray-800"
+                  )}
+                >
+                  {alert.status}
+                </span>
+                <span className="text-xs text-gray-500">{alert.timestamp}</span>
+              </div>
             </CardContent>
           </Card>
         ))}
