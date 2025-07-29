@@ -27,7 +27,14 @@ function Vision() {
 
       <div className="w-full md:w-1/2">
         <Card className="p-4">
-          <Carousel className="w-full">
+          <Carousel
+            className="w-full"
+            opts={{
+              align: "start",
+              loop: true,
+              active: true,
+            }}
+          >
             <CarouselContent>
               {visionImages.map((img, i) => (
                 <CarouselItem

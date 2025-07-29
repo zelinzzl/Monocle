@@ -1,67 +1,157 @@
 "use client";
 
 import Link from "next/link";
-import { Home, Users, Settings, Package, X, Bell, Bus } from "lucide-react";
+import Logo from "../Logo/Logo";
+import { Icon } from "../UI/icons/Icon";
+import { cn } from "@/lib/utils";
+import { P } from "../UI/typography";
+import { useState, useEffect } from "react";
+import { Button } from "../UI/button";
+import { Sheet, SheetContent, SheetTrigger } from "../UI/sheet";
+import { usePathname } from "next/navigation";
 
-export function Sidebar() {
-  return (
-    <div className="hidden border-r bg-muted/40 md:block">
-      <div className="flex h-full max-h-screen flex-col gap-2">
-        <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-          <Link href="/" className="flex items-center gap-2 font-semibold">
-            <Package className="h-6 w-6" />
-            <span>MONOCLE</span>
+export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
+  const logoSize = isCollapsed ? 30 : 40;
+  const [isMobile, setIsMobile] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Initial check
+    checkIfMobile();
+
+    // Add event listener for window resize
+    window.addEventListener("resize", checkIfMobile);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkIfMobile);
+  }, []);
+
+  const sidebarContent = (
+    <div className="flex h-full max-h-screen flex-col gap-2">
+      <div className="flex h-14 items-center border-b px-4 lg:h-[60px] ">
+        <Link href="/" className="flex items-center gap-10 font-semibold">
+          <Logo size={logoSize} />
+          {!isCollapsed && <P className="text-lg justify-center">MONOCLE</P>}
+        </Link>
+      </div>
+
+      <div className="flex-1 flex flex-col">
+        <nav className="grid items-start px-2 gap-3 text-sm font-medium ">
+          <Link
+            href="/dashboard"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+              pathname === "/dashboard" && "bg-muted text-primary"
+            )}
+          >
+            <Icon name="Home" size={"lg"} />
+            {!isCollapsed && <P className="text-lg">Home</P>}
+          </Link>
+
+          <Link
+            href="/dashboard/chat"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+              pathname === "/dashboard/chat" && "bg-muted text-primary"
+            )}
+          >
+            <Icon name="ChatBubbleBottomCenter" size={"lg"} />
+            {!isCollapsed && <P className="text-lg">Chat</P>}
+          </Link>
+
+          <Link
+            href="/dashboard/travel-risk"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+              pathname === "/dashboard/travel-risk" && "bg-muted text-primary"
+            )}
+          >
+            <Icon name="Truck" size={"lg"} />
+            {!isCollapsed && <P className="text-lg">Travel Risk</P>}
+          </Link>
+
+          <Link
+            href="/dashboard/notifications"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+              pathname === "/dashboard/notifications" && "bg-muted text-primary"
+            )}
+          >
+            <Icon name="Bell" size={"lg"} />
+            {!isCollapsed && <P className="text-lg">Notifications</P>}
+          </Link>
+
+          <Link
+            href="/dashboard/profile"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+              pathname === "/dashboard/profile" && "bg-muted text-primary"
+            )}
+          >
+            <Icon name="User" size={"lg"} />
+            {!isCollapsed && <P className="text-lg">Profile</P>}
+          </Link>
+        </nav>
+
+        {/* Logout button at the bottom */}
+        <div className="mt-auto p-2">
+          <Link
+            href="/dashboard/settings"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+              pathname === "/settings" && "bg-muted text-primary"
+            )}
+          >
+            <Icon name="Settings" size={"lg"} isLottie animateOnHover />
+            {!isCollapsed && <P className="text-lg">Settings</P>}
+          </Link>
+
+          <Link
+            href="/logout"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+              pathname === "/logout" && "bg-muted text-primary"
+            )}
+          >
+            <Icon name="XCircle" size={"lg"} />
+            {!isCollapsed && <P className="text-lg">Log out</P>}
           </Link>
         </div>
-        <div className="flex-1">
-          <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-            <Link
-              href="/dashboard/dashboard"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-            >
-              <Home className="h-4 w-4" />
-              Dashboard
-            </Link>
-            <Link
-              href="/dashboard/travelrisk"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-            >
-              <Bus className="h-4 w-4" />
-              Travel Risk
-            </Link>
-            <Link
-              href="/dashboard/notifications"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-            >
-              <Bell className="h-4 w-4" />
-              Notifications
-            </Link>
-            <Link
-              href="/dashboard/profile"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-            >
-              <Users className="h-4 w-4" />
-              Profile
-            </Link>
-            {/* <Link
-              href="#"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-            >
-              <Settings className="h-4 w-4" />
-              Settings
-            </Link> */}
-
-              <div className="h-60"></div>
-            <Link
-              href="/logout"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-            >
-              <X className="h-4 w-4" />
-              Log out
-            </Link>
-          </nav>
-        </div>
       </div>
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button
+            variant="outline"
+            size="icon"
+            className="fixed top-4 left-4 z-50 md:hidden"
+          >
+            <Icon name="Bars3" size="lg" />
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left" className="p-0 w-[280px]">
+          {sidebarContent}
+        </SheetContent>
+      </Sheet>
+    );
+  }
+
+  return (
+    <div
+      className={cn(
+        "hidden border-r bg-muted/40 md:block",
+        isCollapsed ? "w-[70px]" : "w-64"
+      )}
+    >
+      {sidebarContent}
     </div>
   );
 }

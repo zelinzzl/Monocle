@@ -2,6 +2,9 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/UI/button";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/auth-context";
+import { H2 } from "../UI/typography";
 
 function FloatingPaths({ position }: { position: number }) {
   const centerX = 348;
@@ -71,6 +74,17 @@ function FloatingPaths({ position }: { position: number }) {
 }
 
 function Hero({ title = "Hero" }: { title?: string }) {
+  const { isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  const handleButtonClick = () => {
+    if (isAuthenticated) {
+      router.push("/dashboard");
+    } else {
+      router.push("/login");
+    }
+  };
+
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden --background dark:bg-neutral-950">
       <div className="absolute inset-0">
@@ -85,20 +99,56 @@ function Hero({ title = "Hero" }: { title?: string }) {
           transition={{ duration: 2 }}
           className="max-w-4xl mx-auto"
         >
-          <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold mb-8 tracking-tighter">
+          <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold mb-8">
             <motion.span
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
+              initial={{ y: 100, opacity: 0, scale: 0.8 }}
+              animate={{
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                textShadow: [
+                  "0 0 8px rgba(255,255,255,0.3)",
+                  "0 0 15px rgba(255,255,255,0.4)",
+                  "0 0 8px rgba(255,255,255,0.3)",
+                ],
+              }}
               transition={{
                 type: "spring",
                 stiffness: 150,
-                damping: 25,
+                damping: 20,
+                delay: 0.2,
+                duration: 1.5,
+                textShadow: {
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  ease: "easeInOut",
+                },
               }}
-              className="inline-block  bg-clip-text bg-gradient-to-r text-primary"
+              className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-primary via-cyan-950-500 to-indigo-950-500 font-extrabold tracking-tight leading-tight"
+              style={{
+                backgroundSize: "200% auto",
+                animation: "gradientShift 3s ease infinite",
+              }}
             >
               {title}
+              <style jsx global>{`
+                @keyframes gradientShift {
+                  0% {
+                    background-position: 0% center;
+                  }
+                  50% {
+                    background-position: 100% center;
+                  }
+                  100% {
+                    background-position: 0% center;
+                  }
+                }
+              `}</style>
             </motion.span>
           </h1>
+
+          <h2 className=" font-bold mb-8 tracking-tighter">SEE BEYOND</h2>
 
           <div
             className="inline-block group relative bg-gradient-to-b from-black/10 to-white/10 
@@ -106,6 +156,7 @@ function Hero({ title = "Hero" }: { title?: string }) {
                         overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
           >
             <Button
+              onClick={handleButtonClick}
               variant="ghost"
               className="rounded-[1.15rem] px-8 py-6 text-lg font-semibold backdrop-blur-md 
                             bg-white/95  dark:bg-black/95 dark:hover:bg-black/100 

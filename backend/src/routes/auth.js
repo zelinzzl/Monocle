@@ -1,8 +1,8 @@
-
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 import AuthController from '../controllers/authController.js';
 import { authenticateToken } from '../middleware/authMiddleware.js';
+import { uploadProfilePhoto, handleUploadError } from '../middleware/uploadMiddleware.js';
 
 const router = express.Router();
 
@@ -30,15 +30,41 @@ const loginLimiter = rateLimit({
   }
 });
 
+// Rate limiting for profile updates
+const profileLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  max: 10, // 10 profile updates per IP per window
+  message: {
+    success: false,
+    error: 'Too many profile update attempts. Please try again later.',
+    retryAfter: '5 minutes'
+  }
+});
+
 // Public routes (no authentication required)
-router.post('/register', authLimiter, AuthController.register);
-router.post('/login', loginLimiter, AuthController.login);
-router.post('/refresh', authLimiter, AuthController.refreshToken);
+router.post('/register', authLimiter, (req, res) => AuthController.register(req, res));
+router.post('/login', loginLimiter, (req, res) => AuthController.login(req, res));
+router.post('/refresh', authLimiter, (req, res) => AuthController.refreshToken(req, res));
 
 // Protected routes (authentication required)
-router.post('/logout', authenticateToken, AuthController.logout);
-router.get('/verify', authenticateToken, AuthController.verify);
-router.get('/profile', authenticateToken, AuthController.getProfile);
+router.post('/logout', authenticateToken, (req, res) => AuthController.logout(req, res));
+router.get('/verify', authenticateToken, (req, res) => AuthController.verify(req, res));
+router.get('/profile', authenticateToken, (req, res) => AuthController.getProfile(req, res));
+
+// Profile update with optional file upload
+router.put('/profile', 
+  authenticateToken, 
+  profileLimiter, 
+  uploadProfilePhoto, 
+  handleUploadError, 
+  (req, res) => AuthController.updateProfile(req, res)
+);
+
+// Settings update
+router.put('/settings', authenticateToken, profileLimiter, (req, res) => AuthController.updateSettings(req, res));
+
+// Password change
+router.put('/change-password', authenticateToken, profileLimiter, (req, res) => AuthController.changePassword(req, res));
 
 // Health check endpoint
 router.get('/health', (req, res) => {
@@ -47,6 +73,117 @@ router.get('/health', (req, res) => {
     message: 'Auth service is running',
     timestamp: new Date().toISOString()
   });
+});
+
+// Add this temporary debug endpoint to your auth routes to test storage
+// Add to routes/auth.js
+
+router.post('/debug-storage', authenticateToken, uploadProfilePhoto, handleUploadError, async (req, res) => {
+  try {
+    console.log('File received:', req.file);
+    
+    if (!req.file) {
+      return res.json({
+        success: false,
+        error: 'No file uploaded',
+        debug: {
+          hasFile: !!req.file,
+          bodyKeys: Object.keys(req.body)
+        }
+      });
+    }
+
+    // Test Supabase connection
+    const { supabase } = await import('../config/database.js');
+    
+    // List buckets to test connection
+    const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets();
+    
+    if (bucketsError) {
+      return res.json({
+        success: false,
+        error: 'Supabase storage connection failed',
+        debug: {
+          error: bucketsError,
+          hasFile: !!req.file,
+          fileInfo: req.file ? {
+            originalname: req.file.originalname,
+            mimetype: req.file.mimetype,
+            size: req.file.size
+          } : null
+        }
+      });
+    }
+
+    // Check if profile-photos bucket exists
+    const profileBucket = buckets.find(b => b.name === 'profile-photos');
+    
+    if (!profileBucket) {
+      return res.json({
+        success: false,
+        error: 'profile-photos bucket not found',
+        debug: {
+          availableBuckets: buckets.map(b => b.name),
+          hasFile: !!req.file
+        }
+      });
+    }
+
+    // Try uploading the file
+    const fileName = `test-${Date.now()}.${req.file.originalname.split('.').pop()}`;
+    
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('profile-photos')
+      .upload(fileName, req.file.buffer, {
+        contentType: req.file.mimetype,
+        upsert: false
+      });
+
+    if (uploadError) {
+      return res.json({
+        success: false,
+        error: 'Upload failed',
+        debug: {
+          uploadError,
+          fileName,
+          fileInfo: {
+            originalname: req.file.originalname,
+            mimetype: req.file.mimetype,
+            size: req.file.size,
+            bufferLength: req.file.buffer?.length
+          }
+        }
+      });
+    }
+
+    // Get public URL
+    const { data: urlData } = supabase.storage
+      .from('profile-photos')
+      .getPublicUrl(fileName);
+
+    res.json({
+      success: true,
+      message: 'Storage test successful',
+      debug: {
+        uploadData,
+        publicUrl: urlData.publicUrl,
+        fileName,
+        buckets: buckets.map(b => b.name)
+      }
+    });
+
+  } catch (error) {
+    console.error('Debug storage error:', error);
+    res.json({
+      success: false,
+      error: 'Debug test failed',
+      debug: {
+        errorMessage: error.message,
+        errorStack: error.stack,
+        hasFile: !!req.file
+      }
+    });
+  }
 });
 
 export default router;

@@ -2,6 +2,7 @@ import React, { JSX } from "react";
 import { motion, MotionProps } from "framer-motion";
 import { AnimationPreset, animationPresets } from "./animationPresets";
 import { useAnimation } from "./useAnimation";
+import { useMemo } from "react";
 
 interface AnimateProps extends MotionProps {
   children: React.ReactNode;
@@ -23,7 +24,8 @@ function Animate({
   ...props
 }: AnimateProps) {
   const { animationProps } = useAnimation(type, delay, duration, customProps);
-  const MotionComponent = motion(as);
+  // const MotionComponent = motion(as);
+    const MotionComponent = useMemo(() => motion(as), [as]);
 
   return (
     <MotionComponent {...animationProps} {...props}>
@@ -33,3 +35,4 @@ function Animate({
 }
 
 export default Animate;
+
