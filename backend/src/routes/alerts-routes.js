@@ -1,23 +1,17 @@
 import express from 'express';
-import { 
-  getAlerts, 
-  deleteAlertController, 
-  updateAlertStatusController, 
-  createAlertController 
-} from '../controllers/alertsController.js';
+import AlertController from '../controllers/alertsController.js';
 
 const router = express.Router();
 
-// Route to fetch alerts for a user
-router.get('/:userId', getAlerts);  // Use the controller for fetching alerts
+router.get('/:userId', AlertController.getAlerts);
 
 // Route to delete an alert
-router.delete('/:alertId', deleteAlertController);  // Use the controller to delete an alert
+router.delete('/:alertId', AlertController.deleteAlertController);
 
 // Route to update an alert's status
-router.put('/:alertId', updateAlertStatusController);  // Use the controller for updating an alert's status
+router.put('/:alertId', AlertController.updateAlertStatusController);
 
 // Route to create a new alert
-router.post('/', createAlertController);  // Use the controller for creating a new alert
+router.post('/', AlertController.createAlertController);
 
 export default router;
