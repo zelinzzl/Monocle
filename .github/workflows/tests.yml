@@ -53,14 +53,11 @@ jobs:
       - name: Start application server
         run: |
           cd frontend
-          npm run start:test &
-          sleep 10
+          npm run start &
+          npx wait-on http://localhost:3001 --interval 2000 --verbose
         env:
           NODE_ENV: test
           PORT: 3000
-
-      - name: Wait for server
-        run: npx wait-on http://localhost:3000 --timeout 60000
 
       - name: Run Cypress Integration Tests
         run: |
