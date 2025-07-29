@@ -107,7 +107,7 @@ const handleUpdateRisk = () => {
                 key={index}
                 className={`grid grid-cols-5 items-center px-6 py-4 ${
                   index !== risks.length - 1 ? "border-b" : ""
-                } hover:bg-gray-50`}
+                } hover:bg-input`}
               >
 
                   <span>{risk.id}</span>
@@ -133,7 +133,7 @@ const handleUpdateRisk = () => {
         {/* Modal */}
         {showModal && (
           <Modal onClose={() => setShowModal(false)} closeOnOutsideClick>
-            <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-2xl space-y-6">
+            <div className="bg-background rounded-2xl shadow-2xl p-8 w-full max-w-2xl space-y-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold">
                   {isEditing ? "Edit Travel Risk" : "Add New Travel Risk"}
