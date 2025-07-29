@@ -80,7 +80,6 @@ const handleUpdateRisk = () => {
             <div className="flex items-center gap-2">
               <Input placeholder="Search..." className="w-64" />
               <Button
-                className="bg-purple-600 hover:bg-purple-700 text-white"
                 onClick={() => {
                   resetForm()
                   setShowModal(true)
@@ -115,9 +114,9 @@ const handleUpdateRisk = () => {
                   <span>{risk.name}</span>
                   <span>{risk.riskLevel}</span>
                   <span>{risk.lastChecked}</span>
-                  <div className="flex justify-end gap-3 text-purple-600">
+                  <div className="flex justify-end gap-3 text-dark-600">
                     <Pencil
-                      className="h-4 w-4 cursor-pointer hover:text-purple-800"
+                      className="h-4 w-4 cursor-pointer hover:text-black"
                       onClick={() => handleEdit(risk)}
                     />
                     <Trash2
@@ -168,7 +167,6 @@ const handleUpdateRisk = () => {
                 </select>
 
                 <Button
-                  className="bg-purple-600 text-white hover:bg-purple-700 w-full"
                   onClick={isEditing ? handleUpdateRisk : handleAddRisk}
                 >
                   {isEditing ? "Update Risk" : "Add Risk"}
