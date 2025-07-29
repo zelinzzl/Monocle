@@ -1,13 +1,14 @@
 "use client"
+import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/UI/card";
 import { Label } from "@/components/UI/label";
 import { Input } from "@/components/UI/input";
 import { Textarea } from "@/components/UI/textarea";
 import { Button } from "@/components/UI/button";
 import { Switch } from "@/components/UI/switch";
-import { useState } from "react";
 
 export default function ProfilePage() {
+  const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
     name: "John Doe",
     email: "john@example.com",
@@ -27,16 +28,34 @@ export default function ProfilePage() {
     setProfile((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const handleEditToggle = () => {
+    setIsEditing((prev) => !prev);
+  };
+
   const handleSubmit = () => {
     console.log("Updated profile:", profile);
+    setIsEditing(false);
   };
 
   return (
-    <main className="flex flex-1 justify-center p-4 md:p-8">
+    <main className="flex flex-1 justify-center p-4 md:p-8 w-full">
       <Card className="w-full max-w-6xl">
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Edit Profile</CardTitle>
+          <div className="space-x-2">
+            {isEditing ? (
+              <>
+                <Button variant="outline" onClick={handleEditToggle}>
+                  Cancel
+                </Button>
+                <Button onClick={handleSubmit}>Save Changes</Button>
+              </>
+            ) : (
+              <Button onClick={handleEditToggle}>Change Information</Button>
+            )}
+          </div>
         </CardHeader>
+
         <CardContent>
           <div className="flex flex-col md:flex-row gap-8">
             {/* Column 1 */}
@@ -48,7 +67,7 @@ export default function ProfilePage() {
                   type="url"
                   value={profile.picture}
                   onChange={handleChange}
-                  placeholder="https://example.com/avatar.jpg"
+                  disabled={!isEditing}
                 />
                 <img
                   src={profile.picture}
@@ -63,7 +82,7 @@ export default function ProfilePage() {
                   id="name"
                   value={profile.name}
                   onChange={handleChange}
-                  placeholder="Your full name"
+                  disabled={!isEditing}
                 />
               </div>
 
@@ -74,20 +93,20 @@ export default function ProfilePage() {
                   type="email"
                   value={profile.email}
                   onChange={handleChange}
-                  placeholder="you@example.com"
+                  disabled={!isEditing}
                 />
               </div>
 
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <Input
                   id="password"
                   type="password"
                   value={profile.password}
                   onChange={handleChange}
-                  placeholder="Enter a secure password"
+                  disabled={!isEditing}
                 />
-              </div>
+              </div> */}
             </div>
 
             {/* Column 2 */}
@@ -98,33 +117,31 @@ export default function ProfilePage() {
                   id="bio"
                   value={profile.bio}
                   onChange={handleChange}
-                  placeholder="Tell us something about yourself"
+                  disabled={!isEditing}
                 />
               </div>
 
-              <div className="flex items-center justify-between space-y-2">
+              <div className="flex items-center justify-between">
                 <Label htmlFor="emailNotifications">Email Notifications</Label>
                 <Switch
                   id="emailNotifications"
                   checked={profile.emailNotifications}
-                  onCheckedChange={() => handleToggle("emailNotifications")}
+                  onCheckedChange={() => isEditing && handleToggle("emailNotifications")}
+                  disabled={!isEditing}
                 />
               </div>
 
-              <div className="flex items-center justify-between space-y-2">
+              <div className="flex items-center justify-between">
                 <Label htmlFor="twoFactorAuth">Two-Factor Authentication</Label>
                 <Switch
                   id="twoFactorAuth"
                   checked={profile.twoFactorAuth}
-                  onCheckedChange={() => handleToggle("twoFactorAuth")}
+                  onCheckedChange={() => isEditing && handleToggle("twoFactorAuth")}
+                  disabled={!isEditing}
                 />
               </div>
             </div>
           </div>
-
-          <Button onClick={handleSubmit} className="mt-6 hover:m">
-            Save Changes
-          </Button>
         </CardContent>
       </Card>
     </main>
