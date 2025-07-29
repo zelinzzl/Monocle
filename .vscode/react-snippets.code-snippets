@@ -1,0 +1,35 @@
+{
+  "Page": {
+    "prefix": "page",
+    "body": [
+      "function ${1:Page}() {",
+      "  return (",
+      "    <div>",
+      "    </div>",
+      "  );",
+      "}",
+      "",
+      "export default Page"
+    ],
+    "description": "Create a basic Next.js client page"
+  },
+  "Component": {
+    "prefix": "component",
+    "body": [
+      "type ${1:ComponentProps} = {",
+      "  ${2:// define props here}",
+      "};",
+      "",
+      "function ${3:Component}({ ${4:props} }: ${1:ComponentProps}) {",
+      "  return (",
+      "    <div>",
+      "      ${5:// component content}",
+      "    </div>",
+      "  );",
+      "}",
+      "",
+      "export default Component"
+    ],
+    "description": "Create a typed React component"
+  }
+}
