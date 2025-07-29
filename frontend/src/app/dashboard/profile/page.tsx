@@ -54,11 +54,11 @@ export default function ProfilePage() {
         <CardContent>
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Profile Image - Left side */}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 ">
               <img
                 src={profile.picture}
                 alt="Profile preview"
-                className="h-100 w-100 rounded-10 object-cover border"
+                className="h-100 w-100 rounded-2xl object-cover border"
               />
             </div>
 
@@ -154,6 +154,7 @@ export default function ProfilePage() {
                 </div>
               </div>
             </div>
+            
           </div>
         </CardContent>
         
@@ -175,4 +176,4 @@ export default function ProfilePage() {
       </div>
     </main>
   );
-}Change
+}
