@@ -38,10 +38,14 @@ export default function ProfilePage() {
   };
 
   return (
-    <main className="flex flex-1 justify-center p-4 md:p-8 w-full">
-      <Card className="w-full max-w-6xl">
+    <main className="justify-center p-4 md:p-8 w-full">
+      <div>
+        <p className="text-2xl ps-4 md:py-4 font-semibold my-3">Profile</p>
+      </div>
+
+      <div className="w-full">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Edit Profile</CardTitle>
+          <CardTitle>Profile Details</CardTitle>
           <div className="space-x-2">
             {isEditing ? (
               <>
@@ -111,7 +115,7 @@ export default function ProfilePage() {
 
             {/* Column 2 */}
             <div className="flex-1 space-y-4">
-              <div className="space-y-2">
+              <div className="space-y-2 ">
                 <Label htmlFor="bio">Bio</Label>
                 <Textarea
                   id="bio"
@@ -143,7 +147,7 @@ export default function ProfilePage() {
             </div>
           </div>
         </CardContent>
-      </Card>
+      </div>
     </main>
   );
 }
