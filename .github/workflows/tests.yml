@@ -61,14 +61,14 @@ jobs:
 
       - name: Run Cypress Integration Tests
         run: |
-          cd frontend/cypress
-          npx cypress run --spec "e2e/integration-tests/**/*.cy.ts"
+          cd frontend
+          npx cypress run --spec "cypress/e2e/integration-tests/**/*.cy.ts"
         env:
           CYPRESS_baseUrl: http://localhost:3000
 
       - name: Run Cypress End to End Tests
         run: |
-          cd frontend/cypress
-          npx cypress run --spec "e2e/e2e-tests/**/*.cy.ts"
+          cd frontend
+          npx cypress run --spec "cypress/e2e/e2e-tests/**/*.cy.ts"
         env:
           CYPRESS_baseUrl: http://localhost:3000
