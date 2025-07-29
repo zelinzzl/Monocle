@@ -17,10 +17,18 @@ function Vision() {
         <section className="flex flex-col items-center justify-center h-full">
           <H2 className="text-3xl font-bold mb-4">Our Vision</H2>
           <P className="text-muted-foreground text-center px-4 md:px-10">
-            Our vision is to redefine the digital landscape with innovative,
-            user-centric solutions that blend aesthetics with cutting-edge
-            design and high-performance software solutions tailored to drive
-            measurable results.
+            At the intersection of AI, insurance, and travel risk management,
+            our vision is to redefine the digital landscape by delivering
+            innovative, user-centric solutions that harness artificial
+            intelligence to optimize underwriting, claims processing, and
+            real-time risk assessment. By integrating predictive analytics and
+            machine learning into travel risk insurance platforms, we enable
+            insurers to offer dynamic, personalized coverage based on evolving
+            traveler behavior and geopolitical factors. Our approach combines
+            cutting-edge design with high-performance software to create
+            scalable, intuitive solutions that not only enhance user experience
+            but also drive measurable operational efficiency and data-driven
+            decision-making.
           </P>
         </section>
       </div>

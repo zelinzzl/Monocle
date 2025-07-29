@@ -1,6 +1,4 @@
 "use client";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/auth-context";
 import { Header } from "@/components/Landing/Header";
 import Footer from "@/components/Landing/Footer";
 import Hero from "@/components/Landing/Hero";
@@ -10,15 +8,6 @@ import Demo from "@/components/Landing/Demo";
 import AuthMenu from "@/components/Landing/AuthMenu";
 
 export default function Home() {
-  const { isAuthenticated } = useAuth();
-  const router = useRouter();
-
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     router.push("/dashboard");
-  //   }
-  // }, [isAuthenticated, router]);
-
   return (
     <div className="min-h-screen bg-background">
       <Header />
