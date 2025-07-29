@@ -1,34 +1,35 @@
 "use client";
 
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import Logo from "../Logo/Logo";
-import { Icon } from "../UI/icons/Icon";
-import { cn } from "@/lib/utils";
-import { P } from "../UI/typography";
 import { useState, useEffect } from "react";
+import { Icon } from "../UI/icons/Icon";
+import Logo from "../Logo/Logo";
+import { P } from "../UI/typography";
+import { cn } from "@/lib/utils";
 import { Button } from "../UI/button";
 import { Sheet, SheetContent, SheetTrigger } from "../UI/sheet";
-import { usePathname } from "next/navigation";
 
 export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
-  const logoSize = isCollapsed ? 30 : 40;
-  const [isMobile, setIsMobile] = useState(false);
+  const router = useRouter();
   const pathname = usePathname();
+  const [isMobile, setIsMobile] = useState(false);
+  const logoSize = isCollapsed ? 30 : 40;
 
   useEffect(() => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-
-    // Initial check
     checkIfMobile();
-
-    // Add event listener for window resize
     window.addEventListener("resize", checkIfMobile);
-
-    // Cleanup
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    router.push("/");
+  };
 
   const sidebarContent = (
     <div className="flex h-full max-h-screen flex-col gap-2">
@@ -110,16 +111,14 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
             {!isCollapsed && <P className="text-lg">Settings</P>}
           </Link>
 
-          <Link
-            href="/logout"
-            className={cn(
-              "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-              pathname === "/logout" && "bg-muted text-primary"
-            )}
+          <Button
+            variant="ghost"
+            className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+            onClick={handleLogout}
           >
             <Icon name="XCircle" size={"lg"} />
             {!isCollapsed && <P className="text-lg">Log out</P>}
-          </Link>
+          </Button>
         </div>
       </div>
     </div>
