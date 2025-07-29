@@ -23,7 +23,7 @@ export function LoginForm() {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     setIsLoading(false);
-    router.push("/dashboard/dashboard");
+    router.push("/dashboard/travelrisk");
   };
 
   return (
