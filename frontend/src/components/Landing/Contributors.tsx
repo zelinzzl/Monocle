@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { Card } from "../UI/card";
 import { H2, H3, P } from "../UI/typography";
-import C1 from "@/assets/images/contributors/Reta.jpeg";
-import C2 from "@/assets/images/contributors/Zelin.jpg";
+import C1 from "@/assets/images/contributors/Hawa.jpg";
+import C2 from "@/assets/images/contributors/Reta.jpeg";
+import C3 from "@/assets/images/contributors/Zelin.jpg";
 import { AspectRatio } from "../UI/aspect-ratio";
 
 function Contributors() {
@@ -29,7 +30,7 @@ function Contributors() {
           <Card className="flex flex-col items-center p-4 gap-2 w-64">
             <AspectRatio ratio={1 / 1}>
               <Image
-                src={C1}
+                src={""}
                 alt="Nerina Borchard"
                 className="object-cover w-full h-full"
               />
@@ -41,7 +42,7 @@ function Contributors() {
           <Card className="flex flex-col items-center p-4 gap-2 w-64">
             <AspectRatio ratio={1 / 1}>
               <Image
-                src={C1}
+                src={C2}
                 alt="Reta"
                 className="object-cover w-full h-full"
               />
@@ -53,7 +54,7 @@ function Contributors() {
           <Card className="flex flex-col items-center p-4 gap-2 w-64">
             <AspectRatio ratio={1 / 1}>
               <Image
-                src={C1}
+                src={""}
                 alt="Siyamthanda Ndlovu"
                 className="object-cover w-full h-full"
               />
@@ -65,7 +66,7 @@ function Contributors() {
           <Card className="flex flex-col items-center p-4 gap-2 w-64 ">
             <AspectRatio ratio={1 / 1}>
               <Image
-                src={C2}
+                src={C3}
                 alt="Zelin"
                 className="object-cover w-full h-full"
               />
