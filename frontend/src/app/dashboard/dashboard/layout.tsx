@@ -9,7 +9,6 @@ export default function DashboardLayout({
     // Uncomment the ProtectedRoute component to protect the dashboard layout
     // <ProtectedRoute>
     <div className="dashboard-container">{children}</div>
-    
     // </ProtectedRoute>
   );
 }
