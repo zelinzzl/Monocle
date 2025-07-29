@@ -44,14 +44,21 @@ export default function TravelRiskTable() {
     resetForm()
   }
 
-  const handleUpdateRisk = () => {
-    const updatedRisks = risks.map(r =>
-      r.id === newRisk.id ? { ...r, name: newRisk.name, riskLevel: newRisk.riskLevel } : r
-    )
-    setRisks(updatedRisks)
-    setShowModal(false)
-    resetForm()
-  }
+const handleUpdateRisk = () => {
+  const updatedRisks = risks.map(r =>
+    r.id === newRisk.id
+      ? {
+          ...r,
+          name: newRisk.name,
+          riskLevel: newRisk.riskLevel as TravelRisk["riskLevel"],
+        }
+      : r
+  )
+  setRisks(updatedRisks)
+  setShowModal(false)
+  resetForm()
+}
+
 
   const handleDelete = (id: string) => {
     setRisks(prev => prev.filter(r => r.id !== id))
@@ -86,7 +93,8 @@ export default function TravelRiskTable() {
 
           {/* Table */}
           <Card>
-            <CardContent className="p-0">
+            <CardContent className="p-0 overflow-hidden">
+
               <div className="grid grid-cols-5 px-6 py-3 text-sm font-semibold  border-b">
                 <span>ID</span>
                 <span>Name</span>
@@ -96,10 +104,13 @@ export default function TravelRiskTable() {
               </div>
 
               {risks.map((risk, index) => (
-                <div
-                  key={index}
-                  className="grid grid-cols-5 items-center px-6 py-4 border-b hover:bg-gray-50"
-                >
+              <div
+                key={index}
+                className={`grid grid-cols-5 items-center px-6 py-4 ${
+                  index !== risks.length - 1 ? "border-b" : ""
+                } hover:bg-gray-50`}
+              >
+
                   <span>{risk.id}</span>
                   <span>{risk.name}</span>
                   <span>{risk.riskLevel}</span>
@@ -123,7 +134,7 @@ export default function TravelRiskTable() {
         {/* Modal */}
         {showModal && (
           <Modal onClose={() => setShowModal(false)} closeOnOutsideClick>
-            <div className="bg-light rounded-xl shadow-xl p-6 w-full max-w-md">
+            <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-2xl space-y-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold">
                   {isEditing ? "Edit Travel Risk" : "Add New Travel Risk"}
