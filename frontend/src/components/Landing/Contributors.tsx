@@ -18,11 +18,47 @@ function Contributors() {
             <AspectRatio ratio={1 / 1}>
               <Image
                 src={C1}
+                alt="Hawa Ibrahim"
+                className="object-cover w-full h-full"
+              />
+            </AspectRatio>
+            <H3 className="text-center mt-2">Hawa Ibrahim</H3>
+            <P className="text-center -mt-1">AI engineer</P>
+          </Card>
+
+          <Card className="flex flex-col items-center p-4 gap-2 w-64">
+            <AspectRatio ratio={1 / 1}>
+              <Image
+                src={C1}
+                alt="Nerina Borchard"
+                className="object-cover w-full h-full"
+              />
+            </AspectRatio>
+            <H3 className="text-center mt-2">Nerina Borchard</H3>
+            <P className="text-center -mt-1">Design</P>
+          </Card>
+
+          <Card className="flex flex-col items-center p-4 gap-2 w-64">
+            <AspectRatio ratio={1 / 1}>
+              <Image
+                src={C1}
                 alt="Reta"
                 className="object-cover w-full h-full"
               />
             </AspectRatio>
             <H3 className="text-center mt-2">Reta</H3>
+            <P className="text-center -mt-1">Fullstack developer</P>
+          </Card>
+
+          <Card className="flex flex-col items-center p-4 gap-2 w-64">
+            <AspectRatio ratio={1 / 1}>
+              <Image
+                src={C1}
+                alt="Siyamthanda Ndlovu"
+                className="object-cover w-full h-full"
+              />
+            </AspectRatio>
+            <H3 className="text-center mt-2">Siyamthanda Ndlovu</H3>
             <P className="text-center -mt-1">Fullstack developer</P>
           </Card>
 
@@ -34,7 +70,7 @@ function Contributors() {
                 className="object-cover w-full h-full"
               />
             </AspectRatio>
-            <H3 className="text-center mt-2">Zelin</H3>
+            <H3 className="text-center mt-2">Zelin Zhang</H3>
             <P className="text-center -mt-2">Team Lead & Fullstack</P>
           </Card>
         </div>
