@@ -29,12 +29,13 @@ export default function RootLayout({
       <body className={`${roboto.variable} antialiased`}>
         <AuthProvider>
           
-          <ThemeProvider>
+          {/* <ThemeProvider> */}
             <div className="flex">
               <Sidebar/>
+              
               {children}
             </div>
-            </ThemeProvider>
+            {/* </ThemeProvider> */}
         </AuthProvider>
       </body>
     </html>
