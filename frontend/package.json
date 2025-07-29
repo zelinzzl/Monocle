@@ -10,7 +10,7 @@
     "generate-icons": "tsx scripts/icon-generation.ts",
     "setup-backend-start": "powershell ./scripts/setup-alias.ps1",
     "setup-backend-start-MACOS": "bash ./scripts/setup-alias.sh",
-     "cypress:open": "cypress open"
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.0",
@@ -68,6 +68,7 @@
     "svgo": "^4.0.0",
     "tailwind-merge": "^3.3.1",
     "vaul": "^1.1.2",
+    "wait-on": "^8.0.4",
     "zod": "^4.0.10"
   },
   "devDependencies": {
