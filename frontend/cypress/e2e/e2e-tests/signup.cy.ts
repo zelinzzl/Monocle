@@ -8,7 +8,7 @@ describe('Signup page - E2E', () => {
 
     cy.get('#email').type('test@example.com');
     cy.get('#password').type('password123');
-    cy.get('#terms').click();
+    cy.get('#agreeToTerms').click();
 
     cy.get('button[type="submit"]').click();
 
@@ -24,7 +24,7 @@ describe('Signup page - E2E', () => {
 
     cy.get('#email').type('test@example.com');
     cy.get('#password').type('IncorrectPassword');
-    cy.get('#terms').click();
+    cy.get('#agreeToTerms').click();
 
     cy.get('button[type="submit"]').click();
 

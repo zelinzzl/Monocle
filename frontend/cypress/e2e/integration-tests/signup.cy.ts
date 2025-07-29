@@ -8,7 +8,7 @@ describe('Signup page - Integration', () => {
 
     cy.get('#email').type('test@example.com');
     cy.get('#password').type('password123');
-    cy.get('#terms').click();
+    cy.get('#agreeToTerms').click();
 
     cy.get('button[type="submit"]').click();
 
