@@ -19,7 +19,7 @@ export default function ProfilePage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [error, setError] = useState<string>("");
   let baseUrl = "http://localhost:5000/api"
-  //const token = localStorage.getItem("accessToken");
+  const token = localStorage.getItem("accessToken");
 
   useEffect(() => {
 
