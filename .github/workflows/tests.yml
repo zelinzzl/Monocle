@@ -54,7 +54,7 @@ jobs:
         run: |
           cd frontend
           npm run start &
-          npx wait-on http://localhost:3001 --interval 2000 --verbose
+          npx wait-on http://localhost:3000 --interval 2000 --verbose
         env:
           NODE_ENV: test
           PORT: 3000
