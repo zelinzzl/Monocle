@@ -62,7 +62,7 @@ export function Header() {
           className="md:hidden cursor-pointer"
           onClick={() => setMenuOpen(!menuOpen)}
         >
-          <Logo size={20} />
+          <Logo size={50} />
         </div>
       </header>
 

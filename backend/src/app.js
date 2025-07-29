@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import healthRoutes from './routes/health-check.js';
 import authRoutes from './routes/auth.js';
 import destinationRoutes from './routes/destinations.js';  // ADD THIS
+import alertsRoutes from './routes/alerts-routes.js';
 
 dotenv.config();
 
@@ -24,6 +25,8 @@ app.use(express.json());
 app.use('/api/health', healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/destinations', destinationRoutes);  // ADD THIS
+app.use('/api/alerts', alertsRoutes);
+
 
 app.get('/', (req, res) => {
   res.send('✅ Backend is running...');

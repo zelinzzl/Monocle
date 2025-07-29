@@ -44,14 +44,21 @@ export default function TravelRiskTable() {
     resetForm()
   }
 
-  const handleUpdateRisk = () => {
-    const updatedRisks = risks.map(r =>
-      r.id === newRisk.id ? { ...r, name: newRisk.name, riskLevel: newRisk.riskLevel } : r
-    )
-    setRisks(updatedRisks)
-    setShowModal(false)
-    resetForm()
-  }
+const handleUpdateRisk = () => {
+  const updatedRisks = risks.map(r =>
+    r.id === newRisk.id
+      ? {
+          ...r,
+          name: newRisk.name,
+          riskLevel: newRisk.riskLevel as TravelRisk["riskLevel"],
+        }
+      : r
+  )
+  setRisks(updatedRisks)
+  setShowModal(false)
+  resetForm()
+}
+
 
   const handleDelete = (id: string) => {
     setRisks(prev => prev.filter(r => r.id !== id))
@@ -73,7 +80,6 @@ export default function TravelRiskTable() {
             <div className="flex items-center gap-2">
               <Input placeholder="Search..." className="w-64" />
               <Button
-                className="bg-purple-600 hover:bg-purple-700 text-white"
                 onClick={() => {
                   resetForm()
                   setShowModal(true)
@@ -86,7 +92,8 @@ export default function TravelRiskTable() {
 
           {/* Table */}
           <Card>
-            <CardContent className="p-0">
+            <CardContent className="p-0 overflow-hidden">
+
               <div className="grid grid-cols-5 px-6 py-3 text-sm font-semibold  border-b">
                 <span>ID</span>
                 <span>Name</span>
@@ -96,17 +103,20 @@ export default function TravelRiskTable() {
               </div>
 
               {risks.map((risk, index) => (
-                <div
-                  key={index}
-                  className="grid grid-cols-5 items-center px-6 py-4 border-b hover:bg-gray-50"
-                >
+              <div
+                key={index}
+                className={`grid grid-cols-5 items-center px-6 py-4 ${
+                  index !== risks.length - 1 ? "border-b" : ""
+                } hover:bg-input`}
+              >
+
                   <span>{risk.id}</span>
                   <span>{risk.name}</span>
                   <span>{risk.riskLevel}</span>
                   <span>{risk.lastChecked}</span>
-                  <div className="flex justify-end gap-3 text-purple-600">
+                  <div className="flex justify-end gap-3 text-dark-600">
                     <Pencil
-                      className="h-4 w-4 cursor-pointer hover:text-purple-800"
+                      className="h-4 w-4 cursor-pointer hover:text-black"
                       onClick={() => handleEdit(risk)}
                     />
                     <Trash2
@@ -123,7 +133,7 @@ export default function TravelRiskTable() {
         {/* Modal */}
         {showModal && (
           <Modal onClose={() => setShowModal(false)} closeOnOutsideClick>
-            <div className="bg-light rounded-xl shadow-xl p-6 w-full max-w-md">
+            <div className="bg-background rounded-2xl shadow-2xl p-8 w-full max-w-2xl space-y-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold">
                   {isEditing ? "Edit Travel Risk" : "Add New Travel Risk"}
@@ -157,7 +167,6 @@ export default function TravelRiskTable() {
                 </select>
 
                 <Button
-                  className="bg-purple-600 text-white hover:bg-purple-700 w-full"
                   onClick={isEditing ? handleUpdateRisk : handleAddRisk}
                 >
                   {isEditing ? "Update Risk" : "Add Risk"}
