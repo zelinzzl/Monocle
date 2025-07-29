@@ -4,9 +4,9 @@
 
 ## 📢 Introduction
 
-**Monocle** is a full-stack Travel Risk Monitoring application developed for the **Monkey & River 2025 Virtual Hackathon**. The application helps users monitor travel destinations and assess risk levels for safer travel planning.
+**Monocle** is a full-stack Travel Risk Monitoring application. The application helps users monitor travel destinations and assess risk levels for safer travel planning.
 
-- **Frontend:** [Next.js](https://nextjs.org/) with React & TypeScript
+- **Frontend:** [Next.js](https://nextjs.org/) with React, TypeScript & ShadCN UI
 - **Backend:** [Node.js](https://nodejs.org/en) with Express
 - **Database:** [Supabase](https://supabase.com/)
 - **Authentication:** JWT tokens
@@ -15,14 +15,14 @@
 
 ## 🛠️ Tech Stack
 
-| Layer      | Technology                               |
-| ---------- | ---------------------------------------- |
-| Frontend   | Next.js, TypeScript, TailwindCSS, React |
-| Backend    | Node.js, Express                         |
-| Database   | Supabase (PostgreSQL)                    |
-| Auth       | JWT tokens                               |
-| Deployment | Vercel                                   |
-| Testing    | Cypress                                  |
+| Layer      | Technology                                        |
+| ---------- | ------------------------------------------------- |
+| Frontend   | Next.js, TypeScript, TailwindCSS, React, ShadCN  |
+| Backend    | Node.js, Express                                  |
+| Database   | Supabase (PostgreSQL)                             |
+| Auth       | JWT tokens                                        |
+| Deployment | Vercel                                            |
+| Testing    | Cypress                                           |
 
 ---
 
@@ -40,6 +40,12 @@ monocle/
 │   ├── middleware/    # Auth and validation middleware
 │   ├── models/        # Database models
 │   └── utils/         # Helper functions
+├── assets/            # Shared assets
+├── components/        # Shared components
+├── context/           # React context providers
+├── hooks/             # Custom React hooks
+├── lib/               # Utilities and configurations
+├── types/             # TypeScript type definitions
 └── cypress/           # E2E tests
     ├── e2e/
     └── support/
@@ -105,6 +111,10 @@ NEXT_PUBLIC_API_URL=http://localhost:3000
 ```bash
 # Install dependencies
 npm install
+
+# Install ShadCN UI components (if not already configured)
+npx shadcn-ui@latest init
+npx shadcn-ui@latest add button card form input
 
 # Install icon generation script dependencies
 npm install --save-dev tsx
@@ -206,11 +216,35 @@ After running tests, results are automatically saved to `/cypress/results/` dire
 
 ## 👥 Team Monocle
 
-- **Zelin** – Team Lead & Full-stack Developer
-- **Reta** – Full-stack Developer  
-- **Siyamthanda** – Full-stack Developer
-- **Nerina** – Full-stack Developer
-- **Hawa** – Full-stack Developer
+<table>
+  <tr>
+    <td align="center">
+      <img src="assets/images/contributors/Zelin.jpg" width="100px;" alt="Zelin"/><br />
+      <sub><b>Zelin</b></sub><br />
+      <sub>Team Lead & Full-stack Developer</sub>
+    </td>
+    <td align="center">
+      <img src="assets/images/contributors/Reta.jpeg" width="100px;" alt="Reta"/><br />
+      <sub><b>Reta</b></sub><br />
+      <sub>Full-stack Developer</sub>
+    </td>
+    <td align="center">
+      <img src="assets/images/contributors/siyamthanda.jpeg" width="100px;" alt="Siyamthanda"/><br />
+      <sub><b>Siyamthanda</b></sub><br />
+      <sub>Full-stack Developer</sub>
+    </td>
+    <td align="center">
+      <img src="assets/images/contributors/nerina.jpeg" width="100px;" alt="Nerina"/><br />
+      <sub><b>Nerina</b></sub><br />
+      <sub>Full-stack Developer</sub>
+    </td>
+    <td align="center">
+      <img src="assets/images/contributors/hawa.jpeg" width="100px;" alt="Hawa"/><br />
+      <sub><b>Hawa</b></sub><br />
+      <sub>Full-stack Developer</sub>
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -221,4 +255,5 @@ After running tests, results are automatically saved to `/cypress/results/` dire
 - **Challenge**: Travel Risk Monitoring
 
 ---
+
 
