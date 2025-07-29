@@ -16,19 +16,44 @@ import {
 } from "@/components/UI/table";
 import { Progress } from "@radix-ui/react-progress";
 import { Table } from "lucide-react";
+// import { useSession } from "next-auth/react";
 
 export default function DashboardPage() {
+  // const { data: session } = useSession();
+  // const userName = session?.user?.name || "Valued Customer";
+
   return (
     <main className="flex flex-1">
       <div className="flex min-h-screen w-full flex-col">
         {/* Main Content */}
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+          {/* Welcome Header */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold">
+                Welcome back, {"Valued Customer"}!
+              </h1>
+              <p className="text-muted-foreground">
+                Here's what's happening with your insurance portfolio today.
+              </p>
+            </div>
+            <Avatar>
+              {/* <AvatarImage src={session?.user?.image} /> */}
+              <AvatarFallback>
+                {/* {userName
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")} */}
+              </AvatarFallback>
+            </Avatar>
+          </div>
+
+          {/* Stats Cards */}
           <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-            {/* Stats Cards */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Total Revenue
+                  Total Policies
                 </CardTitle>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -44,16 +69,16 @@ export default function DashboardPage() {
                 </svg>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">$45,231.89</div>
+                <div className="text-2xl font-bold">12</div>
                 <p className="text-xs text-muted-foreground">
-                  +20.1% from last month
+                  +2 from last quarter
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Subscriptions
+                  Annual Premium
                 </CardTitle>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -71,16 +96,16 @@ export default function DashboardPage() {
                 </svg>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">+2350</div>
+                <div className="text-2xl font-bold">$8,450</div>
                 <p className="text-xs text-muted-foreground">
-                  +180.1% from last month
+                  +5% from last year
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Active Now
+                  Claims This Year
                 </CardTitle>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -96,16 +121,16 @@ export default function DashboardPage() {
                 </svg>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">+573</div>
+                <div className="text-2xl font-bold">3</div>
                 <p className="text-xs text-muted-foreground">
-                  +201 since last hour
+                  -1 from last year
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Tasks Completed
+                  Renewals Due
                 </CardTitle>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -122,10 +147,10 @@ export default function DashboardPage() {
                 </svg>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">12</div>
-                <Progress value={80} className="h-2 mt-2" />
+                <div className="text-2xl font-bold">2</div>
+                <Progress value={40} className="h-2 mt-2" />
                 <p className="text-xs text-muted-foreground mt-1">
-                  4 remaining
+                  Next due in 14 days
                 </p>
               </CardContent>
             </Card>
@@ -134,67 +159,82 @@ export default function DashboardPage() {
           {/* Recent Activity Table */}
           <Card className="col-span-3">
             <CardHeader>
-              <CardTitle>Recent Transactions</CardTitle>
-              <CardDescription>You made 265 sales this month.</CardDescription>
+              <CardTitle>Recent Claims</CardTitle>
+              <CardDescription>
+                Your recent insurance claim activity
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Customer</TableHead>
+                    <TableHead>Policy</TableHead>
                     <TableHead>Date</TableHead>
-                    <TableHead>Amount</TableHead>
+                    <TableHead>Type</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Method</TableHead>
+                    <TableHead className="text-right">Amount</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {[
                     {
-                      customer: "Olivia Martin",
+                      policy: "Auto - 2023 Honda Accord",
                       date: "2023-06-12",
-                      amount: "$1,999.00",
-                      status: "Completed",
-                      method: "Credit Card",
+                      type: "Collision",
+                      status: "Approved",
+                      amount: "$2,450.00",
                     },
                     {
-                      customer: "Jackson Lee",
-                      date: "2023-06-12",
-                      amount: "$39.00",
-                      status: "Pending",
-                      method: "PayPal",
-                    },
-                    {
-                      customer: "Isabella Nguyen",
-                      date: "2023-06-11",
-                      amount: "$299.00",
-                      status: "Completed",
-                      method: "Credit Card",
-                    },
-                    {
-                      customer: "William Kim",
+                      policy: "Home - 123 Main St",
                       date: "2023-06-10",
-                      amount: "$99.00",
-                      status: "Completed",
-                      method: "Bank Transfer",
+                      type: "Water Damage",
+                      status: "In Review",
+                      amount: "$5,200.00",
                     },
                     {
-                      customer: "Sofia Davis",
-                      date: "2023-06-09",
-                      amount: "$39.00",
-                      status: "Pending",
-                      method: "PayPal",
+                      policy: "Health - Family Plan",
+                      date: "2023-06-05",
+                      type: "Medical",
+                      status: "Processed",
+                      amount: "$1,200.00",
                     },
-                  ].map((transaction, index) => (
+                    {
+                      policy: "Life - Term Policy",
+                      date: "2023-05-28",
+                      type: "Premium Payment",
+                      status: "Completed",
+                      amount: "$150.00",
+                    },
+                    {
+                      policy: "Auto - 2021 Toyota RAV4",
+                      date: "2023-05-15",
+                      type: "Theft",
+                      status: "Paid",
+                      amount: "$18,750.00",
+                    },
+                  ].map((claim, index) => (
                     <TableRow key={index}>
                       <TableCell className="font-medium">
-                        {transaction.customer}
+                        {claim.policy}
                       </TableCell>
-                      <TableCell>{transaction.date}</TableCell>
-                      <TableCell>{transaction.amount}</TableCell>
-                      <TableCell>{transaction.status}</TableCell>
+                      <TableCell>{claim.date}</TableCell>
+                      <TableCell>{claim.type}</TableCell>
+                      <TableCell>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs ${
+                            claim.status === "Approved" ||
+                            claim.status === "Paid"
+                              ? "bg-green-100 text-green-800"
+                              : claim.status === "In Review"
+                                ? "bg-yellow-100 text-yellow-800"
+                                : "bg-blue-100 text-blue-800"
+                          }`}
+                        >
+                          {claim.status}
+                        </span>
+                      </TableCell>
                       <TableCell className="text-right">
-                        {transaction.method}
+                        {claim.amount}
                       </TableCell>
                     </TableRow>
                   ))}

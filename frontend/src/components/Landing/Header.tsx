@@ -41,7 +41,7 @@ export function Header() {
               onClick={() => setTheme(theme === "light" ? "dark" : "light")}
             >
               <div className="absolute -top-7 left-1/2 -translate-x-1/2">
-                <Logo />
+                <Logo size={55} />
               </div>
             </div>
 
@@ -62,7 +62,7 @@ export function Header() {
           className="md:hidden cursor-pointer"
           onClick={() => setMenuOpen(!menuOpen)}
         >
-          <Logo />
+          <Logo size={20} />
         </div>
       </header>
 

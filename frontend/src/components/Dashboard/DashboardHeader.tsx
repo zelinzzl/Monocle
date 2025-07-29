@@ -1,9 +1,27 @@
-import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { ThemeSwitcher } from "../layout/theme-switch";
+import { Button } from "@/components/UI/button";
+import { Icon } from "../UI/icons/Icon";
+import { Avatar, AvatarFallback, AvatarImage } from "../UI/avatar";
 
-function DashboardHeader() {
+function DashboardHeader({
+  isCollapsed,
+  setIsCollapsed,
+}: {
+  isCollapsed: boolean;
+  setIsCollapsed: (value: boolean) => void;
+}) {
   return (
     <header className="sticky top-0 z-10 flex h-15 items-center gap-4 border-b bg-background px-4 md:px-6">
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={() => setIsCollapsed(!isCollapsed)}
+      >
+        <Icon
+          name={isCollapsed ? "ChevronDoubleRight" : "ChevronDoubleLeft"}
+          size="md"
+        />
+      </Button>
       <ThemeSwitcher />
 
       <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
