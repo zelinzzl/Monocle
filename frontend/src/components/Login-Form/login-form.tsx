@@ -9,9 +9,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { P } from "../UI/typography";
 import { loginUser } from "@/services/auth";
+import { useAuth } from "@/context/auth-context";
 
 export function LoginForm() {
   const router = useRouter();
+  const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -41,6 +43,15 @@ export function LoginForm() {
         throw new Error(result.error);
       }
 
+      if (!result.token || !result.user) {
+        setError("Login failed. Check token or User.");
+        return;
+      }
+
+      // Store token and user data in the context
+      login(result.token, result.user);
+
+      console.log(result.token);
       setSuccessMessage("Login successful! Redirecting to your dashboard...");
       setTimeout(() => {
         router.push("/dashboard");
@@ -111,15 +122,13 @@ export function LoginForm() {
         <Button
           variant="outline"
           className="w-full bg-transparent"
-          disabled={isLoading}
-        >
+          disabled={isLoading}>
           Continue with Google
         </Button>
         <Button
           variant="outline"
           className="w-full bg-transparent"
-          disabled={isLoading}
-        >
+          disabled={isLoading}>
           Continue with GitHub
         </Button>
       </div>
