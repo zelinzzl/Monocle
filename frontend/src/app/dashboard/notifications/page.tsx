@@ -14,7 +14,7 @@ interface Alert {
 const sampleAlerts: Alert[] = [
   { id: "1", title: "Name was updated", status: "Success", timestamp: "16:28" },
   { id: "2", title: "Email was updated", status: "Success", timestamp: "16:22" },
-  { id: "3", title: "Email was added", status: "Fail", timestamp: "16:19" },
+  { id: "3", title: "Email was updated", status: "Fail", timestamp: "16:19" },
 ];
 
 export default function NotificationPage() {
@@ -30,7 +30,7 @@ export default function NotificationPage() {
             key={alert.id}
             className={clsx(
               "flex items-center justify-between px-6 py-4 rounded-lg border shadow-sm transition",
-              "bg-muted hover:bg-muted/70"
+              "bg-light hover:bg-muted/70"
             )}
           >
             {/* Left: Bell icon + title */}
