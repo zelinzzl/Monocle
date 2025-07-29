@@ -4,7 +4,7 @@ import { H2, H3, P } from "../UI/typography";
 import C1 from "@/assets/images/contributors/hawa.jpg";
 import C2 from "@/assets/images/contributors/nerina.jpg";
 import C3 from "@/assets/images/contributors/Reta.jpeg";
-// import C4 from "@/assets/images/contributors/Siya.jpeg";
+import C4 from "@/assets/images/contributors/Siya.png";
 import C5 from "@/assets/images/contributors/Zelin.jpg";
 import { AspectRatio } from "../UI/aspect-ratio";
 
@@ -56,7 +56,7 @@ function Contributors() {
           <Card className="flex flex-col items-center p-4 gap-2 w-64">
             <AspectRatio ratio={1 / 1}>
               <Image
-                src={""}
+                src={C4}
                 alt="Siyamthanda Ndlovu"
                 className="object-cover w-full h-full"
               />

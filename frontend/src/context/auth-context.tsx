@@ -6,10 +6,9 @@ import { User } from "@/types/supabase";
 
 type AuthContextType = {
   user: User | null;
-  login: (token: string, userData?: User) => void;
+  login: (token: string) => void;
   logout: () => void;
   isAuthenticated: boolean;
-  isLoading: boolean; // Add loading state
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -17,36 +16,22 @@ const AuthContext = createContext<AuthContextType>({
   login: () => {},
   logout: () => {},
   isAuthenticated: false,
-  isLoading: true,
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const initializeAuth = async () => {
-      const token = Cookies.get("authToken");
-      if (token) {
-        try {
-          setIsAuthenticated(true);
-        } catch (error) {
-          Cookies.remove("authToken");
-        }
-      }
-      setIsLoading(false);
-    };
-
-    initializeAuth();
+    const token = Cookies.get("authToken");
+    if (token) {
+      setIsAuthenticated(true);
+    }
   }, []);
 
-  const login = (token: string, userData?: User) => {
+  const login = (token: string) => {
     Cookies.set("authToken", token, { expires: 7 });
-    if (userData) {
-      setUser(userData);
-    }
     setIsAuthenticated(true);
     router.push("/dashboard");
   };
@@ -59,15 +44,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        login,
-        logout,
-        isAuthenticated,
-        isLoading,
-      }}
-    >
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );
