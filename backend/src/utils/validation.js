@@ -38,6 +38,57 @@ const validationSchemas = {
       "any.required": "Refresh token is required",
     }),
   }),
+
+  updateProfile: Joi.object({
+    email: Joi.string().email().optional().messages({
+      "string.email": "Please provide a valid email address",
+    }),
+    firstName: Joi.string().min(1).max(50).optional().messages({
+      "string.min": "First name must be at least 1 character long",
+      "string.max": "First name cannot exceed 50 characters",
+    }),
+    lastName: Joi.string().min(1).max(50).optional().messages({
+      "string.min": "Last name must be at least 1 character long",
+      "string.max": "Last name cannot exceed 50 characters",
+    }),
+    profilePhoto: Joi.string().uri().optional().allow('').messages({
+      "string.uri": "Profile photo must be a valid URL",
+    }),
+    profilePictureUrl: Joi.string().uri().optional().allow('').messages({
+      "string.uri": "Profile picture URL must be a valid URL",
+    }),
+    bio: Joi.string().max(500).optional().allow('').messages({
+      "string.max": "Bio cannot exceed 500 characters",
+    }),
+  }).min(1).messages({
+    'object.min': 'At least one field must be provided for update'
+  }),
+
+  updateSettings: Joi.object({
+    theme: Joi.string().valid('light', 'dark').optional().messages({
+      "any.only": "Theme must be either 'light' or 'dark'",
+    }),
+    emailNotifications: Joi.boolean().optional(),
+    twoFactorEnabled: Joi.boolean().optional(),
+  }).min(1).messages({
+    'object.min': 'At least one setting must be provided for update'
+  }),
+
+  changePassword: Joi.object({
+    currentPassword: Joi.string().required().messages({
+      "any.required": "Current password is required",
+    }),
+    newPassword: Joi.string()
+      .min(8)
+      .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)"))
+      .required()
+      .messages({
+        "string.min": "New password must be at least 8 characters long",
+        "string.pattern.base":
+          "New password must contain at least one uppercase letter, one lowercase letter, and one number",
+        "any.required": "New password is required",
+      }),
+  }),
 };
 
 const destinationSchemas = {

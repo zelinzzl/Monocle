@@ -1,10 +1,15 @@
 import DestinationService from '../services/destinationService.js';
 import { validateInput, destinationSchemas } from '../utils/validation.js';
 
-// UUID validation helper
+// Enhanced UUID validation helper
 const isValidUUID = (str) => {
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-  return uuidRegex.test(str);
+  if (!str || typeof str !== 'string') {
+    return false;
+  }
+  
+  // More flexible UUID regex that handles different UUID versions
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  return uuidRegex.test(str.trim());
 };
 
 class DestinationController {
@@ -41,15 +46,17 @@ class DestinationController {
       const { id } = req.params;
       const userId = req.user.id;
 
-      // Validate UUID format
+      console.log(`Getting destination - Raw ID: "${id}", User: ${userId}`);
+
+      // Validate UUID format with better error message
       if (!isValidUUID(id)) {
+        console.log(`Invalid UUID format: "${id}"`);
         return res.status(400).json({
           success: false,
-          error: 'Invalid destination ID format'
+          error: 'Invalid destination ID format',
+          details: `The ID "${id}" is not a valid UUID format. Expected format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`
         });
       }
-
-      console.log(`Getting destination - ID: ${id}, User: ${userId}`);
 
       const destination = await DestinationService.getDestinationById(id, userId);
 
@@ -115,15 +122,17 @@ class DestinationController {
       const { id } = req.params;
       const userId = req.user.id;
 
-      // Validate UUID format
+      console.log(`Update request - Raw ID: "${id}", User: ${userId}, Body:`, req.body);
+
+      // Validate UUID format with better error message
       if (!isValidUUID(id)) {
+        console.log(`Invalid UUID format for update: "${id}"`);
         return res.status(400).json({
           success: false,
-          error: 'Invalid destination ID format'
+          error: 'Invalid destination ID format',
+          details: `The ID "${id}" is not a valid UUID format. Expected format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`
         });
       }
-
-      console.log(`Update request - ID: ${id}, User: ${userId}, Body:`, req.body);
 
       // Validate input
       const validation = validateInput(destinationSchemas.updateDestination, req.body);
@@ -144,7 +153,7 @@ class DestinationController {
       if (!existingDestination) {
         return res.status(404).json({
           success: false,
-          error: 'Destination not found'
+          error: 'Destination not found or does not belong to user'
         });
       }
 
@@ -173,24 +182,26 @@ class DestinationController {
       const { id } = req.params;
       const userId = req.user.id;
 
-      // Validate UUID format
+      console.log(`Delete request - Raw ID: "${id}", User: ${userId}`);
+
+      // Validate UUID format with better error message
       if (!isValidUUID(id)) {
+        console.log(`Invalid UUID format for delete: "${id}"`);
         return res.status(400).json({
           success: false,
-          error: 'Invalid destination ID format'
+          error: 'Invalid destination ID format',
+          details: `The ID "${id}" is not a valid UUID format. Expected format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`
         });
       }
 
-      console.log(`Delete request - ID: ${id}, User: ${userId}`);
-
       // Check if destination exists and belongs to user
       const existingDestination = await DestinationService.getDestinationById(id, userId);
-      console.log('Existing destination:', existingDestination);
+      console.log('Existing destination for delete:', existingDestination);
       
       if (!existingDestination) {
         return res.status(404).json({
           success: false,
-          error: 'Destination not found'
+          error: 'Destination not found or does not belong to user'
         });
       }
 
@@ -218,11 +229,14 @@ class DestinationController {
       const { id } = req.params;
       const userId = req.user.id;
 
+      console.log(`Update last checked - Raw ID: "${id}", User: ${userId}`);
+
       // Validate UUID format
       if (!isValidUUID(id)) {
         return res.status(400).json({
           success: false,
-          error: 'Invalid destination ID format'
+          error: 'Invalid destination ID format',
+          details: `The ID "${id}" is not a valid UUID format. Expected format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`
         });
       }
 
@@ -246,6 +260,33 @@ class DestinationController {
         success: false,
         error: 'Failed to update last checked',
         message: error.message
+      });
+    }
+  }
+
+  /**
+   * Debug endpoint to help troubleshoot issues
+   */
+  static async debugDestination(req, res) {
+    try {
+      const { id } = req.params;
+      const userId = req.user.id;
+
+      res.json({
+        success: true,
+        debug: {
+          receivedId: id,
+          idType: typeof id,
+          idLength: id ? id.length : 0,
+          isValidUUID: isValidUUID(id),
+          userId: userId,
+          timestamp: new Date().toISOString()
+        }
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        error: error.message
       });
     }
   }
