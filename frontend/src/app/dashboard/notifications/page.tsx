@@ -34,8 +34,8 @@ export default function NotificationPage() {
                   className={clsx(
                     "text-sm px-2 py-0.5 border rounded-md",
                     alert.status === "Success"
-                      ? "text-green-700 border-green-700"
-                      : "text-red-700 border-red-700"
+                      ? "text-black-700 border-black-900"
+                      : "text-black-700 border-black-700"
                   )}
                 >
                   {alert.status}
