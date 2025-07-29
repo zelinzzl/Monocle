@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent } from "@/components/UI/card";
+import { Bell, Check, X } from "lucide-react";
 import clsx from "clsx";
 
 interface Alert {
@@ -12,9 +12,9 @@ interface Alert {
 }
 
 const sampleAlerts: Alert[] = [
-  { id: "1", title: "T143 was updated", status: "Success", timestamp: "16:22" },
-  { id: "2", title: "T143 was updated", status: "Success", timestamp: "16:22" },
-  { id: "3", title: "T144 was added", status: "Fail", timestamp: "16:22" },
+  { id: "1", title: "Name was updated", status: "Success", timestamp: "16:28" },
+  { id: "2", title: "Email was updated", status: "Success", timestamp: "16:22" },
+  { id: "3", title: "Email was updated", status: "Fail", timestamp: "16:19" },
 ];
 
 export default function NotificationPage() {
@@ -24,28 +24,41 @@ export default function NotificationPage() {
     <main className="min-h-screen bg-background p-6">
       <h1 className="text-2xl font-semibold mb-6">Notifications</h1>
 
-      <div className="space-y-3 w-full max-w-4xl">
+      <div className="space-y-3 w-full">
         {alerts.map((alert) => (
-          <Card key={alert.id} className="border border-gray-300 w-full">
-            <CardContent className="flex flex-row items-center justify-between px-6 py-4">
-              <div className="flex items-center gap-4">
-                <span className="text-base font-medium">{alert.title}</span>
-                <span
-                  className={clsx(
-                    "text-sm px-2 py-0.5 border rounded-md",
-                    alert.status === "Success"
-                      ? "text-black-700 border-black-900"
-                      : "text-black-700 border-black-700"
-                  )}
-                >
-                  {alert.status}
-                </span>
-              </div>
-              <div className="ml-4 text-sm text-gray-500">
-                {alert.timestamp}
-              </div>
-            </CardContent>
-          </Card>
+          <div
+            key={alert.id}
+            className={clsx(
+              "flex items-center justify-between px-6 py-4 rounded-lg border shadow-sm transition",
+              "bg-light hover:bg-muted/70"
+            )}
+          >
+            {/* Left: Bell icon + title */}
+            <div className="flex items-center gap-3">
+              <Bell size={18} className="text-foreground" />
+              <span className="text-base font-medium">{alert.title}</span>
+            </div>
+
+            {/* Center: Status (bold + icon after text) */}
+            <div
+              className={clsx(
+                "flex items-center gap-1 font-semibold text-sm",
+                alert.status === "Success"
+                  ? "text-green-600"
+                  : "text-red-600"
+              )}
+            >
+              {alert.status}
+              {/* {alert.status === "Success" ? (
+                // <Check size={16} />
+              ) : (
+                // <X size={16} />
+              )} */}
+            </div>
+
+            {/* Right: Timestamp */}
+            <span className="text-sm text-muted-foreground">{alert.timestamp}</span>
+          </div>
         ))}
       </div>
     </main>
