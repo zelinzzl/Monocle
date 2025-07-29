@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "Monocle",
   description: "",
   icons: {
-    icon: "/Logo-light.svg",
+    icon: "/Logo.svg",
   },
 };
 
@@ -27,10 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${roboto.variable} antialiased`}>
         <AuthProvider>
-          
-           <ThemeProvider> 
-               {children}
-             </ThemeProvider> 
+          <ThemeProvider>{children}</ThemeProvider>
         </AuthProvider>
       </body>
     </html>
