@@ -1,13 +1,14 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import cookieParser from 'cookie-parser'; // Add this import
+import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import healthRoutes from './routes/health-check.js';
 import authRoutes from './routes/auth.js';
 import destinationRoutes from './routes/destinations.js';
 import alertsRoutes from './routes/alerts-routes.js';
-import insuranceRoutes from './routes/insurance-routes.js'; // Add this import
+import insuranceRoutes from './routes/insurance-routes.js';
+import riskRoutes from './routes/riskRoutes.js';
 
 dotenv.config();
 
@@ -31,13 +32,16 @@ app.use(cookieParser());
 // Body parsing
 app.use(express.json({limit: '10mb'})); // Increased limit for larger payloads
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(express.json()); // Parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 // Routes
 app.use('/api/health', healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/destinations', destinationRoutes);
 app.use('/api/alerts', alertsRoutes);
-app.use('/api/insurance', insuranceRoutes); // Add this line
+app.use('/api/insurance', insuranceRoutes);
+app.use('/api/risk', riskRoutes);
 
 app.get('/', (req, res) => {
   res.send('✅ Backend is running...');
