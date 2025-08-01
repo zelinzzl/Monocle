@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Menubar } from "../UI/menubar";
+import { Menubar } from "../ui/menubar";
 
 function AuthMenu() {
   return (

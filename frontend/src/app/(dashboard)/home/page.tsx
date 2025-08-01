@@ -1,23 +1,23 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/UI/avatar";
-import { Button } from "@/components/UI/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/UI/card";
+} from "@/components/ui/card";
 import {
   TableHeader,
   TableRow,
   TableHead,
   TableBody,
   TableCell,
-} from "@/components/UI/table";
-import { Progress } from "@/components/UI/progress";
+} from "@/components/ui/table";
+import { Progress } from "@/components/ui/progress";
 
 export default function DashboardPage() {
   const router = useRouter();

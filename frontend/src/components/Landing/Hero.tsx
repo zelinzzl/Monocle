@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Button } from "@/components/UI/button";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth-context";
-import Animate from "../Animations/Animate";
+import Animate from "../animations/Animate";
 
 function FloatingPaths({ position }: { position: number }) {
   const centerX = 348;
