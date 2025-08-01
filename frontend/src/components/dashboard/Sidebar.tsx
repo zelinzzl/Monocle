@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Icon } from "../ui/icons/Icon";
-import Logo from "../Logo/Logo";
+import Logo from "../logo/Logo";
 import { P } from "../ui/typography";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
