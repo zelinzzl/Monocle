@@ -1,11 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import { Input } from "@/components/UI/input"
-import { Button } from "@/components/UI/button"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/UI/card"
-import { Checkbox } from "@/components/UI/checkbox"
-import { Label } from "@/components/UI/label"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
 import Modal from "@/components/layout/Modal"
 
 interface Vehicle {
