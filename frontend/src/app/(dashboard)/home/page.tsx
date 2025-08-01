@@ -1,5 +1,4 @@
-import { Sidebar } from "@/components/Dashboard/Sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/UI/avatar";
+import { Avatar, AvatarFallback } from "@/components/UI/avatar";
 import {
   Card,
   CardContent,
@@ -34,7 +33,7 @@ export default function DashboardPage() {
                 Welcome back, {"Valued Customer"}!
               </h1>
               <p className="text-muted-foreground">
-                Here's what's happening with your insurance portfolio today.
+                Here&apos;s what&apos;s happening with your insurance portfolio today.
               </p>
             </div>
             <Avatar>
