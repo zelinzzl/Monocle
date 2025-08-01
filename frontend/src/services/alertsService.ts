@@ -3,26 +3,37 @@ import { apiFetch } from "./api";
 
 interface Alert {
   id: string;
-  userId: string;
-  destinationId: string;
-  checkInDate: string;
-  checkOutDate: string;
-  status: "active" | "inactive" | "triggered";
-  priceThreshold?: number;
-  createdAt: string;
-  updatedAt: string;
+  title: string;
+  status: "new" | "read" | "active" | "inactive" | "triggered";
+  timestamp: string;
 }
 
 interface AlertsResponse {
-  data?: Alert[] | Alert;
+  data?: {
+    alerts: Alert[];
+  };
   error?: string;
   message?: string;
 }
 
 export async function getAlerts(userId: string): Promise<AlertsResponse> {
-  return apiFetch(`/api/alerts/get-alerts/${userId}`, {
+  const response = await apiFetch(`/api/alerts/get-alerts/${userId}`, {
     method: "GET",
   });
+
+  const alerts =
+    response?.data?.alerts?.map((alert: any) => ({
+      id: alert.id,
+      title: alert.title,
+      status: alert.status,
+      timestamp: alert.timestamp || alert.displayDate,
+    })) || [];
+
+  return {
+    data: { alerts },
+    error: response.error,
+    message: response.message,
+  };
 }
 
 export async function createAlert(data: {
@@ -40,7 +51,7 @@ export async function createAlert(data: {
 
 export async function updateAlertStatus(
   alertId: string,
-  status: "active" | "inactive"
+  status: "new" | "read"
 ): Promise<AlertsResponse> {
   return apiFetch(`/api/alerts/update/${alertId}`, {
     method: "PUT",

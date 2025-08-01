@@ -1,6 +1,6 @@
 "use client";
-import DashboardHeader from "@/components/Dashboard/DashboardHeader";
-import { Sidebar } from "@/components/Dashboard/Sidebar";
+import DashboardHeader from "@/components/dashboard/Header";
+import { Sidebar } from "@/components/dashboard/Sidebar";
 import ProtectedRoute from "@/components/protected-route";
 import { useState } from "react";
 

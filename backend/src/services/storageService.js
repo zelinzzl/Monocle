@@ -92,7 +92,7 @@ class StorageService {
       const { data, error } = await supabase.storage.createBucket(this.PROFILE_BUCKET, {
         public: true, // Make files publicly accessible
         allowedMimeTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
-        fileSizeLimit: 5242880 // 5MB limit
+        fileSizeLimit: 10485760 // 5MB limit
       });
 
       if (error && error.message !== 'Bucket already exists') {

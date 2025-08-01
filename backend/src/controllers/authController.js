@@ -4,6 +4,29 @@ import { validateInput, validationSchemas } from '../utils/validation.js';
 import JWTUtils from '../utils/jwt.js';
 
 class AuthController {
+  // Helper method to set refresh token cookie
+  static setRefreshTokenCookie(res, refreshToken) {
+    const isProduction = process.env.NODE_ENV === 'production';
+    
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,           // Cannot be accessed by JavaScript
+      secure: isProduction,     // Only send over HTTPS in production
+      sameSite: 'strict',       // CSRF protection
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+      path: '/',                // Available site-wide
+    });
+  }
+
+  // Helper method to clear refresh token cookie
+  static clearRefreshTokenCookie(res) {
+    res.clearCookie('refreshToken', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/',
+    });
+  }
+
   /**
    * Register new user
    */
@@ -35,8 +58,11 @@ class AuthController {
       // Generate tokens
       const tokens = AuthService.generateTokens(user);
 
-      // Store refresh token
+      // Store refresh token in database
       await AuthService.storeRefreshToken(user.id, tokens.refreshToken);
+
+      // Set refresh token as httpOnly cookie
+      this.setRefreshTokenCookie(res, tokens.refreshToken);
 
       res.status(201).json({
         success: true,
@@ -52,7 +78,7 @@ class AuthController {
           },
           tokens: {
             accessToken: tokens.accessToken,
-            refreshToken: tokens.refreshToken,
+            refreshToken: tokens.refreshToken, // This will be removed in production
             expiresIn: '1h'
           }
         }
@@ -105,8 +131,11 @@ class AuthController {
       // Generate tokens
       const tokens = AuthService.generateTokens(user);
 
-      // Store refresh token
+      // Store refresh token in database
       await AuthService.storeRefreshToken(user.id, tokens.refreshToken);
+
+      // Set refresh token as httpOnly cookie
+      this.setRefreshTokenCookie(res, tokens.refreshToken);
 
       res.json({
         success: true,
@@ -119,11 +148,10 @@ class AuthController {
             lastName: user.last_name,
             profilePhoto: user.profile_photo,
             profilePictureUrl: user.user_profile?.[0]?.profile_picture_url,
-            bio: user.user_profile?.[0]?.bio
           },
           tokens: {
             accessToken: tokens.accessToken,
-            refreshToken: tokens.refreshToken,
+            refreshToken: tokens.refreshToken, // This will be removed in production
             expiresIn: '1h'
           }
         }
@@ -144,41 +172,47 @@ class AuthController {
    */
   static async refreshToken(req, res) {
     try {
-      const validation = validateInput(validationSchemas.refreshToken, req.body);
-      if (!validation.isValid) {
-        return res.status(400).json({
+      // Get refresh token from httpOnly cookie
+      const refreshToken = req.cookies.refreshToken;
+
+      if (!refreshToken) {
+        return res.status(401).json({
           success: false,
-          error: 'Validation failed',
-          details: validation.errors
+          error: 'Refresh token not found',
+          code: 'REFRESH_TOKEN_MISSING'
         });
       }
-
-      const { refreshToken } = validation.data;
 
       // Verify refresh token
       const decoded = JWTUtils.verifyToken(refreshToken);
       if (decoded.type !== 'refresh') {
         return res.status(401).json({
           success: false,
-          error: 'Invalid refresh token'
+          error: 'Invalid refresh token',
+          code: 'INVALID_TOKEN_TYPE'
         });
       }
 
       // Validate refresh token in database
       const isValidRefreshToken = await AuthService.validateRefreshToken(decoded.userId, refreshToken);
       if (!isValidRefreshToken) {
+        // Clear invalid cookie
+        this.clearRefreshTokenCookie(res);
         return res.status(401).json({
           success: false,
-          error: 'Invalid or expired refresh token'
+          error: 'Invalid or expired refresh token',
+          code: 'REFRESH_TOKEN_INVALID'
         });
       }
 
       // Get user
       const user = await AuthService.findUserById(decoded.userId);
       if (!user) {
+        this.clearRefreshTokenCookie(res);
         return res.status(401).json({
           success: false,
-          error: 'User not found'
+          error: 'User not found',
+          code: 'USER_NOT_FOUND'
         });
       }
 
@@ -196,21 +230,29 @@ class AuthController {
 
     } catch (error) {
       console.error('Token refresh error:', error);
+      // Clear potentially invalid cookie
+      this.clearRefreshTokenCookie(res);
       res.status(401).json({
         success: false,
         error: 'Token refresh failed',
-        message: error.message
+        message: error.message,
+        code: 'REFRESH_FAILED'
       });
     }
   }
 
   /**
-   * Logout user
+   * Logout user - UPDATED
    */
   static async logout(req, res) {
     try {
       const userId = req.user.id;
+      
+      // Remove all refresh tokens from database
       await AuthService.removeRefreshTokens(userId);
+      
+      // Clear refresh token cookie
+      this.clearRefreshTokenCookie(res);
 
       res.json({
         success: true,
@@ -219,6 +261,8 @@ class AuthController {
 
     } catch (error) {
       console.error('Logout error:', error);
+      // Still clear the cookie even if database operation fails
+      this.clearRefreshTokenCookie(res);
       res.status(500).json({
         success: false,
         error: 'Logout failed',
@@ -272,7 +316,6 @@ class AuthController {
             lastName: user.last_name,
             profilePhoto: user.profile_photo,
             profilePictureUrl: user.user_profile?.[0]?.profile_picture_url,
-            bio: user.user_profile?.[0]?.bio,
             createdAt: user.created_at,
             settings: {
               theme: user.user_settings?.[0]?.theme,
@@ -374,7 +417,6 @@ class AuthController {
             lastName: updatedUser.last_name,
             profilePhoto: updatedUser.profile_photo,
             profilePictureUrl: updatedUser.user_profile?.[0]?.profile_picture_url,
-            bio: updatedUser.user_profile?.[0]?.bio,
             updatedAt: updatedUser.updated_at
           }
         }

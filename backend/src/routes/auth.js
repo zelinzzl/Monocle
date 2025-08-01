@@ -53,10 +53,10 @@ router.get('/profile', authenticateToken, (req, res) => AuthController.getProfil
 
 // Profile update with optional file upload
 router.put('/profile', 
-  authenticateToken, 
-  profileLimiter, 
-  uploadProfilePhoto, 
-  handleUploadError, 
+  authenticateToken,           // Auth first
+  uploadProfilePhoto,          // Upload middleware (with 10MB limit)
+  handleUploadError,           // Error handling
+  profileLimiter,              // Rate limit for profile updates
   (req, res) => AuthController.updateProfile(req, res)
 );
 
@@ -182,6 +182,41 @@ router.post('/debug-storage', authenticateToken, uploadProfilePhoto, handleUploa
         errorStack: error.stack,
         hasFile: !!req.file
       }
+    });
+  }
+});
+
+// Updated debug endpoint with correct Supabase syntax
+router.get('/debug-db', async (req, res) => {
+  try {
+    const { supabase } = await import('../config/database.js');
+    
+    // Test simple query - just get one user record
+    const { data, error } = await supabase
+      .from('users')
+      .select('id, email, created_at')
+      .limit(1);
+    
+    if (error) {
+      return res.json({
+        success: false,
+        error: 'Database query failed',
+        details: error
+      });
+    }
+    
+    res.json({
+      success: true,
+      message: 'Database connection working',
+      userCount: data ? data.length : 0,
+      data
+    });
+    
+  } catch (error) {
+    res.json({
+      success: false,
+      error: 'Database connection failed',
+      message: error.message
     });
   }
 });

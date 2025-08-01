@@ -11,7 +11,6 @@ export async function getUserAlerts(userId, limit = 10, offset = 0) {
     .range(offset, offset + limit - 1);
 
   if (error) throw new Error(error.message);
-
   return data;
 }
 

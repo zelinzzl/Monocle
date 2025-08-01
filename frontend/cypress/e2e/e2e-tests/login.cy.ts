@@ -8,7 +8,7 @@ describe('Login page - E2E', () => {
       cy.get('#password').type('password123');
       cy.get('button[type="submit"]').click();
   
-      //cy.url().should('include', '/dashboard');
+      //cy.url().should('include', '/home');
       //cy.contains('Welcome, Test');
     });
 

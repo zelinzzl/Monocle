@@ -1,5 +1,5 @@
 describe('Settings - Integration', () => {
-    const appUrl = 'http://localhost:3000/dashboard';
+    const appUrl = 'http://localhost:3000/home';
   
     it('should display under-construction notice', () => {
       cy.visit(appUrl + '/settings');

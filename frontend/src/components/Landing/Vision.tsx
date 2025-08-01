@@ -1,16 +1,41 @@
-import { Card } from "@/components/UI/card";
-import { H2, P } from "../UI/typography";
+import { Card } from "@/components/ui/card";
+import { H2, P } from "../ui/typography";
 import Image from "next/image";
-import { Carousel, CarouselContent, CarouselItem } from "../UI/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "../ui/carousel";
 
-import Vision1 from "@/assets/images/vision/Vision1.png";
-import Vision2 from "@/assets/images/vision/Vision2.png";
-import Vision3 from "@/assets/images/vision/Vision3.png";
-import Vision4 from "@/assets/images/vision/Vision4.png";
+import Vision1 from "@/assets/images/vision/Accident1.png";
+import Vision2 from "@/assets/images/vision/Accident2.png";
+import Vision3 from "@/assets/images/vision/Accident3.png";
+import Vision4 from "@/assets/images/vision/Accident4.png";
+import Vision5 from "@/assets/images/vision/Vision1.png";
+import Vision6 from "@/assets/images/vision/Vision2.png";
+import Vision7 from "@/assets/images/vision/Vision3.png";
+import Vision8 from "@/assets/images/vision/Vision4.png";
+import React from "react";
 
-const visionImages = [Vision1, Vision2, Vision3, Vision4];
+const visionImages = [
+  Vision1,
+  Vision2,
+  Vision3,
+  Vision4,
+  Vision5,
+  Vision6,
+  Vision7,
+  Vision8,
+];
 
 function Vision() {
+  const plugin = React.useRef(
+    Autoplay({ delay: 3000, stopOnInteraction: false })
+  );
+
   return (
     <section id="vision" className="flex flex-col md:flex-row gap-4 p-4">
       <div className="w-full md:w-1/2">
@@ -36,29 +61,32 @@ function Vision() {
       <div className="w-full md:w-1/2">
         <Card className="p-4">
           <Carousel
-            className="w-full"
+            plugins={[plugin.current]}
+            className="w-full relative"
             opts={{
               align: "start",
               loop: true,
-              active: true,
             }}
+            onMouseEnter={plugin.current.stop}
+            onMouseLeave={plugin.current.reset}
           >
             <CarouselContent>
               {visionImages.map((img, i) => (
-                <CarouselItem
-                  key={i}
-                  className="basis-full flex justify-center"
-                >
-                  <Image
-                    src={img}
-                    alt={`Vision ${i + 1}`}
-                    width={600}
-                    height={400}
-                    className="rounded-lg object-contain"
-                  />
+                <CarouselItem key={i}>
+                  <div className="p-1">
+                    <Image
+                      src={img}
+                      alt={`Vision ${i + 1}`}
+                      width={600}
+                      height={400}
+                      className="rounded-lg object-cover w-full h-auto"
+                    />
+                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
+            <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2" />
+            <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2" />
           </Carousel>
         </Card>
       </div>

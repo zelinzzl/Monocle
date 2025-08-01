@@ -1,11 +1,10 @@
 "use client";
-import { Header } from "@/components/Landing/Header";
-import Footer from "@/components/Landing/Footer";
-import Hero from "@/components/Landing/Hero";
-import Vision from "@/components/Landing/Vision";
-import Contributors from "@/components/Landing/Contributors";
-import Demo from "@/components/Landing/Demo";
-import AuthMenu from "@/components/Landing/AuthMenu";
+import { Header } from "@/components/landing/Header";
+import Footer from "@/components/landing/Footer";
+import Hero from "@/components/landing/Hero";
+import Vision from "@/components/landing/Vision";
+import Contributors from "@/components/landing/Contributors";
+import Demo from "@/components/landing/Demo";
 
 export default function Home() {
   return (
@@ -15,11 +14,10 @@ export default function Home() {
       <main>
         <Hero title="Monocle" />
         <Vision />
-        <Contributors />
         <Demo />
+        <Contributors />
       </main>
 
-      <AuthMenu />
       <Footer />
     </div>
   );

@@ -1,19 +1,21 @@
 "use client";
 
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Icon } from "../UI/icons/Icon";
-import Logo from "../Logo/Logo";
-import { P } from "../UI/typography";
+import { Icon } from "../ui/icons/Icon";
+import Logo from "../logo/Logo";
+import { P } from "../ui/typography";
 import { cn } from "@/lib/utils";
-import { Button } from "../UI/button";
-import { Sheet, SheetContent, SheetTrigger } from "../UI/sheet";
+import { Button } from "../ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { useAuth } from "@/context/auth-context";
 
 export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
-  const router = useRouter();
   const pathname = usePathname();
+  const { logout, user } = useAuth();
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const logoSize = isCollapsed ? 30 : 40;
 
   useEffect(() => {
@@ -25,28 +27,34 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    router.push("/");
+  const handleLogout = async () => {
+    try {
+      setIsLoggingOut(true);
+      console.log("Sidebar logout clicked");
+      await logout();
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      setIsLoggingOut(false);
+    }
   };
 
   const sidebarContent = (
-    <div className="flex h-full max-h-screen flex-col gap-2">
-      <div className="flex h-14 items-center border-b px-4 lg:h-[60px] ">
-        <Link href="/" className="flex items-center gap-10 font-semibold">
-          <Logo size={logoSize} />
-          {!isCollapsed && <P className="text-lg justify-center">MONOCLE</P>}
-        </Link>
-      </div>
+    <div className="flex h-full flex-col gap-2">
+    <div className="flex h-14 items-center border-b px-4 lg:h-[60px]">
+      <Link href="/" className="flex items-center gap-10 font-semibold">
+        <Logo size={logoSize} />
+        {!isCollapsed && <P className="text-lg justify-center">MONOCLE</P>}
+      </Link>
+    </div>
 
-      <div className="flex-1 flex flex-col">
-        <nav className="grid items-start px-2 gap-3 text-sm font-medium ">
+    <div className="flex-1 flex flex-col overflow-y-auto">
+    <nav className="grid items-start px-2 gap-3 text-sm font-medium">
           <Link
-            href="/dashboard"
+            href="/home"
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-              pathname === "/dashboard" && "bg-muted text-primary"
+              pathname === "/home" && "bg-muted text-primary"
             )}
           >
             <Icon name="Home" size={"lg"} />
@@ -54,10 +62,43 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
           </Link>
 
           <Link
-            href="/dashboard/chat"
+            href="/insure"
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-              pathname === "/dashboard/chat" && "bg-muted text-primary"
+              pathname === "/insure" && "bg-muted text-primary"
+            )}
+          >
+            <Icon name="Briefcase" size={"lg"} />
+            {!isCollapsed && <P className="text-lg">Insure</P>}
+          </Link>
+
+          <Link
+            href="/vehicle"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+              pathname === "/vehicle" && "bg-muted text-primary"
+            )}
+          >
+            <Icon name="Truck" size={"lg"} />
+            {!isCollapsed && <P className="text-lg">Vehicles</P>}
+          </Link>
+
+          <Link
+            href="/claims"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+              pathname === "/claims" && "bg-muted text-primary"
+            )}
+          >
+            <Icon name="Document" size={"lg"} />
+            {!isCollapsed && <P className="text-lg">Claims</P>}
+          </Link>
+
+          <Link
+            href="/chat"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+              pathname === "/chat" && "bg-muted text-primary"
             )}
           >
             <Icon name="ChatBubbleBottomCenter" size={"lg"} />
@@ -65,10 +106,21 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
           </Link>
 
           <Link
-            href="/dashboard/travel-risk"
+            href="/map"
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-              pathname === "/dashboard/travel-risk" && "bg-muted text-primary"
+              pathname === "/map" && "bg-muted text-primary"
+            )}
+          >
+            <Icon name="Map" size={"lg"} />
+            {!isCollapsed && <P className="text-lg">Map</P>}
+          </Link>
+
+          <Link
+            href="/travel-risk"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+              pathname === "/travel-risk" && "bg-muted text-primary"
             )}
           >
             <Icon name="Truck" size={"lg"} />
@@ -76,10 +128,10 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
           </Link>
 
           <Link
-            href="/dashboard/notifications"
+            href="/notifications"
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-              pathname === "/dashboard/notifications" && "bg-muted text-primary"
+              pathname === "/notifications" && "bg-muted text-primary"
             )}
           >
             <Icon name="Bell" size={"lg"} />
@@ -87,10 +139,10 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
           </Link>
 
           <Link
-            href="/dashboard/profile"
+            href="/profile"
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-              pathname === "/dashboard/profile" && "bg-muted text-primary"
+              pathname === "/profile" && "bg-muted text-primary"
             )}
           >
             <Icon name="User" size={"lg"} />
@@ -98,10 +150,10 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
           </Link>
         </nav>
 
-        {/* Logout button at the bottom */}
+        {/* UPDATED: Logout button with proper auth context integration */}
         <div className="mt-auto p-2">
           <Link
-            href="/dashboard/settings"
+            href="/settings"
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
               pathname === "/settings" && "bg-muted text-primary"
@@ -115,10 +167,23 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
             variant="ghost"
             className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
             onClick={handleLogout}
+            disabled={isLoggingOut} // Prevent multiple clicks
           >
             <Icon name="XCircle" size={"lg"} />
-            {!isCollapsed && <P className="text-lg">Log out</P>}
+            {!isCollapsed && (
+              <P className="text-lg">
+                {isLoggingOut ? "Logging out..." : "Log out"}
+              </P>
+            )}
           </Button>
+
+          {/* Optional: Show current user info when not collapsed */}
+          {!isCollapsed && user && (
+            <div className="mt-2 px-3 py-2 text-xs text-muted-foreground border-t">
+              <P className="truncate">Logged in as:</P>
+              <P className="truncate font-medium">{user.email}</P>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -146,7 +211,7 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
   return (
     <div
       className={cn(
-        "hidden border-r bg-muted/40 md:block",
+        "hidden border-r bg-muted/40 md:block fixed h-screen",
         isCollapsed ? "w-[70px]" : "w-64"
       )}
     >
