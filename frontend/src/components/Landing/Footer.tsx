@@ -1,5 +1,5 @@
-import { Icon } from "../UI/icons/Icon";
-import { P } from "../UI/typography";
+import { Icon } from "../ui/icons/Icon";
+import { P } from "../ui/typography";
 
 export default function Footer() {
   return (

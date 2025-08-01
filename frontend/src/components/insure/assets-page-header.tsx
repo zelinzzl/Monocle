@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@/components/UI/button";
-import { Input } from "@/components/UI/input";
-import { Icon } from "@/components/UI/icons/Icon";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Icon } from "@/components/ui/icons/Icon";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +11,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/UI/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import { SortBy, FilterBy } from "@/types/insure";
 
 interface AssetsPageHeaderProps {

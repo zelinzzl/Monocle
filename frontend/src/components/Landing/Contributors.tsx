@@ -1,12 +1,12 @@
 import Image from "next/image";
-import { Card } from "../UI/card";
-import { H2, H3, P } from "../UI/typography";
+import { Card } from "../ui/card";
+import { H2, H3, P } from "../ui/typography";
 import C1 from "@/assets/images/contributors/hawa.jpg";
 import C2 from "@/assets/images/contributors/nerina.jpg";
 import C3 from "@/assets/images/contributors/Reta.jpeg";
 import C4 from "@/assets/images/contributors/Siya.png";
 import C5 from "@/assets/images/contributors/Zelin.jpg";
-import { AspectRatio } from "../UI/aspect-ratio";
+import { AspectRatio } from "../ui/aspect-ratio";
 import Link from "next/link";
 
 function Contributors() {

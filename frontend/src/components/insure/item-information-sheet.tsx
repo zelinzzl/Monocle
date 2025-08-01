@@ -2,17 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Badge } from "../UI/badge";
-import { Button } from "../UI/button";
-import { Icon } from "../UI/icons/Icon";
-import { Input } from "../UI/input";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { Icon } from "../ui/icons/Icon";
+import { Input } from "../ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../UI/select";
+} from "../ui/select";
 import { InsuredAsset } from "@/types/insure";
 import {
   getStatusBadgeVariant,

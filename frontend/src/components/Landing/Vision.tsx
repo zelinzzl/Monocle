@@ -1,5 +1,5 @@
-import { Card } from "@/components/UI/card";
-import { H2, P } from "../UI/typography";
+import { Card } from "@/components/ui/card";
+import { H2, P } from "../ui/typography";
 import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
 import {
@@ -8,7 +8,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "../UI/carousel";
+} from "../ui/carousel";
 
 import Vision1 from "@/assets/images/vision/Accident1.png";
 import Vision2 from "@/assets/images/vision/Accident2.png";

@@ -3,12 +3,12 @@ import { useState, useEffect } from "react";
 import {
   CardFooter,
   CardContent,
-} from "@/components/UI/card";
-import { Label } from "@/components/UI/label";
-import { Input } from "@/components/UI/input";
-import { Button } from "@/components/UI/button";
-import { Switch } from "@/components/UI/switch";
-import { Icon } from "@/components/UI/icons/Icon";
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Icon } from "@/components/ui/icons/Icon";
 import { useAuth } from "@/context/auth-context";
 import { updateProfile, updateProfileWithPhoto, updateSettings } from "@/services/updateProfileService";
 

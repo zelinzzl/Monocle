@@ -1,5 +1,5 @@
 import { useEffect, useRef, ReactNode } from "react";
-import Animate from "../Animations/Animate";
+import Animate from "../animations/Animate";
 
 interface ModalProps {
   children: ReactNode;

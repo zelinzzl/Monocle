@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "@/context/theme-provider";
-import { Icon } from "../UI/icons/Icon";
+import { Icon } from "../ui/icons/Icon";
 
 export function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();

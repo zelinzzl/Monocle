@@ -7,8 +7,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/UI/table";
-import { Badge } from "@/components/UI/badge";
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import { InsuredAsset } from "@/types/insure";
 import {
   getStatusBadgeVariant,

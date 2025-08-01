@@ -4,10 +4,10 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/UI/card";
+} from "@/components/ui/card";
 import Link from "next/link";
-import { Icon } from "@/components/UI/icons/Icon";
-import { LoginForm } from "@/components/Login-Form/login-form";
+import { Icon } from "@/components/ui/icons/Icon";
+import { LoginForm } from "@/components/login-form/login-form";
 
 export default function LoginPage() {
   return (
