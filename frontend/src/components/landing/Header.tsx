@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import Logo from "../logo/Logo";
+import Logo from "../Logo/Logo";
 import { useTheme } from "@/context/theme-provider";
 import { Icon } from "../ui/icons/Icon";
 import AuthMenu from "./AuthMenu";
