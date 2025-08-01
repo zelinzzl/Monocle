@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/context/theme-provider";
-import { AuthProvider } from "@/context/auth-context";
+import { AuthProviderWrapper } from "@/context/auth-provider-wrapper"; // Updated import
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -26,9 +26,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto.variable} antialiased`}>
-        <AuthProvider>
+        <AuthProviderWrapper>
           <ThemeProvider>{children}</ThemeProvider>
-        </AuthProvider>
+        </AuthProviderWrapper>
       </body>
     </html>
   );

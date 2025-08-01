@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/UI/button";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth-context";
-import { H2 } from "../UI/typography";
+import Animate from "../Animations/Animate";
 
 function FloatingPaths({ position }: { position: number }) {
   const centerX = 348;
@@ -79,7 +79,7 @@ function Hero({ title = "Hero" }: { title?: string }) {
 
   const handleButtonClick = () => {
     if (isAuthenticated) {
-      router.push("/dashboard");
+      router.push("/home");
     } else {
       router.push("/login");
     }
@@ -87,10 +87,12 @@ function Hero({ title = "Hero" }: { title?: string }) {
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden --background dark:bg-neutral-950">
-      <div className="absolute inset-0">
-        <FloatingPaths position={1} />
-        <FloatingPaths position={-1} />
-      </div>
+      <Animate type="fade" delay={0.2} duration={1}>
+        <div className="absolute inset-0">
+          <FloatingPaths position={1} />
+          <FloatingPaths position={-1} />
+        </div>
+      </Animate>
 
       <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">
         <motion.div
@@ -157,15 +159,11 @@ function Hero({ title = "Hero" }: { title?: string }) {
           >
             <Button
               onClick={handleButtonClick}
-              variant="ghost"
-              className="rounded-[1.15rem] px-8 py-6 text-lg font-semibold backdrop-blur-md 
-                            bg-white/95  dark:bg-black/95 dark:hover:bg-black/100 
-                            text-black dark:text-white transition-all duration-300 
-                            group-hover:-translate-y-0.5 border border-black/10 dark:border-white/10
-                            hover:shadow-md dark:hover:shadow-neutral-800/50"
+              variant={"custom"}
+              size={"default"}
             >
               <span className="opacity-90 group-hover:opacity-100 transition-opacity">
-                Discover Excellence
+                Get insured
               </span>
             </Button>
           </div>

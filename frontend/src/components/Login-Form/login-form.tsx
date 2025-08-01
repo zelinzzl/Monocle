@@ -43,24 +43,28 @@ export function LoginForm() {
         throw new Error(result.error);
       }
 
-      if (!result.token || !result.user) {
-        setError("Login failed. Check token or User.");
-        return;
+      if (!result.tokens?.accessToken || !result.user) {
+        throw new Error("Login failed. Invalid response from server.");
       }
 
-      // Store token and user data in the context
-      login(result.token, result.user);
+      // Store tokens and user data in the context
+      // The refresh token is automatically stored in httpOnly cookie by the backend
+      login(result.tokens.accessToken, result.tokens.refreshToken, result.user);
 
-      console.log(result.token);
       setSuccessMessage("Login successful! Redirecting to your dashboard...");
-      setTimeout(() => {
-        router.push("/dashboard");
-      }, 1500);
+      
+      // No need for setTimeout, the login function handles redirect
     } catch (err: any) {
-      if (err.response?.status === 429) {
-        setError("Too many attempts. Please wait a moment and try again.");
+      console.error('Login error:', err);
+      
+      if (err.message?.includes('Too many requests') || err.message?.includes('429')) {
+        setError("Too many login attempts. Please wait a moment and try again.");
+      } else if (err.message?.includes('Invalid credentials') || err.message?.includes('401')) {
+        setError("Invalid email or password. Please check your credentials and try again.");
+      } else if (err.message?.includes('Network')) {
+        setError("Network error. Please check your connection and try again.");
       } else {
-        setError(err.message || "Please check your credentials and try again.");
+        setError(err.message || "Login failed. Please try again.");
       }
     } finally {
       setIsLoading(false);
@@ -70,12 +74,12 @@ export function LoginForm() {
   return (
     <div className="space-y-4">
       {error && (
-        <div className="text-red-500 text-sm text-center p-2 rounded bg-red-50">
+        <div className="text-red-500 text-sm text-center p-2 rounded bg-red-50 border border-red-200">
           {error}
         </div>
       )}
       {successMessage && (
-        <div className="text-green-600 text-sm text-center p-2 rounded bg-green-50">
+        <div className="text-green-600 text-sm text-center p-2 rounded bg-green-50 border border-green-200">
           {successMessage}
         </div>
       )}
@@ -91,6 +95,7 @@ export function LoginForm() {
             value={formData.email}
             onChange={handleChange}
             disabled={isLoading}
+            autoComplete="email"
           />
         </div>
         <div className="space-y-2">
@@ -103,6 +108,7 @@ export function LoginForm() {
             value={formData.password}
             onChange={handleChange}
             disabled={isLoading}
+            autoComplete="current-password"
           />
         </div>
         <Button type="submit" className="w-full" disabled={isLoading}>

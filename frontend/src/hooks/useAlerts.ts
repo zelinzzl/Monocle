@@ -1,4 +1,3 @@
-// src/hooks/useAlerts.ts
 import { useState, useEffect } from "react";
 import {
   getAlerts,
@@ -22,14 +21,10 @@ export function useAlerts(userId: string) {
       if (response.error) {
         setError(response.error);
       } else {
-        setAlerts(
-          Array.isArray(response.data)
-            ? response.data
-            : response.data
-              ? [response.data]
-              : []
-        );
+        const alertsArray = response.data?.alerts || [];
+        setAlerts(alertsArray);
       }
+      console.log("Fetched Alerts:", alerts);
     } catch (err) {
       setError("Failed to fetch alerts");
     } finally {
@@ -45,10 +40,9 @@ export function useAlerts(userId: string) {
       if (response.error) {
         setError(response.error);
         return false;
-      } else {
-        await fetchAlerts();
-        return true;
       }
+      await fetchAlerts();
+      return true;
     } catch (err) {
       setError("Failed to create alert");
       return false;
@@ -59,12 +53,12 @@ export function useAlerts(userId: string) {
 
   const toggleAlertStatus = async (
     alertId: string,
-    currentStatus: "active" | "inactive"
+    currentStatus: "new" | "read"
   ) => {
     setLoading(true);
     setError(null);
     try {
-      const newStatus = currentStatus === "active" ? "inactive" : "active";
+      const newStatus = currentStatus === "new" ? "read" : "new";
       const response = await updateAlertStatus(alertId, newStatus);
       if (response.error) {
         setError(response.error);
