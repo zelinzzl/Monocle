@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Input } from "@/components/UI/input";
-import { Button } from "@/components/UI/button";
-import { Card } from "@/components/UI/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 interface Message {
   id: number;

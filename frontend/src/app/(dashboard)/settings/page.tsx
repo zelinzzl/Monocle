@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Switch } from "@/components/UI/switch";
-import { Label } from "@/components/UI/label";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 function Settings() {
   const [emailNotifications, setEmailNotifications] = useState(true);

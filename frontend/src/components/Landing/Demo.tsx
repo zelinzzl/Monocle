@@ -1,5 +1,5 @@
-import { Card } from "../UI/card";
-import { H2 } from "../UI/typography";
+import { Card } from "../ui/card";
+import { H2 } from "../ui/typography";
 
 function Demo() {
   return (

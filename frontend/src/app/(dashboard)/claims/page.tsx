@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Input } from "@/components/UI/input";
-import { Button } from "@/components/UI/button";
-import { Textarea } from "@/components/UI/textarea";
-import { Label } from "@/components/UI/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import Modal from "@/components/layout/Modal";
-import { Badge } from "@/components/UI/badge";
+import { Badge } from "@/components/ui/badge";
 
 interface Claim {
   id: string;

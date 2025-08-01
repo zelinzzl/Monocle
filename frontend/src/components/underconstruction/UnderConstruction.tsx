@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon } from "@/components/UI/icons/Icon";
+import { Icon } from "@/components/ui/icons/Icon";
 
 interface DevOnlyNoticeProps {
   text: string;

@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Icon } from "@/components/UI/icons/Icon";
-import { Button } from "@/components/UI/button";
+import { Icon } from "@/components/ui/icons/Icon";
+import { Button } from "@/components/ui/button";
 
 function NotFound() {
   const router = useRouter();

@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { Input } from "@/components/UI/input"
-import { Button } from "@/components/UI/button"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 import { Pencil, Trash2, X } from "lucide-react"
-import { Card, CardContent } from "@/components/UI/card"
+import { Card, CardContent } from "@/components/ui/card"
 import Modal from "@/components/layout/Modal"
 
 interface TravelRisk {

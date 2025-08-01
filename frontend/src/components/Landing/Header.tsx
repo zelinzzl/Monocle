@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import Logo from "../Logo/Logo";
+import Logo from "../logo/Logo";
 import { useTheme } from "@/context/theme-provider";
-import { Icon } from "../UI/icons/Icon";
+import { Icon } from "../ui/icons/Icon";
 import AuthMenu from "./AuthMenu";
-import Animate from "../Animations/Animate";
+import Animate from "../animations/Animate";
 
 const navigation = [
   { name: "Home", href: "#Home" },

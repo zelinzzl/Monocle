@@ -3,12 +3,12 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Icon } from "../UI/icons/Icon";
-import Logo from "../Logo/Logo";
-import { P } from "../UI/typography";
+import { Icon } from "../ui/icons/Icon";
+import Logo from "../logo/Logo";
+import { P } from "../ui/typography";
 import { cn } from "@/lib/utils";
-import { Button } from "../UI/button";
-import { Sheet, SheetContent, SheetTrigger } from "../UI/sheet";
+import { Button } from "../ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { useAuth } from "@/context/auth-context";
 
 export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
@@ -103,6 +103,17 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
           >
             <Icon name="ChatBubbleBottomCenter" size={"lg"} />
             {!isCollapsed && <P className="text-lg">Chat</P>}
+          </Link>
+
+          <Link
+            href="/map"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+              pathname === "/map" && "bg-muted text-primary"
+            )}
+          >
+            <Icon name="Map" size={"lg"} />
+            {!isCollapsed && <P className="text-lg">Map</P>}
           </Link>
 
           <Link
