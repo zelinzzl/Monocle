@@ -32,7 +32,6 @@ class AuthService {
         profile_photo, 
         created_at,
         user_profile (
-          bio,
           profile_picture_url
         )
       `)
@@ -61,7 +60,6 @@ class AuthService {
         profile_photo, 
         created_at,
         user_profile (
-          bio,
           profile_picture_url
         )
       `)
@@ -89,7 +87,6 @@ class AuthService {
         profile_photo, 
         created_at,
         user_profile (
-          bio,
           profile_picture_url
         ),
         user_settings (
@@ -177,97 +174,129 @@ class AuthService {
     return user;
   }
 
-  /**
-   * Update user profile (handles both users table and user_profile table)
-   */
-  static async updateProfile(userId, updateData) {
-    const usersTableFields = ['email', 'firstName', 'lastName', 'profilePhoto'];
-    const profileTableFields = ['bio', 'profilePictureUrl'];
-    
-    const usersUpdate = { updated_at: new Date().toISOString() };
-    const profileUpdate = { updated_at: new Date().toISOString() };
+// authService.js - COMPLETE FIX: Update both users and user_profile tables
 
-    // Map frontend field names to database column names for users table
-    const usersFieldMapping = {
-      firstName: 'first_name',
-      lastName: 'last_name',
-      profilePhoto: 'profile_photo'
-    };
+/**
+ * Update user profile (handles both users table and user_profile table)
+ */
+static async updateProfile(userId, updateData) {
+  const usersUpdate = { updated_at: new Date().toISOString() };
+  const profileUpdate = { updated_at: new Date().toISOString() };
 
-    // Map frontend field names to database column names for profile table
-    const profileFieldMapping = {
-      profilePictureUrl: 'profile_picture_url'
-    };
+  // Map frontend field names to database column names
+  const fieldMapping = {
+    firstName: 'first_name',
+    lastName: 'last_name',
+    profilePhoto: 'profile_photo',
+    profilePictureUrl: 'profile_picture_url'
+  };
 
-    // Separate updates for different tables
-    let hasUsersUpdate = false;
-    let hasProfileUpdate = false;
+  let hasUsersUpdate = false;
+  let hasProfileUpdate = false;
 
-    Object.keys(updateData).forEach(key => {
-      if (usersTableFields.includes(key) && updateData[key] !== undefined) {
-        const dbField = usersFieldMapping[key] || key;
-        if (key === 'email') {
-          usersUpdate[dbField] = updateData[key].toLowerCase();
-        } else {
-          usersUpdate[dbField] = updateData[key];
-        }
+  // Process each field in updateData
+  Object.keys(updateData).forEach(key => {
+    if (updateData[key] !== undefined) {
+      const dbField = fieldMapping[key] || key;
+      
+      if (key === 'email') {
+        // Email only goes to users table
+        usersUpdate[dbField] = updateData[key].toLowerCase();
         hasUsersUpdate = true;
-      } else if (profileTableFields.includes(key) && updateData[key] !== undefined) {
-        const dbField = profileFieldMapping[key] || key;
+        
+      } else if (key === 'firstName' || key === 'lastName') {
+        // Names go to BOTH tables
+        usersUpdate[dbField] = updateData[key];
         profileUpdate[dbField] = updateData[key];
+        hasUsersUpdate = true;
+        hasProfileUpdate = true;
+        
+      } else if (key === 'profilePhoto') {
+        // Profile photo goes to BOTH tables (different column names)
+        usersUpdate.profile_photo = updateData[key];
+        profileUpdate.profile_picture_url = updateData[key];
+        hasUsersUpdate = true;
+        hasProfileUpdate = true;
+        
+      } else if (key === 'profilePictureUrl') {
+        // This goes to user_profile table only
+        profileUpdate.profile_picture_url = updateData[key];
         hasProfileUpdate = true;
       }
-    });
-
-    // Update users table if needed
-    if (hasUsersUpdate) {
-      const { error: usersError } = await supabase
-        .from("users")
-        .update(usersUpdate)
-        .eq("id", userId);
-
-      if (usersError) {
-        if (usersError.code === "23505") {
-          throw new Error("Email is already taken by another user");
-        }
-        throw new Error("Failed to update user information");
-      }
     }
+  });
 
-    // Update user_profile table if needed
-    if (hasProfileUpdate) {
-      // First check if profile exists
-      const { data: existingProfile } = await supabase
-        .from("user_profile")
-        .select("id")
-        .eq("user_id", userId)
-        .single();
+  console.log('Update data received:', updateData);
+  console.log('Users table update:', hasUsersUpdate ? usersUpdate : 'No updates');
+  console.log('Profile table update:', hasProfileUpdate ? profileUpdate : 'No updates');
 
-      if (existingProfile) {
-        // Update existing profile
-        const { error: profileError } = await supabase
-          .from("user_profile")
-          .update(profileUpdate)
-          .eq("user_id", userId);
+  // Update users table if needed
+  if (hasUsersUpdate) {
+    console.log('Updating users table...');
+    const { error: usersError } = await supabase
+      .from("users")
+      .update(usersUpdate)
+      .eq("id", userId);
 
-        if (profileError) {
-          console.warn("Failed to update user profile:", profileError);
-        }
-      } else {
-        // Create new profile
-        const { error: profileError } = await supabase
-          .from("user_profile")
-          .insert([{ user_id: userId, ...profileUpdate }]);
-
-        if (profileError) {
-          console.warn("Failed to create user profile:", profileError);
-        }
+    if (usersError) {
+      console.error('Users table update error:', usersError);
+      if (usersError.code === "23505") {
+        throw new Error("Email is already taken by another user");
       }
+      throw new Error("Failed to update user information");
     }
-
-    // Return updated user data
-    return await this.findUserById(userId);
+    console.log('Users table updated successfully');
   }
+
+  // Update user_profile table if needed
+  if (hasProfileUpdate) {
+    console.log('Updating user_profile table...');
+    
+    // First check if profile exists
+    const { data: existingProfile, error: checkError } = await supabase
+      .from("user_profile")
+      .select("id")
+      .eq("user_id", userId)
+      .single();
+
+    if (checkError && checkError.code !== 'PGRST116') {
+      console.error('Error checking existing profile:', checkError);
+      throw new Error("Database error while checking profile");
+    }
+
+    if (existingProfile) {
+      // Update existing profile
+      console.log('Updating existing profile record with:', profileUpdate);
+      const { error: profileError } = await supabase
+        .from("user_profile")
+        .update(profileUpdate)
+        .eq("user_id", userId);
+
+      if (profileError) {
+        console.error("Failed to update user profile:", profileError);
+        throw new Error("Failed to update profile information");
+      }
+      console.log('Profile table updated successfully');
+    } else {
+      // Create new profile record
+      console.log('Creating new profile record with:', { user_id: userId, ...profileUpdate });
+      const { error: profileError } = await supabase
+        .from("user_profile")
+        .insert([{ user_id: userId, ...profileUpdate }]);
+
+      if (profileError) {
+        console.error("Failed to create user profile:", profileError);
+        throw new Error("Failed to create profile information");
+      }
+      console.log('Profile table created successfully');
+    }
+  }
+
+  console.log('Profile update completed, fetching updated user data...');
+  
+  // Return updated user data
+  return await this.findUserById(userId);
+}
 
   /**
    * Update user settings
