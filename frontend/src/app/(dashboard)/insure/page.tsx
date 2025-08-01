@@ -19,7 +19,7 @@ export default function InsuredAssetsPage() {
     setSortBy,
     setFilterBy,
     setSelectedAsset,
-    handleAddAsset,
+    // handleAddAsset,
     handleRemoveAssets,
     handleSaveAsset,
     toggleAssetSelection,
@@ -34,7 +34,7 @@ export default function InsuredAssetsPage() {
         searchTerm={searchTerm}
         sortBy={sortBy}
         filterBy={filterBy}
-        onAddAsset={handleAddAsset}
+        // onAddAsset={handleAddAsset}
         onRemoveAssets={handleRemoveAssets}
         onSearchChange={setSearchTerm}
         onSortChange={setSortBy}

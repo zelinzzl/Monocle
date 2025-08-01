@@ -19,7 +19,7 @@ interface AssetsPageHeaderProps {
   searchTerm: string;
   sortBy: SortBy;
   filterBy: FilterBy;
-  onAddAsset: () => void;
+  // onAddAsset: () => void;
   onRemoveAssets: () => void;
   onSearchChange: (value: string) => void;
   onSortChange: (value: SortBy) => void;
@@ -31,7 +31,7 @@ export const AssetsPageHeader = ({
   searchTerm,
   sortBy,
   filterBy,
-  onAddAsset,
+  // onAddAsset,
   onRemoveAssets,
   onSearchChange,
   onSortChange,
@@ -43,10 +43,10 @@ export const AssetsPageHeader = ({
 
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <div className="flex gap-2">
-          <Button onClick={onAddAsset} className="flex items-center gap-2">
+          {/* <Button onClick={onAddAsset} className="flex items-center gap-2">
             <Icon name="Plus" />
             Add
-          </Button>
+          </Button> */}
           <Button
             variant="destructive"
             onClick={onRemoveAssets}

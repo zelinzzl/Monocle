@@ -47,7 +47,7 @@ export const AssetsTable = ({
               />
             </TableHead>
             <TableHead>Item Name</TableHead>
-            <TableHead>Category</TableHead>
+            {/* <TableHead>Category</TableHead> */}
             <TableHead>Monthly Payment</TableHead>
             <TableHead>Date Added</TableHead>
             <TableHead>Risk Level</TableHead>
@@ -80,7 +80,6 @@ export const AssetsTable = ({
                   />
                 </TableCell>
                 <TableCell className="font-medium">{asset.itemName}</TableCell>
-                <TableCell>{asset.category}</TableCell>
                 <TableCell>R{asset.monthlyPayment.toFixed(2)}</TableCell>
                 <TableCell>
                   {new Date(asset.dateAdded).toLocaleDateString("en-US", {

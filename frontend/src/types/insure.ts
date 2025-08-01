@@ -4,7 +4,6 @@ export interface InsuredAsset {
   status: "Active" | "Pending" | "Expired" | "Cancelled";
   monthlyPayment: number;
   riskLevel: "Low" | "Medium" | "High";
-  category: string;
   dateAdded: string;
   description?: string;
   coverageAmount?: number;

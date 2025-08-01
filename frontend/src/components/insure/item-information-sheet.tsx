@@ -142,7 +142,7 @@ export const ItemInformationSheet = ({
                 </Badge>
               )}
             </div>
-            <div>
+            {/* <div>
               <p className="text-sm text-muted-foreground">Category</p>
               {isEditing ? (
                 <Input
@@ -154,7 +154,7 @@ export const ItemInformationSheet = ({
               ) : (
                 <p className="font-medium">{asset.category}</p>
               )}
-            </div>
+            </div> */}
             <div>
               <p className="text-sm text-muted-foreground">Policy Number</p>
               {isEditing ? (
