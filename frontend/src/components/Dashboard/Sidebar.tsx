@@ -83,7 +83,7 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
             {!isCollapsed && <P className="text-lg">Vehicles</P>}
           </Link>
 
-          <Link
+          {/* <Link
             href="/claims"
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
@@ -92,9 +92,9 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
           >
             <Icon name="Document" size={"lg"} />
             {!isCollapsed && <P className="text-lg">Claims</P>}
-          </Link>
+          </Link> */}
 
-          <Link
+          {/* <Link
             href="/chat"
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
@@ -103,7 +103,7 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
           >
             <Icon name="ChatBubbleBottomCenter" size={"lg"} />
             {!isCollapsed && <P className="text-lg">Chat</P>}
-          </Link>
+          </Link> */}
 
           <Link
             href="/travel-risk"

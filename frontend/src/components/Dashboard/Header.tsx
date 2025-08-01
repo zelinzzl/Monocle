@@ -46,7 +46,7 @@ function DashboardHeader({
         />
       </Button>
 
-      <P className="w-full">Insurance portal</P>
+      {/* <P className="w-full">Insurance portal</P> */}
 
       <div className="flex w-full items-center justify-end gap-4">
         <ThemeSwitcher />
