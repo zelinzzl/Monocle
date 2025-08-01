@@ -9,5 +9,5 @@ const router = express.Router();
 
 // Route to fetch a route between two locations
 router.post('/fetch-route', GoogleRoutesController.fetchRoute);
-
+router.post('/route-with-weather', GoogleRoutesController.getRouteWithWeather);
 export default router;
