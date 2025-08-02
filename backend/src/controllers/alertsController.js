@@ -1,4 +1,4 @@
-import { createAlert, getUserAlerts, updateAlertStatus, deleteAlert } from '../services/alertService.js';
+import { createAlert, getUserAlerts, updateAlertStatus, deleteAlert, pushSubscription,deleteSubscription,getPushSubscription} from '../services/alertService.js';
 import dayjs from "dayjs"; 
 class AlertController {
 
@@ -63,6 +63,37 @@ static async getAlerts(req, res) {
     try {
       const alert = await createAlert(title, status, type, userId);
       res.status(201).json({ status: 'success' });
+    } catch (error) {
+      res.status(500).json({ status: 'error', message: error.message });
+    }
+  }
+
+  // Controller to handle push subscription for notifications
+  static async pushSubscription(req, res) {
+    const { userId, subscription } = req.body;
+    try {
+      const result = await pushSubscription(userId, subscription);
+      res.json({ status: 'success', data: result });
+    } catch (error) {
+      res.status(500).json({ status: 'error', message: error.message });
+    }
+  }
+
+  static async deleteSubscription(req, res) {
+    const { userId } = req.params;
+    try {
+      const result = await deleteSubscription(userId);
+      res.json({ status: 'success', message: 'Subscription deleted successfully' });
+    } catch (error) {
+      res.status(500).json({ status: 'error', message: error.message });
+    }
+  }
+
+  static async getPushSubscription(req, res) {
+    const { userId } = req.params;
+    try {
+      const subscription = await getPushSubscription(userId);
+      res.json({ status: 'success', data: { subscription } });
     } catch (error) {
       res.status(500).json({ status: 'error', message: error.message });
     }
