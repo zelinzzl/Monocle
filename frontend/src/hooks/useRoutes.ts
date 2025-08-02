@@ -1,18 +1,23 @@
-// hooks/useRoutes.ts
-import { useState, useEffect } from "react";
-import { Route, getRoutes, createRoute, updateRoute, deleteRoute } from "@/services/routeService";
+import { useState, useEffect, useCallback } from "react";
+import {
+  Route,
+  getRoutes,
+  createRoute,
+  updateRoute,
+  deleteRoute,
+} from "@/services/routeService";
 
-export const useRoutes = () => {
+export const useRoutes = (user_id: string) => {
   const [routes, setRoutes] = useState<Route[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch routes from backend
-  const fetchRoutes = async () => {
+  const fetchRoutes = useCallback(async () => {
+    if (!user_id) return;
     setLoading(true);
-    setError(null);
     try {
-      const data = await getRoutes();
+      const data = await getRoutes(user_id);
+      console.log("Fetched Routes:", data);
       setRoutes(data);
     } catch (err) {
       setError("Failed to fetch routes");
@@ -20,9 +25,13 @@ export const useRoutes = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user_id]); 
 
-  // Add new route
+  // Auto-fetch on mount and when user changes
+  useEffect(() => {
+    fetchRoutes();
+  }, [fetchRoutes]);
+
   const addRoute = async (route: Omit<Route, "id">) => {
     try {
       const newRoute = await createRoute(route);
@@ -34,7 +43,6 @@ export const useRoutes = () => {
     }
   };
 
-  // Update existing route
   const editRoute = async (id: string, updates: Partial<Route>) => {
     try {
       const updated = await updateRoute(id, updates);
@@ -46,7 +54,6 @@ export const useRoutes = () => {
     }
   };
 
-  // Delete route
   const removeRoute = async (id: string) => {
     try {
       await deleteRoute(id);
@@ -57,10 +64,13 @@ export const useRoutes = () => {
     }
   };
 
-  // Load on mount
-  useEffect(() => {
-    fetchRoutes();
-  }, []);
-
-  return { routes, loading, error, fetchRoutes, addRoute, editRoute, removeRoute };
+  return {
+    routes,
+    loading,
+    error,
+    fetchRoutes,
+    addRoute,
+    editRoute,
+    removeRoute,
+  };
 };

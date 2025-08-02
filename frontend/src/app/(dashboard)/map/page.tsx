@@ -1,7 +1,14 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Search, Filter, Plus, Clock, Route as RouteIcon, MapPin } from "lucide-react";
+import {
+  Search,
+  Filter,
+  Plus,
+  Clock,
+  Route as RouteIcon,
+  MapPin,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -39,6 +46,12 @@ export default function MapPage() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedRoute, setSelectedRoute] = useState<string | null>(null);
   const [isAddingRoute, setIsAddingRoute] = useState(false);
+  const [editingRouteId, setEditingRouteId] = useState<string | null>(null);
+  const [originalRoute, setOriginalRoute] = useState<Omit<
+    Route,
+    "coordinates"
+  > | null>(null);
+
   const [newRoute, setNewRoute] = useState<Omit<Route, "id" | "coordinates">>({
     title: "",
     origin: "",
@@ -53,12 +66,40 @@ export default function MapPage() {
     libraries: ["places"],
   });
 
-  const { routes, addRoute, loading } = useRoutes();
+  const { routes, addRoute, removeRoute, editRoute, loading } = useRoutes(
+    user?.id || ""
+  );
   const { directions, calculateRoute } = useDirections(isLoaded);
 
   const handleAddRoute = () => setIsAddingRoute(true);
+  const handleEditRoute = (routeId: string) => {
+    const routeToEdit = routes.find((r) => r.id === routeId);
+    if (!routeToEdit) return;
+
+    setEditingRouteId(routeId); // ✅ track which route is being edited
+    setIsAddingRoute(true); // ✅ opens the same card
+    setNewRoute({
+      user_id: routeToEdit.user_id,
+      title: routeToEdit.title,
+      origin: routeToEdit.origin,
+      destination: routeToEdit.destination,
+      category: routeToEdit.category,
+      frequency: routeToEdit.frequency,
+    });
+  };
+
+  const handleDeleteRoute = async (id: string) => {
+    if (confirm("Are you sure you want to delete this route?")) {
+      try {
+        await removeRoute(id);
+      } catch (error) {
+        console.error("Failed to delete route:", error);
+      }
+    }
+  };
   const handleCancelAddRoute = () => {
     setIsAddingRoute(false);
+    setEditingRouteId(null);
     setNewRoute({
       user_id: user?.id || "",
       title: "",
@@ -78,20 +119,20 @@ export default function MapPage() {
         geocodeAddress(newRoute.destination),
       ]);
 
-      await addRoute({
-        user_id: user?.id || "",
-        title: newRoute.title,
-        origin: newRoute.origin,
-        destination: newRoute.destination,
-        category: newRoute.category,
-        frequency: newRoute.frequency,
-        coordinates: {
-          source: sourceCoords,
-          destination: destCoords,
-        },
-      });
+      if (editingRouteId) {
+        await editRoute(editingRouteId, {
+          ...newRoute,
+          coordinates: { source: sourceCoords, destination: destCoords },
+        });
+      } else {
+        await addRoute({
+          ...newRoute,
+          coordinates: { source: sourceCoords, destination: destCoords },
+        });
+      }
 
       handleCancelAddRoute();
+      setEditingRouteId(null);
     } catch (error) {
       console.error("Error saving route:", error);
     }
@@ -135,11 +176,13 @@ export default function MapPage() {
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
               <SelectContent>
-                {["all", ...new Set(routes.map((r) => r.category))].map((category) => (
-                  <SelectItem key={category} value={category}>
-                    {category === "all" ? "All Categories" : category}
-                  </SelectItem>
-                ))}
+                {["all", ...new Set(routes.map((r) => r.category))].map(
+                  (category) => (
+                    <SelectItem key={category} value={category}>
+                      {category === "all" ? "All Categories" : category}
+                    </SelectItem>
+                  )
+                )}
               </SelectContent>
             </Select>
           </div>
@@ -160,8 +203,7 @@ export default function MapPage() {
                   streetViewControl: false,
                   mapTypeControl: false,
                   fullscreenControl: false,
-                }}
-              >
+                }}>
                 {filteredRoutes.map((route) => (
                   <div key={route.id}>
                     <Marker
@@ -172,7 +214,9 @@ export default function MapPage() {
                       }}
                       icon={{
                         url: `https://maps.google.com/mapfiles/ms/icons/${
-                          selectedRoute === route.id ? "red-dot.png" : "green-dot.png"
+                          selectedRoute === route.id
+                            ? "red-dot.png"
+                            : "green-dot.png"
                         }`,
                         scaledSize: new google.maps.Size(30, 30),
                       }}
@@ -185,7 +229,9 @@ export default function MapPage() {
                       }}
                       icon={{
                         url: `https://maps.google.com/mapfiles/ms/icons/${
-                          selectedRoute === route.id ? "red-dot.png" : "blue-dot.png"
+                          selectedRoute === route.id
+                            ? "red-dot.png"
+                            : "blue-dot.png"
                         }`,
                         scaledSize: new google.maps.Size(30, 30),
                       }}
@@ -203,7 +249,9 @@ export default function MapPage() {
         {/* Routes List */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold">My Routes ({filteredRoutes.length})</h2>
+            <h2 className="text-xl font-semibold">
+              My Routes ({filteredRoutes.length})
+            </h2>
             <Button size="sm" onClick={handleAddRoute}>
               <Plus className="h-4 w-4 mr-2" />
               Add Route
@@ -213,29 +261,38 @@ export default function MapPage() {
           {isAddingRoute && (
             <Card>
               <CardHeader>
-                <CardTitle>Add New Route</CardTitle>
+                <CardTitle>
+                  {editingRouteId ? "Edit Route" : "Add New Route"}
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <Input
                   placeholder="Route title"
                   value={newRoute.title}
-                  onChange={(e) => setNewRoute({ ...newRoute, title: e.target.value })}
+                  onChange={(e) =>
+                    setNewRoute({ ...newRoute, title: e.target.value })
+                  }
                 />
                 <Input
                   placeholder="Origin address"
                   value={newRoute.origin}
-                  onChange={(e) => setNewRoute({ ...newRoute, origin: e.target.value })}
+                  onChange={(e) =>
+                    setNewRoute({ ...newRoute, origin: e.target.value })
+                  }
                 />
                 <Input
                   placeholder="Destination address"
                   value={newRoute.destination}
-                  onChange={(e) => setNewRoute({ ...newRoute, destination: e.target.value })}
+                  onChange={(e) =>
+                    setNewRoute({ ...newRoute, destination: e.target.value })
+                  }
                 />
                 <div className="grid grid-cols-2 gap-4">
                   <Select
                     value={newRoute.category}
-                    onValueChange={(value) => setNewRoute({ ...newRoute, category: value })}
-                  >
+                    onValueChange={(value) =>
+                      setNewRoute({ ...newRoute, category: value })
+                    }>
                     <SelectTrigger>
                       <SelectValue placeholder="Category" />
                     </SelectTrigger>
@@ -249,8 +306,9 @@ export default function MapPage() {
                   </Select>
                   <Select
                     value={newRoute.frequency}
-                    onValueChange={(value) => setNewRoute({ ...newRoute, frequency: value })}
-                  >
+                    onValueChange={(value) =>
+                      setNewRoute({ ...newRoute, frequency: value })
+                    }>
                     <SelectTrigger>
                       <SelectValue placeholder="Frequency" />
                     </SelectTrigger>
@@ -264,14 +322,20 @@ export default function MapPage() {
                   </Select>
                 </div>
                 <div className="flex gap-2 pt-2">
-                  <Button variant="outline" className="flex-1" onClick={handleCancelAddRoute}>
+                  <Button
+                    variant="outline"
+                    className="flex-1"
+                    onClick={handleCancelAddRoute}>
                     Cancel
                   </Button>
                   <Button
                     className="flex-1"
                     onClick={handleSaveRoute}
-                    disabled={!newRoute.title || !newRoute.origin || !newRoute.destination}
-                  >
+                    disabled={
+                      !newRoute.title ||
+                      !newRoute.origin ||
+                      !newRoute.destination
+                    }>
                     Save Route
                   </Button>
                 </div>
@@ -279,39 +343,54 @@ export default function MapPage() {
             </Card>
           )}
 
-          {filteredRoutes.map((route) => (
-            <Card
-              key={route.id}
-              className={`cursor-pointer hover:shadow-md ${
-                selectedRoute === route.id ? "ring-2 ring-blue-500" : ""
-              }`}
-              onClick={() => {
-                setSelectedRoute(route.id);
-                calculateRoute(route);
-              }}
-            >
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div>
-                    <CardTitle className="text-lg">{route.title}</CardTitle>
-                    <CardDescription className="flex items-center gap-1 mt-1">
-                      <RouteIcon className="h-3 w-3" />
-                      <span className="text-sm">
-                        {route.origin} → {route.destination}
-                      </span>
-                    </CardDescription>
+          {filteredRoutes
+            .filter((route) => route.id !== editingRouteId) // 👈 hide the one being edited
+            .map((route) => (
+              <Card
+                key={route.id}
+                className={`cursor-pointer hover:shadow-md ${
+                  selectedRoute === route.id ? "ring-2 ring-blue-500" : ""
+                }`}
+                onClick={() => {
+                  setSelectedRoute(route.id);
+                  calculateRoute(route);
+                }}>
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <CardTitle className="text-lg">{route.title}</CardTitle>
+                      <CardDescription className="flex items-center gap-1 mt-1">
+                        <RouteIcon className="h-3 w-3" />
+                        <span className="text-sm">
+                          {route.origin} → {route.destination}
+                        </span>
+                      </CardDescription>
+                    </div>
+                    <Badge variant="secondary">{route.category}</Badge>
                   </div>
-                  <Badge variant="secondary">{route.category}</Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  <Clock className="h-3 w-3" />
-                  <span>{route.frequency}</span>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    <Clock className="h-3 w-3" />
+                    <span>{route.frequency}</span>
+                  </div>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    className="cursor-pointer hover:bg-red-700 mt-2"
+                    onClick={() => handleDeleteRoute(route.id)}>
+                    Delete
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="cursor-pointer hover:bg-gray-200 mt-2"
+                    onClick={() => handleEditRoute(route.id)}>
+                    Edit
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
         </div>
       </div>
     </div>

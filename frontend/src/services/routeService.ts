@@ -8,6 +8,8 @@ export interface Route {
   destination: string;
   category: string;
   frequency: string;
+  distance?: number;
+  duration?: number;
   coordinates: {
     source: { lat: number; lng: number };
     destination: { lat: number; lng: number };
@@ -15,8 +17,8 @@ export interface Route {
 }
 
 // Fetch all routes
-export async function getRoutes(): Promise<Route[]> {
-  return apiFetch("/api/routes", { method: "GET" });
+export async function getRoutes(userId: string): Promise<Route[]> {
+  return apiFetch(`/api/routes/user-routes/${userId}`, { method: "GET" });
 }
 
 // Fetch a single route
@@ -38,7 +40,7 @@ export async function updateRoute(
   id: string,
   updates: Partial<Route>
 ): Promise<Route> {
-  return apiFetch(`/api/routes/${id}`, {
+  return apiFetch(`/api/routes/update-route/${id}`, {
     method: "PUT",
     body: JSON.stringify(updates),
   });
@@ -46,7 +48,7 @@ export async function updateRoute(
 
 // Delete a route
 export async function deleteRoute(id: string): Promise<void> {
-  return apiFetch(`/api/routes/${id}`, { method: "DELETE" });
+  return apiFetch(`/api/routes/delete-route/${id}`, { method: "DELETE" });
 }
 
 // Geocode address → LatLng
