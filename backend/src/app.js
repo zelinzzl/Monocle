@@ -7,9 +7,8 @@ import healthRoutes from './routes/health-check.js';
 import authRoutes from './routes/auth.js';
 import destinationRoutes from './routes/destinations.js';
 import alertsRoutes from './routes/alerts-routes.js';
-import insuranceRoutes from './routes/insurance-routes.js'; // Add this import
-import groutesRoutes from './routes/groutes-routes.js'; // Add this import
-
+import insuranceRoutes from './routes/insurance-routes.js'; // Add this import // Add this import
+import routesRoutes from './routes/routes-routes.js'; // Import the new routes file
 dotenv.config();
 
 const app = express();
@@ -39,7 +38,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/destinations', destinationRoutes);
 app.use('/api/alerts', alertsRoutes);
 app.use('/api/insurance', insuranceRoutes); 
-app.use('/api/routes', groutesRoutes);
+app.use('/api/routes', routesRoutes); 
+
 
 app.get('/', (req, res) => {
   res.send('✅ Backend is running...');
