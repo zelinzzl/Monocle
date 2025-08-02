@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import { InsuredAsset, SortBy } from "@/types/insure";
-import { mockAssets } from "@/data/mockAssets";
 import { filterAndSortAssets } from "@/utils/assetFilters";
 
 export const useAssetsManager = () => {
-  const [assets, setAssets] = useState<InsuredAsset[]>(mockAssets);
+  const [assets, setAssets] = useState<InsuredAsset[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState<SortBy>("itemName");
   // const [filterBy, setFilterBy] = useState<FilterBy>("all");
@@ -19,10 +18,11 @@ export const useAssetsManager = () => {
     // filterBy,
   });
 
-  const handleAddAsset = () => {
-    console.log("Add new asset");
-  };
 
+  const handleAddAsset = (newAsset: InsuredAsset) => {
+    setAssets((prev) => [...prev, newAsset]);
+  };
+  
   const handleRemoveAssets = () => {
     if (selectedAssets.length > 0) {
       setAssets(assets.filter((asset) => !selectedAssets.includes(asset.id)));
