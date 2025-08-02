@@ -1,201 +1,186 @@
 "use client";
 
+import RiskSummaryCard from "@/components/dashboard/RiskSummaryCard";
+import RouteRiskChart from "@/components/dashboard/RouteRiskChart";
+import { AlertTriangleIcon, CloudRainIcon, ShieldIcon, CarIcon } from 'lucide-react';
+
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-} from "@/components/UI/table";
-import { Progress } from "@/components/UI/progress";
 
 export default function DashboardPage() {
   const router = useRouter();
 
-  // Mock data
-  const claims = [
-    {
-      policy: "Auto - 2023 Honda Accord",
-      date: "2023-06-12",
-      type: "Collision",
-      status: "Approved",
-      amount: "$2,450.00",
-    },
-    {
-      policy: "Home - 123 Main St",
-      date: "2023-06-10",
-      type: "Water Damage",
-      status: "In Review",
-      amount: "$5,200.00",
-    },
-  ];
-
-  const hasClaims = claims.length > 0;
-
+  const routeRiskData = {
+    critical: 12,
+    high: 8,
+    medium: 15,
+    good: 23
+  };
+  const recentAlerts = [{
+    id: 1,
+    title: 'Severe hailstorm warning',
+    location: 'N1 Highway, Midrand',
+    time: '15 minutes ago',
+    icon: <CloudRainIcon className="h-5 w-5 text-red-500" />
+  }, {
+    id: 2,
+    title: 'Flash flood alert',
+    location: 'R21 near OR Tambo',
+    time: '35 minutes ago',
+    icon: <AlertTriangleIcon className="h-5 w-5 text-amber-500" />
+  }, {
+    id: 3,
+    title: 'Heavy rain warning',
+    location: 'M1 South, Johannesburg',
+    time: '1 hour ago',
+    icon: <CloudRainIcon className="h-5 w-5 text-amber-500" />
+  }];
+  const riskSummaries = [{
+    title: 'Protected Routes',
+    count: routeRiskData.good,
+    icon: <ShieldIcon className="h-6 w-6 text-green-500" />,
+    color: 'bg-green-100 text-green-800',
+    description: 'Routes with minimal weather risks'
+  }, {
+    title: 'At-Risk Routes',
+    count: routeRiskData.critical + routeRiskData.high + routeRiskData.medium,
+    icon: <AlertTriangleIcon className="h-6 w-6 text-red-500" />,
+    color: 'bg-red-100 text-red-800',
+    description: 'Routes with potential weather hazards'
+  }, {
+    title: 'Monitored Vehicles',
+    count: 5,
+    icon: <CarIcon className="h-6 w-6 text-blue-500" />,
+    color: 'bg-blue-100 text-blue-800',
+    description: 'Vehicles currently being tracked'
+  }];
   return (
-    <main className="flex min-h-screen w-full flex-col p-4 md:p-8 gap-6">
-      {/* Welcome Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Welcome back, {}</h1>
-          <p className="text-muted-foreground">
-            Here&apos;s what&apos;s happening with your insurance portfolio today.
-          </p>
-        </div>
-      </div>
+    <main >
 
-      {/* CTA - Submit Claim if no claims */}
-      {!hasClaims && (
-        <Card>
-          <CardContent className="p-6 text-center">
-            <h2 className="text-lg font-semibold mb-2">
-              No claims submitted yet
-            </h2>
-            <p className="text-muted-foreground mb-4">
-              Get started by submitting your first insurance claim.
+
+
+    
+   <div >
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <main className="flex-1 overflow-y-auto p-6">
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-dark">
+              Travel Risk Dashboard
+            </h1>
+            <p className="text-muted-foreground">
+              Monitor weather-related travel risks in real-time
             </p>
-            <Button onClick={() => router.push("/claims/new")}>
-              Submit New Claim
-            </Button>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {/* Example stat card */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Claims This Year</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{claims.length}</div>
-            <p className="text-sm text-muted-foreground">+2 this quarter</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Open Claims</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {claims.filter((c) => c.status !== "Paid").length}
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Left Column - Cards */}
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {riskSummaries.map((summary, index) => <RiskSummaryCard key={index} title={summary.title} count={summary.count} icon={summary.icon} color={summary.color} description={summary.description} />)}
+              </div>
+              <div className="bg-background rounded-lg shadow p-6">
+                <h2 className="text-lg font-semibold mb-4">
+                  Recent Weather Alerts
+                </h2>
+                <div className="space-y-4">
+                  {recentAlerts.map(alert => <div key={alert.id} className="flex items-start border-b pb-3 last:border-0 last:pb-0">
+                      <div className="p-2 rounded-full bg-sidebar mr-3">
+                        {alert.icon}
+                      </div>
+                      <div>
+                        <h3 className="font-medium">{alert.title}</h3>
+                        <p className="text-sm text-muted-foreground">
+                          {alert.location}
+                        </p>
+                        <p className="text-xs text-gray-500">{alert.time}</p>
+                      </div>
+                    </div>)}
+                </div>
+              </div>
+              <div className="bg-background rounded-lg shadow p-6">
+                <h2 className="text-lg font-semibold mb-4 text-dark">
+                  Travel Recommendations
+                </h2>
+                <ul className="space-y-2">
+                  <li className="flex items-center text-sm">
+                    <span className="w-2 h-2 rounded-full bg-red-500 mr-2"></span>
+                    Avoid N1 Highway near Midrand due to severe hail forecast
+                  </li>
+                  <li className="flex items-center text-sm">
+                    <span className="w-2 h-2 rounded-full bg-amber-500 mr-2"></span>
+                    Consider alternative routes to R21 due to flash flood
+                    warnings
+                  </li>
+                  <li className="flex items-center text-sm">
+                    <span className="w-2 h-2 rounded-full bg-green-500 mr-2"></span>
+                    M5 and N2 routes currently showing good weather conditions
+                  </li>
+                </ul>
+              </div>
             </div>
-            <p className="text-sm text-muted-foreground">Pending resolution</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Chat Interactions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">3</div>
-            <Button
-              variant="link"
-              className="text-sm px-0"
-              onClick={() => router.push("/chat")}
-            >
-              View latest conversation
-            </Button>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Processed Queue</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Progress value={75} className="h-2" />
-            <p className="text-xs text-muted-foreground mt-2">
-              3 of 4 processed
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Recently Viewed Claims */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Recently Viewed Claims</CardTitle>
-          <CardDescription>
-            Quick access to claims you checked recently
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          {claims.slice(0, 2).map((claim, idx) => (
-            <div
-              key={idx}
-              className="p-3 border rounded-md hover:bg-accent cursor-pointer"
-              onClick={() => router.push(`/claims/${idx}`)}
-            >
-              <div className="font-medium">{claim.policy}</div>
-              <div className="text-sm text-muted-foreground">{claim.type}</div>
+            {/* Right Column - Chart */}
+            <div className="bg-background rounded-lg shadow p-6">
+              <h2 className="text-lg font-semibold mb-4">
+                Route Risk Analysis
+              </h2>
+              <RouteRiskChart data={routeRiskData} />
+              <div className="mt-6 grid grid-cols-2 gap-4">
+                <div className="bg-sidebar p-4 rounded-lg">
+                  <h3 className="text-sm font-medium text-dark">
+                    Risk Breakdown
+                  </h3>
+                  <ul className="mt-2 space-y-1">
+                    <li className="flex justify-between items-center text-sm">
+                      <span className="flex items-center">
+                        <span className="w-3 h-3 rounded-full bg-red-500 mr-2"></span>
+                        Critical Risk
+                      </span>
+                      <span className="font-medium">
+                        {routeRiskData.critical}
+                      </span>
+                    </li>
+                    <li className="flex justify-between items-center text-sm">
+                      <span className="flex items-center">
+                        <span className="w-3 h-3 rounded-full bg-amber-500 mr-2"></span>
+                        High Risk
+                      </span>
+                      <span className="font-medium">{routeRiskData.high}</span>
+                    </li>
+                    <li className="flex justify-between items-center text-sm">
+                      <span className="flex items-center">
+                        <span className="w-3 h-3 rounded-full bg-yellow-400 mr-2"></span>
+                        Medium Risk
+                      </span>
+                      <span className="font-medium">
+                        {routeRiskData.medium}
+                      </span>
+                    </li>
+                    <li className="flex justify-between items-center text-sm">
+                      <span className="flex items-center">
+                        <span className="w-3 h-3 rounded-full bg-green-500 mr-2"></span>
+                        Good Conditions
+                      </span>
+                      <span className="font-medium">{routeRiskData.good}</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="bg-sidebar p-4 rounded-lg">
+                  <h3 className="text-sm font-medium text-dark">
+                    Risk Mitigation
+                  </h3>
+                  <p className="mt-2 text-sm text-gray">
+                    {Math.round(routeRiskData.good / Object.values(routeRiskData).reduce((a, b) => a + b, 0) * 100)}
+                    % of routes currently have good weather conditions. Consider
+                    rescheduling travel for high-risk routes.
+                  </p>
+                </div>
+              </div>
             </div>
-          ))}
-        </CardContent>
-      </Card>
-
-      {/* Claims History Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Claims History</CardTitle>
-          <CardDescription>Details of your insurance claims</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <table className="w-full text-sm">
-            <TableHeader>
-              <TableRow>
-                <TableHead>Policy</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Amount</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {claims.map((claim, index) => (
-                <TableRow key={index}>
-                  <TableCell>{claim.policy}</TableCell>
-                  <TableCell>{claim.date}</TableCell>
-                  <TableCell>{claim.type}</TableCell>
-                  <TableCell>
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs ${
-                        claim.status === "Approved" || claim.status === "Paid"
-                          ? "bg-green-100 text-green-800"
-                          : claim.status === "In Review"
-                            ? "bg-yellow-100 text-yellow-800"
-                            : "bg-blue-100 text-blue-800"
-                      }`}
-                    >
-                      {claim.status}
-                    </span>
-                  </TableCell>
-                  <TableCell className="text-right">{claim.amount}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </table>
-        </CardContent>
-      </Card>
-
-      {/* Submit + Close Claims */}
-      <div className="flex justify-between gap-4">
-        <Button onClick={() => router.push("/claims/new")}>
-          Submit New Claim
-        </Button>
-        <Button variant="outline" disabled>
-          Close Selected Claims
-        </Button>
+          </div>
+        </main>
       </div>
+    </div>
+    
+    
+
     </main>
   );
 }
