@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Icon } from "../ui/icons/Icon";
-import Logo from "../logo/Logo";
+import Logo from "../Logo/Logo";
 import { P } from "../ui/typography";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
@@ -41,15 +41,15 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
 
   const sidebarContent = (
     <div className="flex h-full flex-col gap-2">
-    <div className="flex h-14 items-center border-b px-4 lg:h-[60px]">
-      <Link href="/" className="flex items-center gap-10 font-semibold">
-        <Logo size={logoSize} />
-        {!isCollapsed && <P className="text-lg justify-center">MONOCLE</P>}
-      </Link>
-    </div>
+      <div className="flex h-14 items-center border-b px-4 lg:h-[60px]">
+        <Link href="/" className="flex items-center gap-10 font-semibold">
+          <Logo size={logoSize} />
+          {!isCollapsed && <P className="text-lg justify-center">MONOCLE</P>}
+        </Link>
+      </div>
 
-    <div className="flex-1 flex flex-col overflow-y-auto">
-    <nav className="grid items-start px-2 gap-3 text-sm font-medium">
+      <div className="flex-1 flex flex-col overflow-y-auto">
+        <nav className="grid items-start px-2 gap-3 text-sm font-medium">
           <Link
             href="/home"
             className={cn(
@@ -106,14 +106,14 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
           </Link> */}
 
           <Link
-            href="/map"
+            href="/routes"
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-              pathname === "/map" && "bg-muted text-primary"
+              pathname === "/routes" && "bg-muted text-primary"
             )}
           >
             <Icon name="Map" size={"lg"} />
-            {!isCollapsed && <P className="text-lg">Map</P>}
+            {!isCollapsed && <P className="text-lg">Routes</P>}
           </Link>
 
           <Link
