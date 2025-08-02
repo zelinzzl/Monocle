@@ -63,7 +63,7 @@ function DashboardHeader({
         />
       </Button>
 
-      <P className="w-full">Insurance portal</P>
+      {/* <P className="w-full">Insurance portal</P> */}
 
       <div className="flex w-full items-center justify-end gap-4">
         <ThemeSwitcher />
@@ -144,12 +144,12 @@ function DashboardHeader({
         <Popover>
           <PopoverTrigger asChild>
             <Avatar className="cursor-pointer">
-              <AvatarImage src={user?.avatar_url} alt="@shadcn" />
+              <AvatarImage src={user?.profilePictureUrl} alt="@shadcn" />
               <AvatarFallback>{}</AvatarFallback>
             </Avatar>
           </PopoverTrigger>
           <PopoverContent className="w-64 p-4" align="end">
-            <div className="text-sm font-medium mb-1">{user?.name}</div>
+            <div className="text-sm font-medium mb-1">{user?.firstName}{user?.lastName}</div>
             <div className="text-sm text-muted-foreground mb-3">
               {user?.email}
             </div>

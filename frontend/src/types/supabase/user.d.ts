@@ -1,8 +1,13 @@
 export interface User {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  avatar_url?: string;
+  profilePictureUrl?: string;
   created_at: string;
   role?: string;
+  settings?: {
+    emailNotifications?: boolean;
+    twoFactorEnabled?: boolean;
+  };
 }
