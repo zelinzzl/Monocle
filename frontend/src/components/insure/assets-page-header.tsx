@@ -28,8 +28,8 @@ export const AssetsPageHeader = ({
 
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <div className="flex gap-2">
-          <Button onClick={onAddAsset} className="flex items-center gap-2">
-            <Icon name="Plus" />
+          <Button onClick={onAddAsset} className="flex bg-foreground items-center gap-2">
+            <Icon name="Plus" className="text-background"/>
             Add
           </Button>
 

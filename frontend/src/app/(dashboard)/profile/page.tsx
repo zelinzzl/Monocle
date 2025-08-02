@@ -203,7 +203,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <div className="w-full">
+      <div className="w-full g-20">
         <CardContent>
           {/* 🔥 UPDATED: Success Message with Close Button */}
           {successMessage && (
@@ -315,54 +315,12 @@ export default function ProfilePage() {
                     />
                   </div>
                 </div>
-
-                <div className="flex-1 space-y-4">
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">Settings</h3>
-                    
-                    <div className="flex items-center justify-between">
-                      <Label htmlFor="emailNotifications">
-                        Email Notifications
-                      </Label>
-                      <Switch
-                        id="emailNotifications"
-                        checked={profile.emailNotifications}
-                        onCheckedChange={() =>
-                          isEditing && handleToggle("emailNotifications")
-                        }
-                        disabled={!isEditing}
-                      />
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <Label htmlFor="twoFactorAuth">
-                        Two-Factor Authentication
-                      </Label>
-                      <Switch
-                        id="twoFactorAuth"
-                        checked={profile.twoFactorAuth}
-                        onCheckedChange={() =>
-                          isEditing && handleToggle("twoFactorAuth")
-                        }
-                        disabled={!isEditing}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Account Info */}
-                  <div className="pt-4 border-t">
-                    <h4 className="text-sm font-semibold text-muted-foreground mb-2">Account Info</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Member since: {new Date(user?.createdAt || '').toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
         </CardContent>
 
-        <CardFooter className="flex flex-row items-center justify-between">
+        <CardFooter className="flex flex-row items-center justify-between pt-10">
           <div></div>
           <div className="space-x-2">
             {isEditing ? (

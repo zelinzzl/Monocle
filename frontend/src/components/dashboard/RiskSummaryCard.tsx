@@ -15,7 +15,7 @@ const RiskSummaryCard: React.FC<RiskSummaryCardProps> = ({
   color,
   description
 }) => {
-  return <div className="bg-background rounded-lg shadow p-4">
+  return <div className="bg-background rounded-lg p-4">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-sm font-medium text-dark">{title}</h3>
         <div className={`p-2 rounded-full ${color.split(' ')[0]}`}>{icon}</div>

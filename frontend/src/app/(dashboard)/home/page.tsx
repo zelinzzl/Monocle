@@ -472,7 +472,7 @@ export default function DashboardPage() {
               )}
 
               {/* Debug Panel - Remove in production */}
-              <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-lg text-xs">
+              {/* <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-lg text-xs">
                 <details>
                   <summary className="cursor-pointer text-gray-600 hover:text-gray-800">
                     🔧 Debug Info (Click to expand)
@@ -486,7 +486,7 @@ export default function DashboardPage() {
                     <p>• Alert IDs: {displayAlerts.map(a => a.id).join(', ')}</p>
                   </div>
                 </details>
-              </div>
+              </div> */}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -514,18 +514,18 @@ export default function DashboardPage() {
                       {displayAlerts.length} active alerts
                     </span>
                   </div>
-                  <div className="space-y-4 max-h-96 overflow-y-auto">
+                  <div className="space-y-4 max-h-96">
                     {displayAlerts.length > 0 ? (
                       displayAlerts.slice(0, 5).map((alert) => (
                         <div
                           key={alert.id}
                           className={`flex items-start border-b pb-3 last:border-0 last:pb-0 p-3 rounded-lg ${getSeverityColor(alert.severity)}`}
                         >
-                          <div className="p-2 rounded-full bg-white mr-3">
+                          <div className="p-2 rounded-full bg-background mr-3">
                             {getAlertIcon(alert)}
                           </div>
                           <div className="flex-1">
-                            <h3 className="font-medium text-sm">{alert.title}</h3>
+                            <h3 className="font-medium text-black text-sm">{alert.title}</h3>
                             <p className="text-sm text-muted-foreground mt-1">
                               {alert.message}
                             </p>
@@ -534,7 +534,7 @@ export default function DashboardPage() {
                                 <MapPinIcon className="h-3 w-3 mr-1" />
                                 {alert.location}
                               </p>
-                              <p className="text-xs text-gray-500">{alert.time}</p>
+                              <p className="text-xs text-black">{alert.time}</p>
                             </div>
                           </div>
                         </div>
@@ -636,7 +636,7 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Quick Risk Assessment Feature */}
-                <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <div className="mt-6 p-4 bg-background rounded-lg border border-blue-200">
                   <h3 className="text-sm font-medium text-dark mb-2">
                     Current Location Risk Check
                   </h3>
