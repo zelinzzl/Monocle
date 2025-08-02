@@ -9,6 +9,7 @@ import destinationRoutes from './routes/destinations.js';
 import alertsRoutes from './routes/alerts-routes.js';
 import insuranceRoutes from './routes/insurance-routes.js'; // Add this import
 import groutesRoutes from './routes/groutes-routes.js'; // Add this import
+import mlRoutes from './routes/ml-Routes.js';
 
 dotenv.config();
 
@@ -40,6 +41,7 @@ app.use('/api/destinations', destinationRoutes);
 app.use('/api/alerts', alertsRoutes);
 app.use('/api/insurance', insuranceRoutes); 
 app.use('/api/routes', groutesRoutes);
+app.use('/api/ml', mlRoutes);
 
 app.get('/', (req, res) => {
   res.send('✅ Backend is running...');

@@ -1,0 +1,386 @@
+{
+  "weather_incidents": [
+    {
+      "date": "2024-12-15",
+      "event_type": "hailstorm",
+      "location": "Johannesburg",
+      "severity": "severe",
+      "insurance_claims": 2850,
+      "total_damage": 125000000,
+      "vehicles_affected": 18500,
+      "average_claim": 43750
+    },
+    {
+      "date": "2024-11-22",
+      "event_type": "flooding",
+      "location": "Cape Town",
+      "severity": "moderate",
+      "insurance_claims": 680,
+      "total_damage": 28000000,
+      "vehicles_affected": 3200,
+      "average_claim": 41176
+    },
+    {
+      "date": "2024-10-18",
+      "event_type": "severe_wind",
+      "location": "Port Elizabeth",
+      "severity": "high",
+      "insurance_claims": 420,
+      "total_damage": 15000000,
+      "vehicles_affected": 1800,
+      "average_claim": 35714
+    },
+    {
+      "date": "2024-09-08",
+      "event_type": "hailstorm",
+      "location": "Pretoria",
+      "severity": "moderate",
+      "insurance_claims": 1250,
+      "total_damage": 48000000,
+      "vehicles_affected": 8500,
+      "average_claim": 38400
+    },
+    {
+      "date": "2024-08-12",
+      "event_type": "frost_damage",
+      "location": "Bloemfontein",
+      "severity": "low",
+      "insurance_claims": 180,
+      "total_damage": 3200000,
+      "vehicles_affected": 850,
+      "average_claim": 17778
+    },
+    {
+      "date": "2024-07-03",
+      "event_type": "flooding",
+      "location": "Durban",
+      "severity": "severe",
+      "insurance_claims": 1850,
+      "total_damage": 95000000,
+      "vehicles_affected": 12000,
+      "average_claim": 51351
+    },
+    {
+      "date": "2024-05-25",
+      "event_type": "hailstorm",
+      "location": "East Rand",
+      "severity": "high",
+      "insurance_claims": 980,
+      "total_damage": 35000000,
+      "vehicles_affected": 6200,
+      "average_claim": 35714
+    },
+    {
+      "date": "2024-04-14",
+      "event_type": "severe_thunderstorm",
+      "location": "Nelspruit",
+      "severity": "moderate",
+      "insurance_claims": 320,
+      "total_damage": 12000000,
+      "vehicles_affected": 1950,
+      "average_claim": 37500
+    },
+    {
+      "date": "2024-03-08",
+      "event_type": "flooding",
+      "location": "Richards Bay",
+      "severity": "high",
+      "insurance_claims": 550,
+      "total_damage": 22000000,
+      "vehicles_affected": 2800,
+      "average_claim": 40000
+    },
+    {
+      "date": "2024-02-20",
+      "event_type": "hailstorm",
+      "location": "Sandton",
+      "severity": "severe",
+      "insurance_claims": 1650,
+      "total_damage": 78000000,
+      "vehicles_affected": 9500,
+      "average_claim": 47273
+    },
+    {
+      "date": "2024-01-15",
+      "event_type": "severe_wind",
+      "location": "Cape Town",
+      "severity": "high",
+      "insurance_claims": 890,
+      "total_damage": 32000000,
+      "vehicles_affected": 4200,
+      "average_claim": 35955
+    }
+  ],
+  "crime_trends": [
+    {
+      "year": 2024,
+      "month": 12,
+      "province": "Gauteng",
+      "hijackings": 1850,
+      "vehicle_theft": 2650,
+      "smash_and_grab": 3200,
+      "trend_change": 8.5,
+      "hotspots": ["Johannesburg CBD", "Hillbrow", "Alexandra", "Sandton"]
+    },
+    {
+      "year": 2024,
+      "month": 11,
+      "province": "Gauteng",
+      "hijackings": 1680,
+      "vehicle_theft": 2420,
+      "smash_and_grab": 2950,
+      "trend_change": 12.2,
+      "hotspots": ["Johannesburg CBD", "Hillbrow", "Alexandra"]
+    },
+    {
+      "year": 2024,
+      "month": 10,
+      "province": "Gauteng",
+      "hijackings": 1520,
+      "vehicle_theft": 2280,
+      "smash_and_grab": 2750,
+      "trend_change": 6.8,
+      "hotspots": ["Johannesburg CBD", "Sandton", "Roodepoort"]
+    },
+    {
+      "year": 2024,
+      "month": 12,
+      "province": "Western Cape",
+      "hijackings": 950,
+      "vehicle_theft": 1850,
+      "smash_and_grab": 2100,
+      "trend_change": 15.3,
+      "hotspots": ["Cape Flats", "Khayelitsha", "Mitchells Plain"]
+    },
+    {
+      "year": 2024,
+      "month": 11,
+      "province": "Western Cape",
+      "hijackings": 820,
+      "vehicle_theft": 1650,
+      "smash_and_grab": 1850,
+      "trend_change": 9.2,
+      "hotspots": ["Cape Flats", "Khayelitsha"]
+    },
+    {
+      "year": 2024,
+      "month": 12,
+      "province": "KwaZulu-Natal",
+      "hijackings": 780,
+      "vehicle_theft": 1450,
+      "smash_and_grab": 1250,
+      "trend_change": 11.8,
+      "hotspots": ["Umlazi", "Phoenix", "Durban Central"]
+    },
+    {
+      "year": 2024,
+      "month": 11,
+      "province": "KwaZulu-Natal",
+      "hijackings": 695,
+      "vehicle_theft": 1280,
+      "smash_and_grab": 1120,
+      "trend_change": 7.5,
+      "hotspots": ["Umlazi", "Phoenix"]
+    }
+  ],
+  "accident_statistics": [
+    {
+      "year": 2024,
+      "month": 12,
+      "total_accidents": 15850,
+      "fatal_accidents": 1250,
+      "injury_accidents": 8900,
+      "property_damage": 5700,
+      "weather_related": 2800,
+      "alcohol_related": 3200,
+      "speed_related": 4500,
+      "peak_hours": [16, 17, 18, 19, 20, 21, 22, 23],
+      "peak_days": ["Friday", "Saturday", "Sunday"]
+    },
+    {
+      "year": 2024,
+      "month": 11,
+      "total_accidents": 14200,
+      "fatal_accidents": 1080,
+      "injury_accidents": 7950,
+      "property_damage": 5170,
+      "weather_related": 1950,
+      "alcohol_related": 2850,
+      "speed_related": 4100,
+      "peak_hours": [16, 17, 18, 19, 20, 21],
+      "peak_days": ["Friday", "Saturday"]
+    },
+    {
+      "year": 2024,
+      "month": 10,
+      "total_accidents": 13800,
+      "fatal_accidents": 1120,
+      "injury_accidents": 7650,
+      "property_damage": 5030,
+      "weather_related": 1200,
+      "alcohol_related": 2750,
+      "speed_related": 3950,
+      "peak_hours": [16, 17, 18, 19, 20],
+      "peak_days": ["Friday", "Saturday"]
+    }
+  ],
+  "vehicle_theft_patterns": {
+    "most_stolen_by_month": {
+      "January": [
+        {"make": "Toyota", "model": "Hilux", "incidents": 285},
+        {"make": "Toyota", "model": "Fortuner", "incidents": 265},
+        {"make": "BMW", "model": "3 Series", "incidents": 195}
+      ],
+      "February": [
+        {"make": "Toyota", "model": "Hilux", "incidents": 275},
+        {"make": "Toyota", "model": "Fortuner", "incidents": 255},
+        {"make": "Ford", "model": "Ranger", "incidents": 185}
+      ],
+      "March": [
+        {"make": "Toyota", "model": "Hilux", "incidents": 235},
+        {"make": "BMW", "model": "3 Series", "incidents": 175},
+        {"make": "VW", "model": "Polo", "incidents": 165}
+      ],
+      "April": [
+        {"make": "Toyota", "model": "Hilux", "incidents": 225},
+        {"make": "Toyota", "model": "Fortuner", "incidents": 195},
+        {"make": "BMW", "model": "3 Series", "incidents": 155}
+      ],
+      "May": [
+        {"make": "Toyota", "model": "Hilux", "incidents": 210},
+        {"make": "VW", "model": "Polo", "incidents": 145},
+        {"make": "Toyota", "model": "Corolla", "incidents": 135}
+      ],
+      "June": [
+        {"make": "Toyota", "model": "Hilux", "incidents": 195},
+        {"make": "Ford", "model": "Ranger", "incidents": 125},
+        {"make": "BMW", "model": "3 Series", "incidents": 115}
+      ],
+      "July": [
+        {"make": "Toyota", "model": "Hilux", "incidents": 185},
+        {"make": "Toyota", "model": "Fortuner", "incidents": 155},
+        {"make": "VW", "model": "Polo", "incidents": 125}
+      ],
+      "August": [
+        {"make": "Toyota", "model": "Hilux", "incidents": 205},
+        {"make": "BMW", "model": "3 Series", "incidents": 145},
+        {"make": "Toyota", "model": "Corolla", "incidents": 125}
+      ],
+      "September": [
+        {"make": "Toyota", "model": "Hilux", "incidents": 225},
+        {"make": "Toyota", "model": "Fortuner", "incidents": 185},
+        {"make": "Ford", "model": "Ranger", "incidents": 155}
+      ],
+      "October": [
+        {"make": "Toyota", "model": "Hilux", "incidents": 245},
+        {"make": "BMW", "model": "3 Series", "incidents": 175},
+        {"make": "Toyota", "model": "Fortuner", "incidents": 165}
+      ],
+      "November": [
+        {"make": "Toyota", "model": "Hilux", "incidents": 265},
+        {"make": "Toyota", "model": "Fortuner", "incidents": 235},
+        {"make": "BMW", "model": "3 Series", "incidents": 185}
+      ],
+      "December": [
+        {"make": "Toyota", "model": "Hilux", "incidents": 295},
+        {"make": "Toyota", "model": "Fortuner", "incidents": 275},
+        {"make": "BMW", "model": "3 Series", "incidents": 205}
+      ]
+    },
+    "theft_methods": {
+      "hijacking": {
+        "percentage": 35,
+        "peak_hours": [19, 20, 21, 22, 23, 0, 1, 2],
+        "common_locations": ["traffic_lights", "driveways", "shopping_centers"],
+        "seasonal_trend": "increases_december_january"
+      },
+      "theft_from_premises": {
+        "percentage": 40,
+        "peak_hours": [2, 3, 4, 5, 6],
+        "common_locations": ["residential_driveways", "apartment_complexes", "office_parking"],
+        "seasonal_trend": "consistent_year_round"
+      },
+      "smash_and_grab": {
+        "percentage": 20,
+        "peak_hours": [16, 17, 18, 19, 20],
+        "common_locations": ["traffic_intersections", "shopping_centers", "ATMs"],
+        "seasonal_trend": "increases_holiday_seasons"
+      },
+      "key_theft": {
+        "percentage": 5,
+        "peak_hours": [10, 11, 12, 13, 14],
+        "common_locations": ["restaurants", "gyms", "offices"],
+        "seasonal_trend": "slight_increase_summer"
+      }
+    }
+  },
+  "insurance_claim_patterns": {
+    "monthly_averages_2024": [
+      {"month": 1, "total_claims": 28500, "average_amount": 45600, "weather_claims": 8500},
+      {"month": 2, "total_claims": 26200, "average_amount": 42300, "weather_claims": 7200},
+      {"month": 3, "total_claims": 24800, "average_amount": 41100, "weather_claims": 3800},
+      {"month": 4, "total_claims": 23500, "average_amount": 39800, "weather_claims": 2100},
+      {"month": 5, "total_claims": 22100, "average_amount": 38500, "weather_claims": 1800},
+      {"month": 6, "total_claims": 20800, "average_amount": 37200, "weather_claims": 1500},
+      {"month": 7, "total_claims": 21500, "average_amount": 38900, "weather_claims": 2200},
+      {"month": 8, "total_claims": 22800, "average_amount": 40100, "weather_claims": 1900},
+      {"month": 9, "total_claims": 24200, "average_amount": 41500, "weather_claims": 3200},
+      {"month": 10, "total_claims": 25600, "average_amount": 43200, "weather_claims": 4500},
+      {"month": 11, "total_claims": 27800, "average_amount": 44800, "weather_claims": 6800},
+      {"month": 12, "total_claims": 31200, "average_amount": 48500, "weather_claims": 9200}
+    ],
+    "claim_types_distribution": {
+      "collision": {"percentage": 35, "average_cost": 52000},
+      "theft": {"percentage": 25, "average_cost": 285000},
+      "weather_damage": {"percentage": 20, "average_cost": 38000},
+      "vandalism": {"percentage": 8, "average_cost": 15000},
+      "fire": {"percentage": 3, "average_cost": 180000},
+      "flood": {"percentage": 6, "average_cost": 95000},
+      "other": {"percentage": 3, "average_cost": 25000}
+    }
+  },
+  "seasonal_risk_patterns": {
+    "summer_risks": {
+      "months": [12, 1, 2],
+      "dominant_weather": ["thunderstorms", "hail", "flooding"],
+      "crime_increase_percentage": 35,
+      "accident_increase_percentage": 28,
+      "travel_volume_increase": 45,
+      "high_risk_days": ["December 16-January 15", "Easter weekend"],
+      "insurance_claims_spike": 40
+    },
+    "winter_risks": {
+      "months": [6, 7, 8],
+      "dominant_weather": ["frost", "mist", "cold_snaps"],
+      "crime_decrease_percentage": 12,
+      "accident_increase_percentage": 15,
+      "travel_volume_decrease": 15,
+      "high_risk_factors": ["reduced_visibility", "icy_conditions", "vehicle_breakdown"],
+      "insurance_claims_change": -8
+    },
+    "festive_season_impact": {
+      "period": "December 1 - January 15",
+      "crime_spike": 45,
+      "accident_spike": 35,
+      "weather_claims_spike": 50,
+      "rural_travel_increase": 65,
+      "cross_border_crime_increase": 28,
+      "emergency_services_strain": "high"
+    }
+  },
+  "road_conditions_sa": {
+    "highway_accident_rates": {
+      "N1": {"accidents_per_100km": 2.8, "peak_seasons": ["December", "April", "July"]},
+      "N2": {"accidents_per_100km": 2.1, "peak_seasons": ["December", "January"]},
+      "N3": {"accidents_per_100km": 3.2, "peak_seasons": ["December", "April"]},
+      "N4": {"accidents_per_100km": 2.4, "peak_seasons": ["December", "July"]},
+      "R300": {"accidents_per_100km": 4.1, "peak_seasons": ["All year"]},
+      "M1": {"accidents_per_100km": 5.2, "peak_seasons": ["All year"]}
+    },
+    "construction_zones": [
+      {"highway": "N1", "section": "Johannesburg-Pretoria", "risk_increase": 1.8},
+      {"highway": "N2", "section": "Cape Town-Somerset West", "risk_increase": 1.6},
+      {"highway": "N3", "section": "Durban-Pietermaritzburg", "risk_increase": 1.9}
+    ]
+  }
+}
