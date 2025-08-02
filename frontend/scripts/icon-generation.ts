@@ -89,7 +89,7 @@ const processSvgFile = async (file: string): Promise<void> => {
       ],
     });
 
-    let optimizedSvg = result.data
+    const optimizedSvg = result.data
       .replace(/<svg([^>]*)>/, `<svg$1 {...rest} >`)
       .replace(/\s*class=["'][^"']*["']/g, "")
       .replace(/fill=["'](?!none)[^"']*["']/g, 'fill={color || "currentColor"}')

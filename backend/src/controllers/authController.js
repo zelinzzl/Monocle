@@ -78,7 +78,7 @@ class AuthController {
           },
           tokens: {
             accessToken: tokens.accessToken,
-            refreshToken: tokens.refreshToken, // This will be removed in production
+            // refreshToken: tokens.refreshToken, // This will be removed in production
             expiresIn: '1h'
           }
         }
