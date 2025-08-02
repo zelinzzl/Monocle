@@ -12,7 +12,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../UI/select";
+} from "../ui/select";
 import { InsuredAsset } from "@/types/insure";
 import {
   getStatusBadgeVariant,

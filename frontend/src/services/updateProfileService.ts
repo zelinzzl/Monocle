@@ -149,6 +149,7 @@ export async function updateProfileWithPhoto(data: ProfileWithPhotoUpdateData): 
 async function uploadProfilePhoto(file: File): Promise<{ photoUrl?: string, error?: string }> {
   try {
     // 1. First attempt to get user
+    // eslint-disable-next-line prefer-const
     let { data: { user }, error: userError } = await supabase.auth.getUser();
     
     // 2. If no user, try to recover session

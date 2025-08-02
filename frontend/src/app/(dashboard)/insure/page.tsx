@@ -52,27 +52,28 @@ const handleNewAssetChange = (key: string, value: any) => {
 
 const handleCreateAsset = () => {
   const now = new Date().toISOString();
-
+  
   const assetToAdd = {
     id: uuidv4(),
-    user_id: "CURRENT_USER_ID", // Replace with actual user ID
+    user_id: "CURRENT_USER_ID",
     created_at: now,
     updated_at: now,
-    item_name: newAsset.item_name,
+    itemName: newAsset.item_name,        // Changed from item_name
     category: newAsset.category,
-    monthly_payment: 0, // Placeholder - AI-generated
-    date_added: now,
-    risk_level: "pending", // AI-generated
-    status: "pending", // AI-generated
+    monthlyPayment: 0,                   // Changed from monthly_payment
+    dateAdded: now,                      // Changed from date_added
+    risk_level: "pending",
+    status: "pending",
     make: newAsset.make,
     model: newAsset.model,
     year: newAsset.year,
     policy_number: newAsset.policy_number,
     description: newAsset.description,
-    coverage_amount: 0, // AI-generated
+    coverage_amount: 0,
     main_driver_age: newAsset.main_driver_age,
-    risk_score: 0, // AI-generated
+    risk_score: 0,
   };
+
 
   handleAddAsset(assetToAdd); // Must be implemented in useAssetsManager
   setShowAddModal(false);
