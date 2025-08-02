@@ -5,6 +5,13 @@ import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { Icon } from "../ui/icons/Icon";
 import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 import { InsuredAsset } from "@/types/insure";
 import { InsuranceAsset } from "@/services/insuranceApi";
 
