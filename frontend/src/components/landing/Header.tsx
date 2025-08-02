@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import Logo from "../Logo/Logo";
 import { useTheme } from "@/context/theme-provider";
 import { Icon } from "../ui/icons/Icon";
 import AuthMenu from "./AuthMenu";
 import Animate from "../animations/Animate";
+import Logo from "../logo/Logo"
 
 const navigation = [
   { name: "Home", href: "#Home" },
@@ -86,6 +86,9 @@ export function Header() {
                 {item.name}
               </Link>
             ))}
+
+<AuthMenu />
+
 
             <Icon
               name="Swatch"
