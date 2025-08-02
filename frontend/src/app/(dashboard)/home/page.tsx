@@ -340,13 +340,13 @@ export default function DashboardPage() {
     switch (severity) {
       case 'critical':
       case 'severe':
-        return 'bg-red-50 border-red-200';
+        return 'bg-secondary-50 border-red-200';
       case 'high':
-        return 'bg-orange-50 border-orange-200';
+        return 'bg-secondary-50 border-orange-200';
       case 'medium':
-        return 'bg-yellow-50 border-yellow-200';
+        return 'bg-secondary-50 border-yellow-200';
       default:
-        return 'bg-blue-50 border-blue-200';
+        return 'bg-secondary-50 border-blue-200';
     }
   };
 
@@ -505,7 +505,7 @@ export default function DashboardPage() {
                   ))}
                 </div>
 
-                <div className="bg-background rounded-lg shadow p-6">
+                <div className="bg rounded-lg shadow p-6">
                   <div className="flex justify-between items-center mb-4">
                     <h2 className="text-lg font-semibold">
                       Real-time Weather Alerts
@@ -514,7 +514,7 @@ export default function DashboardPage() {
                       {displayAlerts.length} active alerts
                     </span>
                   </div>
-                  <div className="space-y-4 max-h-96">
+                  <div className="space-y-4 max-h-96 bg-">
                     {displayAlerts.length > 0 ? (
                       displayAlerts.slice(0, 5).map((alert) => (
                         <div
@@ -636,7 +636,7 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Quick Risk Assessment Feature */}
-                <div className="mt-6 p-4 bg-background rounded-lg border border-blue-200">
+                <div className="mt-6 p-4 bg-background rounded-lg border border">
                   <h3 className="text-sm font-medium text-dark mb-2">
                     Current Location Risk Check
                   </h3>
