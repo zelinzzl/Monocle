@@ -72,28 +72,6 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
             {!isCollapsed && <P className="text-lg">Insure</P>}
           </Link>
 
-          {/* <Link
-            href="/claims"
-            className={cn(
-              "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-              pathname === "/claims" && "bg-muted text-primary"
-            )}
-          >
-            <Icon name="Document" size={"lg"} />
-            {!isCollapsed && <P className="text-lg">Claims</P>}
-          </Link> */}
-
-          {/* <Link
-            href="/chat"
-            className={cn(
-              "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-              pathname === "/chat" && "bg-muted text-primary"
-            )}
-          >
-            <Icon name="ChatBubbleBottomCenter" size={"lg"} />
-            {!isCollapsed && <P className="text-lg">Chat</P>}
-          </Link> */}
-
           <Link
             href="/routes"
             className={cn(
@@ -106,10 +84,10 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
           </Link>
 
           <Link
-            href="/travel-risk"
+            href="/insure"
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-              pathname === "/travel-risk" && "bg-muted text-primary"
+              pathname === "/insure" && "bg-muted text-primary"
             )}
           >
             <Icon name="ChartBar" size={"lg"} />
