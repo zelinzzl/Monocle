@@ -1,11 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import { Input } from "@/components/UI/input"
-import { Button } from "@/components/UI/button"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 import { Pencil, Trash2, X } from "lucide-react"
-import { Card, CardContent } from "@/components/UI/card"
-import { Label } from "@/components/UI/label"
+import { Card, CardContent } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
 import Modal from "@/components/layout/Modal"
 
 interface Vehicle {
@@ -167,7 +167,7 @@ export default function VehicleSettingsTable() {
             <div className="space-y-4">
               <div className="flex gap-4">
                 <div className="flex-1">
-                  <Label>Make</Label>
+                  <Label className="mb-2">Make</Label>
                   <Input
                     value={current.make}
                     onChange={e =>
@@ -176,7 +176,7 @@ export default function VehicleSettingsTable() {
                   />
                 </div>
                 <div className="flex-1">
-                  <Label>Model</Label>
+                  <Label className="mb-2">Model</Label>
                   <Input
                     value={current.model}
                     onChange={e =>
@@ -187,7 +187,7 @@ export default function VehicleSettingsTable() {
               </div>
 
               <div>
-                <Label>Year</Label>
+                <Label className="mb-2">Year</Label>
                 <Input
                   type="number"
                   value={current.year}
@@ -198,7 +198,7 @@ export default function VehicleSettingsTable() {
               </div>
 
               <div>
-                <Label>Registration</Label>
+                <Label className="mb-2">Registration</Label>
                 <Input
                   value={current.registration}
                   onChange={e =>
