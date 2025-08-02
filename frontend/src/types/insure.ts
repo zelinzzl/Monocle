@@ -1,30 +1,46 @@
+// types/insure.ts
 export interface InsuredAsset {
   id: string;
   itemName: string;
-  // status: "Active" | "Pending" | "Expired" | "Cancelled";
+  category: string;
   monthlyPayment: number;
-  // riskLevel: "Low" | "Medium" | "High";
   dateAdded: string;
+  riskLevel: 'Low' | 'Medium' | 'High' | 'Critical' | 'pending';
+  status: 'Pending' | 'Active' | 'Suspended' | 'Expired' | 'Cancelled' | 'Declined';
+  make: string;
+  model: string;
+  year: number;
+  policyNumber: string;
   description?: string;
   coverageAmount?: number;
   deductible?: number;
-  policyNumber?: string;
+  
+  // Backend specific fields
+  primaryLocation: string;
+  mainDriverAge: number;
+  riskScore?: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
-export type SortBy = "itemName" | "monthlyPayment" | "riskLevel" | "dateAdded";
-// export type FilterBy = "all" | "active" | "pending" | "expired" | "cancelled";
+export type SortBy = 'itemName' | 'monthlyPayment' | 'dateAdded' | 'riskLevel' | 'status';
 
-export interface AssetsPageState {
-  assets: InsuredAsset[];
-  searchTerm: string;
-  sortBy: SortBy;
-  // filterBy: FilterBy;
-  selectedAssets: string[];
-  selectedAsset: InsuredAsset | null;
+export interface InsuranceSummary {
+  totalAssets: number;
+  activeAssets: number;
+  pendingAssets: number;
+  totalMonthlyPremium: number;
+  riskDistribution: {
+    Low: number;
+    Medium: number;
+    High: number;
+    Critical: number;
+  };
 }
 
-export interface AssetFilters {
-  searchTerm: string;
-  sortBy: SortBy;
-  // filterBy: FilterBy;
+export interface RiskAssessment {
+  riskScore: number;
+  riskLevel: 'Low' | 'Medium' | 'High' | 'Critical';
+  monthlyPayment: number;
+  coverageAmount: number;
 }
