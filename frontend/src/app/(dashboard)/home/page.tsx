@@ -1,12 +1,18 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import { TooltipProps } from 'recharts';
+import { ValueType, NameType } from 'recharts/types/component/DefaultTooltipContent';
+
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -19,26 +25,102 @@ import {
 } from "@/components/ui/table";
 import { Progress } from "@/components/ui/progress";
 
+  // Mock data
+  // Sample JSON Data
+  const routeRiskData = {
+    critical: 12,
+    high: 8,
+    medium: 15,
+    good: 23
+  };
+  
+    // Alternative detailed format with additional metadata
+    const detailedRouteData = {
+      summary: {
+        totalRoutes: 58,
+        lastUpdated: "2024-08-02T10:30:00Z",
+        alertsActive: 20
+      },
+      risks: {
+        critical: {
+          count: 12,
+          percentage: 20.7,
+          routes: [
+            { id: 1, name: "N1 Highway - Cape Town to Paarl", condition: "Severe thunderstorm warning" },
+            { id: 2, name: "R21 - Pretoria to OR Tambo", condition: "Heavy hail expected" }
+          ]
+        },
+        high: {
+          count: 8,
+          percentage: 13.8,
+          routes: [
+            { id: 3, name: "M1 Highway - Johannesburg CBD", condition: "Heavy rainfall" },
+            { id: 4, name: "N3 - Durban to Pietermaritzburg", condition: "Flooding risk" }
+          ]
+        },
+        medium: {
+          count: 15,
+          percentage: 25.9,
+          routes: [
+            { id: 5, name: "R24 - Johannesburg to Rustenburg", condition: "Light rain showers" },
+            { id: 6, name: "N2 - Port Elizabeth coastal route", condition: "Moderate wind" }
+          ]
+        },
+        good: {
+          count: 23,
+          percentage: 39.7,
+          routes: [
+            { id: 7, name: "Garden Route - George to Knysna", condition: "Clear skies" },
+            { id: 8, name: "Blue Route - Cape Town suburbs", condition: "Partly cloudy" }
+          ]
+        }
+      }
+    }
+  ;
+  
+  
+    const claims = [
+      {
+        policy: "Location A - Location B",
+        date: "2023-06-12",
+        type: "Risk level high",
+        status: "Approved",
+        amount: "$2,450.00",
+      },
+      {
+        policy: "Home - 123 Main St",
+        date: "2023-06-10",
+        type: "Water Damage",
+        status: "In Review",
+        amount: "$5,200.00",
+      },
+    ];
+
+
+    const CustomTooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
+      if (active && payload && payload.length) {
+        const data = payload[0];
+        const total = payload.reduce((sum, item) => sum + (item.value as number), 0);
+        
+        return (
+          <div className="bg-white p-3 border rounded-lg shadow-lg">
+            <p className="text-sm font-medium">{data.name}</p>
+            <p className="text-sm text-gray-600">{data.value} routes</p>
+            <p className="text-xs text-gray-500">
+              {((Number(data.value) / total) * 100).toFixed(1)}%
+            </p>
+          </div>
+        );
+      }
+      return null;
+
+
+      
+    };
+    
+
 export default function DashboardPage() {
   const router = useRouter();
-
-  // Mock data
-  const claims = [
-    {
-      policy: "Auto - 2023 Honda Accord",
-      date: "2023-06-12",
-      type: "Collision",
-      status: "Approved",
-      amount: "$2,450.00",
-    },
-    {
-      policy: "Home - 123 Main St",
-      date: "2023-06-10",
-      type: "Water Damage",
-      status: "In Review",
-      amount: "$5,200.00",
-    },
-  ];
 
   const hasClaims = claims.length > 0;
 
@@ -71,21 +153,24 @@ export default function DashboardPage() {
         </Card>
       )}
 
-      {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <main className="grid gap-2 md:grid-cols-2">
+
+      <section>
+         {/* Stats Cards */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
         {/* Example stat card */}
         <Card>
           <CardHeader>
-            <CardTitle>Claims This Year</CardTitle>
+            <CardTitle>Insured Vehicles</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{claims.length}</div>
-            <p className="text-sm text-muted-foreground">+2 this quarter</p>
+            <p className="text-sm text-muted-foreground">5</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Open Claims</CardTitle>
+            <CardTitle>Monitored Routes</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -94,7 +179,7 @@ export default function DashboardPage() {
             <p className="text-sm text-muted-foreground">Pending resolution</p>
           </CardContent>
         </Card>
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle>Chat Interactions</CardTitle>
           </CardHeader>
@@ -108,8 +193,8 @@ export default function DashboardPage() {
               View latest conversation
             </Button>
           </CardContent>
-        </Card>
-        <Card>
+        </Card> */}
+        {/* <Card>
           <CardHeader>
             <CardTitle>Processed Queue</CardTitle>
           </CardHeader>
@@ -119,15 +204,18 @@ export default function DashboardPage() {
               3 of 4 processed
             </p>
           </CardContent>
-        </Card>
+        </Card> */}
+
       </div>
 
-      {/* Recently Viewed Claims */}
+<br />
+
+           {/* Recently Viewed Claims */}
       <Card>
         <CardHeader>
-          <CardTitle>Recently Viewed Claims</CardTitle>
+          <CardTitle>Recently Viewed Routes</CardTitle>
           <CardDescription>
-            Quick access to claims you checked recently
+            Quick access to routes you checked recently
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
@@ -142,10 +230,86 @@ export default function DashboardPage() {
             </div>
           ))}
         </CardContent>
+        <CardFooter>
+        <br/>
+      <Button onClick={() => router.push("/map")}>
+          See All Routes
+        </Button>
+
+        </CardFooter>
       </Card>
 
+        
+
+
+      </section>
+
+
+      <section>
+
+{/* Route Risk Status Cards */}
+  <div className="grid gap-4 grid-cols-2">
+    <Card className="bg-gradient-to-br from-red-500 to-red-600 text-white border-0">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-white text-sm font-medium flex items-center gap-2">
+          <div className="w-2 h-2 bg-white rounded-full"></div>
+          Critical Risk
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="text-3xl font-bold text-white">12</div>
+        <p className="text-xs text-red-100">Immediate attention needed</p>
+      </CardContent>
+    </Card>
+
+    <Card className="bg-gradient-to-br from-orange-500 to-orange-600 text-white border-0">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-white text-sm font-medium flex items-center gap-2">
+          <div className="w-2 h-2 bg-white rounded-full"></div>
+          High Risk
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="text-3xl font-bold text-white">8</div>
+        <p className="text-xs text-orange-100">Elevated weather risks</p>
+      </CardContent>
+    </Card>
+
+    <Card className="bg-gradient-to-br from-yellow-500 to-yellow-600 text-white border-0">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-white text-sm font-medium flex items-center gap-2">
+          <div className="w-2 h-2 bg-white rounded-full"></div>
+          Medium Risk
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="text-3xl font-bold text-white">15</div>
+        <p className="text-xs text-yellow-100">Moderate conditions</p>
+      </CardContent>
+    </Card>
+
+    <Card className="bg-gradient-to-br from-green-500 to-green-600 text-white border-0">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-white text-sm font-medium flex items-center gap-2">
+          <div className="w-2 h-2 bg-white rounded-full"></div>
+          Good Conditions
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="text-3xl font-bold text-white">23</div>
+        <p className="text-xs text-green-100">Favorable weather</p>
+      </CardContent>
+    </Card>
+  </div>
+
+
+      </section>
+    </main>
+     
+     
+
       {/* Claims History Table */}
-      <Card>
+      {/* <Card>
         <CardHeader>
           <CardTitle>Claims History</CardTitle>
           <CardDescription>Details of your insurance claims</CardDescription>
@@ -186,17 +350,18 @@ export default function DashboardPage() {
             </TableBody>
           </table>
         </CardContent>
-      </Card>
+      </Card> */}
 
       {/* Submit + Close Claims */}
-      <div className="flex justify-between gap-4">
+      {/* <div className="flex justify-between gap-4">
         <Button onClick={() => router.push("/claims/new")}>
           Submit New Claim
         </Button>
         <Button variant="outline" disabled>
           Close Selected Claims
         </Button>
-      </div>
+      </div> */}
+
     </main>
   );
 }
