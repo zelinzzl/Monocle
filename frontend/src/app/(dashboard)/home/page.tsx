@@ -5,30 +5,6 @@ import RouteRiskChart from "@/components/dashboard/RouteRiskChart";
 import { AlertTriangleIcon, CloudRainIcon, ShieldIcon, CarIcon } from 'lucide-react';
 
 import { useRouter } from "next/navigation";
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
-import { TooltipProps } from 'recharts';
-import { ValueType, NameType } from 'recharts/types/component/DefaultTooltipContent';
-
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-} from "@/components/ui/table";
-import { Progress } from "@/components/ui/progress";
-
 
 export default function DashboardPage() {
   const router = useRouter();
