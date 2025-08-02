@@ -51,7 +51,7 @@ export default function ProfilePage() {
         firstName: user.firstName || '',      // ✅ Separate field
         lastName: user.lastName || '',        // ✅ Separate field
         email: user.email || '',
-        picture: user.profilePictureUrl || user.profilePhoto || '',
+        picture: user.profilePictureUrl || '',
         emailNotifications: user.settings?.emailNotifications ?? true,
         twoFactorAuth: user.settings?.twoFactorEnabled ?? false,
       });

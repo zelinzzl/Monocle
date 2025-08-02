@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -49,7 +48,7 @@ export default function DashboardPage() {
         <div>
           <h1 className="text-2xl font-bold">Welcome back, {}</h1>
           <p className="text-muted-foreground">
-            Here's what's happening with your insurance portfolio today.
+            Here&apos;s what&apos;s happening with your insurance portfolio today.
           </p>
         </div>
       </div>
