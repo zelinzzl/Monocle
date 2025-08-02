@@ -11,6 +11,7 @@ import insuranceRoutes from './routes/insurance-routes.js';
 // import groutesRoutes from './routes/groutes-routes.js';
 import mlRoutes from './routes/ml-Routes.js';
 
+import routeRiskRoutes from './routes/routeRisk-route.js'; // Import the route risk routes
 dotenv.config();
 
 const app = express();
@@ -41,7 +42,8 @@ app.use('/api/destinations', destinationRoutes);
 app.use('/api/alerts', alertsRoutes);
 app.use('/api/insurance', insuranceRoutes); 
 // app.use('/api/routes', groutesRoutes);
-app.use('/api/ml', mlRoutes);
+app.use('/api/ml', mlRoutes);app.use('/api/route-risk', routeRiskRoutes); // Add route risk routes
+
 
 app.get('/', (req, res) => {
   res.send('✅ Backend is running...');
