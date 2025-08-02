@@ -49,52 +49,8 @@ export default function InsuredAssetsPage() {
     refreshAssets,
   } = useAssetsManager();
 
-
-const [newAsset, setNewAsset] = useState({
-  item_name: "",
-  category: "",
-  make: "",
-  model: "",
-  year: new Date().getFullYear(),
-  policy_number: "",
-  description: "",
-  main_driver_age: 18,
-});
-
-const handleNewAssetChange = (key: string, value: any) => {
-  setNewAsset((prev) => ({ ...prev, [key]: value }));
-};
-
-const handleCreateAsset = () => {
-  const now = new Date().toISOString();
-  
-  const assetToAdd = {
-    id: uuidv4(),
-    user_id: "CURRENT_USER_ID",
-    created_at: now,
-    updated_at: now,
-    itemName: newAsset.item_name,        // Changed from item_name
-    category: newAsset.category,
-    monthlyPayment: 0,                   // Changed from monthly_payment
-    dateAdded: now,                      // Changed from date_added
-    risk_level: "pending",
-    status: "pending",
-    make: newAsset.make,
-    model: newAsset.model,
-    year: newAsset.year,
-    policy_number: newAsset.policy_number,
-    description: newAsset.description,
-    coverage_amount: 0,
-    main_driver_age: newAsset.main_driver_age,
-    risk_score: 0,
-  };
-
-
-  handleAddAsset(assetToAdd); // Must be implemented in useAssetsManager
-  setShowAddModal(false);
-  setNewAsset({
-    item_name: "",
-    category: "",
+  // Form state for new asset
+  const [newAsset, setNewAsset] = useState<CreateAssetRequest>({
     make: "",
     model: "",
     year: new Date().getFullYear(),
@@ -280,7 +236,7 @@ const handleCreateAsset = () => {
       ) : (
         <>
           <AssetsTable
-            assets={filteredAndSortedAssets }
+            assets={filteredAndSortedAssets}
             selectedAssets={selectedAssets}
             onSelectAll={handleSelectAll}
             onSelectAsset={toggleAssetSelection}
@@ -416,7 +372,7 @@ const handleCreateAsset = () => {
                   min="16"
                   max="100"
                   placeholder="e.g., 25"
-                  value={newAsset.main_driver_age}
+                  value={newAsset.mainDriverAge}
                   onChange={(e) => handleNewAssetChange("mainDriverAge", parseInt(e.target.value, 10) || 25)}
                   className={formErrors.mainDriverAge ? "border-destructive" : ""}
                 />
@@ -502,4 +458,4 @@ const handleCreateAsset = () => {
       </Dialog>
     </div>
   );
-}}
+}
