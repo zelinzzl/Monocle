@@ -25,3 +25,4 @@ export const getRiskLevelBadgeVariant = (riskLevel: string) => {
       return "default";
   }
 };
+

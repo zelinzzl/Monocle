@@ -46,12 +46,12 @@ export const AssetsTable = ({
                 className="rounded"
               />
             </TableHead>
-            <TableHead>Item Name</TableHead>
-            {/* <TableHead>Category</TableHead> */}
-            <TableHead>Monthly Payment</TableHead>
-            <TableHead>Date Approved</TableHead>
-            {/* <TableHead>Risk Level</TableHead> */}
-            {/* <TableHead>Status</TableHead> */}
+            <TableHead>Vehicle</TableHead>
+            <TableHead>Policy Number</TableHead>
+            <TableHead>Monthly Premium</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Risk Level</TableHead>
+            <TableHead>Date Added</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -61,7 +61,7 @@ export const AssetsTable = ({
                 colSpan={7}
                 className="text-center py-8 text-muted-foreground"
               >
-                No assets found matching your criteria.
+                No vehicles found. Add your first vehicle to get started with insurance quotes.
               </TableCell>
             </TableRow>
           ) : (
@@ -79,25 +79,40 @@ export const AssetsTable = ({
                     className="rounded"
                   />
                 </TableCell>
-                <TableCell className="font-medium">{asset.itemName}</TableCell>
-                <TableCell>R{asset.monthlyPayment.toFixed(2)}</TableCell>
+                <TableCell className="font-medium">
+                  <div>
+                    <div className="font-semibold">{asset.itemName}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {asset.year} {asset.make} {asset.model}
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell className="font-mono text-sm">
+                  {asset.policyNumber || 'Pending'}
+                </TableCell>
                 <TableCell>
-                  {new Date(asset.dateAdded).toLocaleDateString("en-US", {
+                  {asset.monthlyPayment > 0 
+                    ? `R${asset.monthlyPayment.toFixed(2)}`
+                    : 'Calculating...'
+                  }
+                </TableCell>
+                <TableCell>
+                  <Badge variant={getStatusBadgeVariant(asset.status)}>
+                    {asset.status}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <Badge variant={getRiskLevelBadgeVariant(asset.riskLevel)}>
+                    {asset.riskLevel === 'pending' ? 'Assessing...' : asset.riskLevel}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  {new Date(asset.dateAdded).toLocaleDateString("en-ZA", {
                     year: "numeric",
                     month: "short",
                     day: "numeric",
                   })}
                 </TableCell>
-                {/* <TableCell>
-                  <Badge variant={getRiskLevelBadgeVariant(asset.riskLevel)}>
-                    {asset.riskLevel}
-                  </Badge>
-                </TableCell> */}
-                {/* <TableCell>
-                  <Badge variant={getStatusBadgeVariant(asset.status)}>
-                    {asset.status}
-                  </Badge>
-                </TableCell> */}
               </TableRow>
             ))
           )}
