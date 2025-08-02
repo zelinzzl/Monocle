@@ -1,4 +1,9 @@
-import { InsuredAsset, AssetFilters } from "@/types/insure";
+import { InsuredAsset } from "@/types/insure";
+
+export interface AssetFilters {
+  searchTerm: string;
+  sortBy: "itemName" | "monthlyPayment" | "dateAdded" | "riskLevel";
+}
 
 export const filterAndSortAssets = (
   assets: InsuredAsset[],

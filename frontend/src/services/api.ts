@@ -1,3 +1,4 @@
+// services/api.ts
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // Global reference to access token and refresh function
@@ -20,6 +21,7 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
       "Content-Type": "application/json",
       ...(options.headers as Record<string, string> || {}),
     };
+    
     // Add Authorization header if we have an access token and includeAuth is true
     if (includeAuth && getAccessToken) {
       const token = getAccessToken();
@@ -107,3 +109,64 @@ export async function authApiFetch(path: string, options: RequestInit = {}) {
     throw error;
   }
 }
+
+// Convenient API wrapper class with HTTP methods
+class ApiService {
+  async get(path: string, options: RequestInit = {}) {
+    return apiFetch(path, {
+      method: 'GET',
+      ...options,
+    });
+  }
+
+  async post(path: string, data?: any, options: RequestInit = {}) {
+    return apiFetch(path, {
+      method: 'POST',
+      body: data ? JSON.stringify(data) : undefined,
+      ...options,
+    });
+  }
+
+  async put(path: string, data?: any, options: RequestInit = {}) {
+    return apiFetch(path, {
+      method: 'PUT',
+      body: data ? JSON.stringify(data) : undefined,
+      ...options,
+    });
+  }
+
+  async patch(path: string, data?: any, options: RequestInit = {}) {
+    return apiFetch(path, {
+      method: 'PATCH',
+      body: data ? JSON.stringify(data) : undefined,
+      ...options,
+    });
+  }
+
+  async delete(path: string, options: RequestInit = {}) {
+    return apiFetch(path, {
+      method: 'DELETE',
+      ...options,
+    });
+  }
+
+  // Multipart form data for file uploads
+  async postFormData(path: string, formData: FormData, options: RequestInit = {}) {
+    const { headers, ...restOptions } = options;
+    
+    return apiFetch(path, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        // Don't set Content-Type for FormData, let browser set it with boundary
+        ...(headers as Record<string, string> || {}),
+      },
+      ...restOptions,
+    });
+  }
+}
+
+// Export singleton instance
+export const api = new ApiService();
+
+// Export for backward compatibility

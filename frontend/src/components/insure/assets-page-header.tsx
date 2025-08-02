@@ -53,7 +53,7 @@ export const AssetsPageHeader = ({
             />
             <Input
               placeholder="Search assets..."
-              value={searchTerm}
+              value={searchTerm }
               onChange={(e) => onSearchChange(e.target.value)}
               className="pl-10"
             />
