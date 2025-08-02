@@ -524,8 +524,8 @@ export default function DashboardPage() {
                           <div className="p-2 rounded-full bg-background mr-3">
                             {getAlertIcon(alert)}
                           </div>
-                          <div className="flex-1">
-                            <h3 className="font-medium text-black text-sm">{alert.title}</h3>
+                          <div className="flex-1 ">
+                            <h3 className="font-medium text-primary text-sm ">{alert.title}</h3>
                             <p className="text-sm text-muted-foreground mt-1">
                               {alert.message}
                             </p>
