@@ -112,10 +112,58 @@ import { Progress } from "@/components/ui/progress";
           </div>
         );
       }
-      return null;
+      //return null;
 
 
-      
+      return (
+        <Card className="h-full">
+          <CardHeader>
+            <CardTitle>Route Risk Distribution</CardTitle>
+            <CardDescription>
+              Overview of weather risk levels across all monitored routes
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="h-full">
+            <div style={{ width: '100%', height: '300px' }}>
+              <ResponsiveContainer>
+                <PieChart>
+                  <Pie
+                    data={pieData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={100}
+                    paddingAngle={2}
+                    dataKey="value"
+                  >
+                    {pieData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend 
+                    verticalAlign="bottom" 
+                    height={36}
+                    formatter={(value, entry) => (
+                      <span style={{ color: entry.color }}>{value}</span>
+                    )}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-4 text-center">
+              <div>
+                <div className="text-2xl font-bold">{data.critical + data.high}</div>
+                <p className="text-sm text-muted-foreground">High Priority Routes</p>
+              </div>
+              <div>
+                <div className="text-2xl font-bold">{data.critical + data.high + data.medium + data.good}</div>
+                <p className="text-sm text-muted-foreground">Total Monitored</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      );
     };
     
 
