@@ -84,10 +84,10 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
           </Link>
 
           <Link
-            href="/insure"
+            href="/insights"
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-              pathname === "/insure" && "bg-muted text-primary"
+              pathname === "/insights" && "bg-muted text-primary"
             )}
           >
             <Icon name="ChartBar" size={"lg"} />
