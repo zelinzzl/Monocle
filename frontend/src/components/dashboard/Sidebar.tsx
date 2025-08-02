@@ -112,8 +112,8 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
               pathname === "/travel-risk" && "bg-muted text-primary"
             )}
           >
-            <Icon name="Truck" size={"lg"} />
-            {!isCollapsed && <P className="text-lg">Travel Risk</P>}
+            <Icon name="ChartBar" size={"lg"} />
+            {!isCollapsed && <P className="text-lg">Insights</P>}
           </Link>
 
           <Link
