@@ -3,8 +3,8 @@
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Pencil, Trash2, X } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import Modal from "@/components/layout/Modal"
 
@@ -13,163 +13,211 @@ interface Vehicle {
   make: string
   model: string
   year: number
-  vulnerabilities: {
-    hail: boolean
-    rain: boolean
-    floods: boolean
-    wind: boolean
-    crime: boolean
-  }
+  registration: string
+  status: "Pending" | "Approved"
 }
 
-export default function VehicleSettings() {
+export default function VehicleSettingsTable() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([])
+  const [filtered, setFiltered] = useState<Vehicle[]>([])
+  const [search, setSearch] = useState("")
   const [showModal, setShowModal] = useState(false)
-  const [current, setCurrent] = useState<Vehicle>({
+  const [isEditing, setIsEditing] = useState(false)
+
+  const initialVehicle: Vehicle = {
     id: crypto.randomUUID(),
     make: "",
     model: "",
     year: new Date().getFullYear(),
-    vulnerabilities: {
-      hail: false,
-      rain: false,
-      floods: false,
-      wind: false,
-      crime: false
-    }
-  })
+    registration: "",
+    status: "Pending",
+  }
+
+  const [current, setCurrent] = useState<Vehicle>(initialVehicle)
 
   const isFormValid =
     current.make.trim() !== "" &&
     current.model.trim() !== "" &&
-    current.year >= 1900
+    current.year >= 1900 &&
+    current.registration.trim() !== ""
 
-  const addVehicle = () => {
+  const handleSaveVehicle = () => {
     if (!isFormValid) return
-    setVehicles([...vehicles, current])
-    setCurrent({
-      id: crypto.randomUUID(),
-      make: "",
-      model: "",
-      year: new Date().getFullYear(),
-      vulnerabilities: {
-        hail: false,
-        rain: false,
-        floods: false,
-        wind: false,
-        crime: false
-      }
-    })
+
+    if (isEditing) {
+      setVehicles(prev =>
+        prev.map(v => (v.id === current.id ? current : v))
+      )
+    } else {
+      setVehicles(prev => [...prev, { ...current, status: "Pending" }])
+    }
+
+    setCurrent(initialVehicle)
     setShowModal(false)
+    setIsEditing(false)
   }
 
-  const handleCheckboxChange = (type: keyof Vehicle["vulnerabilities"]) => {
-    setCurrent((prev) => ({
-      ...prev,
-      vulnerabilities: {
-        ...prev.vulnerabilities,
-        [type]: !prev.vulnerabilities[type]
-      }
-    }))
+  const handleDelete = (id: string) => {
+    setVehicles(prev => prev.filter(v => v.id !== id))
   }
+
+  const handleEdit = (vehicle: Vehicle) => {
+    setCurrent(vehicle)
+    setIsEditing(true)
+    setShowModal(true)
+  }
+
+  const handleSearch = (query: string) => {
+    setSearch(query)
+    const q = query.toLowerCase()
+    const filteredList = vehicles.filter(
+      v =>
+        v.make.toLowerCase().includes(q) ||
+        v.model.toLowerCase().includes(q) ||
+        v.year.toString().includes(q) ||
+        v.registration.toLowerCase().includes(q)
+    )
+    setFiltered(filteredList)
+  }
+
+  const data = search ? filtered : vehicles
 
   return (
-    <div className="">
-      <h2 className="text-2xl font-semibold mb-4">Vehicle Personalization</h2>
-
-      <Button onClick={() => setShowModal(true)} className="mb-6">
-        Add New Vehicle
-      </Button>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {vehicles.map((v) => (
-          <Card key={v.id}>
-            <CardHeader>
-              <CardTitle>{v.make} {v.model} ({v.year})</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm text-muted-foreground space-y-1">
-              <p><strong>Risk Alerts:</strong></p>
-              <ul className="list-disc list-inside">
-                {Object.entries(v.vulnerabilities).map(([k, value]) =>
-                  value ? <li key={k}>{k.charAt(0).toUpperCase() + k.slice(1)}</li> : null
-                )}
-              </ul>
-            </CardContent>
-          </Card>
-        ))}
+    <main className="p-6 space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold">Vehicle Personalization</h2>
+        <div className="flex gap-3">
+          <Input
+            placeholder="Search make, model, year..."
+            value={search}
+            onChange={e => handleSearch(e.target.value)}
+            className="w-64"
+          />
+          <Button
+            onClick={() => {
+              setCurrent(initialVehicle)
+              setIsEditing(false)
+              setShowModal(true)
+            }}
+          >
+            Add Vehicle
+          </Button>
+        </div>
       </div>
 
+      <Card>
+        <CardContent className="p-0 overflow-x-auto">
+          <div className="grid grid-cols-6 px-6 py-3 font-semibold text-sm border-b bg-muted/50">
+            <span>Make</span>
+            <span>Model</span>
+            <span>Year</span>
+            <span>Registration</span>
+            <span>Status</span>
+            <span className="text-right">Actions</span>
+          </div>
+          {data.map(vehicle => (
+            <div
+              key={vehicle.id}
+              className="grid grid-cols-6 px-6 py-4 items-center text-sm border-b hover:bg-muted/20"
+            >
+              <span>{vehicle.make}</span>
+              <span>{vehicle.model}</span>
+              <span>{vehicle.year}</span>
+              <span>{vehicle.registration}</span>
+              <span>
+                <span
+                  className={`text-xs font-medium px-2 py-1 rounded-full ${
+                    vehicle.status === "Pending"
+                      ? "bg-yellow-100 text-yellow-800"
+                      : "bg-green-100 text-green-800"
+                  }`}
+                >
+                  {vehicle.status}
+                </span>
+              </span>
+              <div className="flex justify-end gap-2">
+                {/* <Pencil
+                  className="w-4 h-4 cursor-pointer hover:text-primary"
+                  onClick={() => handleEdit(vehicle)}
+                /> */}
+                <Trash2
+                  className="w-4 h-4 cursor-pointer hover:text-destructive"
+                  onClick={() => handleDelete(vehicle.id)}
+                />
+              </div>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+
+      {/* Modal */}
       {showModal && (
         <Modal onClose={() => setShowModal(false)} closeOnOutsideClick>
-          <Card className="w-full max-w-lg">
-            <CardHeader>
-              <CardTitle>Add a New Vehicle</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <div className="bg-background p-6 rounded-xl w-full max-w-lg space-y-5">
+            <div className="flex justify-between items-center">
+              <h3 className="text-lg font-semibold">
+                {isEditing ? "Edit Vehicle" : "Add Vehicle"}
+              </h3>
+              <X
+                className="w-5 h-5 cursor-pointer"
+                onClick={() => setShowModal(false)}
+              />
+            </div>
+
+            <div className="space-y-4">
               <div className="flex gap-4">
-                <div className="space-y-1">
-                  <Label className="text-sm">Model</Label>
-                  <Input
-                    value={current.model}
-                    onChange={(e) => setCurrent({ ...current, model: e.target.value })}
-                    className="h-9 text-sm"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label className="text-sm">Make</Label>
+                <div className="flex-1">
+                  <Label className="mb-2">Make</Label>
                   <Input
                     value={current.make}
-                    onChange={(e) => setCurrent({ ...current, make: e.target.value })}
-                    className="h-9 text-sm"
+                    onChange={e =>
+                      setCurrent({ ...current, make: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="flex-1">
+                  <Label className="mb-2">Model</Label>
+                  <Input
+                    value={current.model}
+                    onChange={e =>
+                      setCurrent({ ...current, model: e.target.value })
+                    }
                   />
                 </div>
               </div>
-              <div >
-                <Label >Year</Label>
+
+              <div>
+                <Label className="mb-2">Year</Label>
                 <Input
                   type="number"
                   value={current.year}
-                  onChange={(e) => setCurrent({ ...current, year: parseInt(e.target.value) })}
+                  onChange={e =>
+                    setCurrent({ ...current, year: parseInt(e.target.value) })
+                  }
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label className="text-lg">Vehicle Vulnerabilities</Label>
-                <div className="flex flex-col gap-2 pl-2">
-                  <label className="flex items-center gap-2">
-                    <Checkbox checked={current.vulnerabilities.hail} onCheckedChange={() => handleCheckboxChange("hail")} />
-                    Hail — risk to bodywork, windscreen, sunroof
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <Checkbox checked={current.vulnerabilities.rain} onCheckedChange={() => handleCheckboxChange("rain")} />
-                    Heavy Rain — aquaplaning & reduced visibility
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <Checkbox checked={current.vulnerabilities.floods} onCheckedChange={() => handleCheckboxChange("floods")} />
-                    Floods — low ground clearance or water-sensitive engine
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <Checkbox checked={current.vulnerabilities.wind} onCheckedChange={() => handleCheckboxChange("wind")} />
-                    High Winds — unstable for motorcycles, vans, or roof boxes
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <Checkbox checked={current.vulnerabilities.crime} onCheckedChange={() => handleCheckboxChange("crime")} />
-                    Crime Risk — known car theft or hijacking hotspots
-                  </label>
-                </div>
+              <div>
+                <Label className="mb-2">Registration</Label>
+                <Input
+                  value={current.registration}
+                  onChange={e =>
+                    setCurrent({ ...current, registration: e.target.value })
+                  }
+                />
               </div>
 
               <Button
-                onClick={addVehicle}
+                className="w-full"
+                onClick={handleSaveVehicle}
                 disabled={!isFormValid}
-                className="w-full mt-4 disabled:opacity-50"
               >
-                Save Vehicle
+                {isEditing ? "Update Vehicle" : "Save Vehicle"}
               </Button>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </Modal>
       )}
-    </div>
+    </main>
   )
 }

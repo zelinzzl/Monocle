@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/UI/table";
 import { Badge } from "@/components/ui/badge";
 import { InsuredAsset } from "@/types/insure";
 import {
@@ -47,11 +47,11 @@ export const AssetsTable = ({
               />
             </TableHead>
             <TableHead>Item Name</TableHead>
-            <TableHead>Category</TableHead>
+            {/* <TableHead>Category</TableHead> */}
             <TableHead>Monthly Payment</TableHead>
-            <TableHead>Date Added</TableHead>
-            <TableHead>Risk Level</TableHead>
-            <TableHead>Status</TableHead>
+            <TableHead>Date Approved</TableHead>
+            {/* <TableHead>Risk Level</TableHead> */}
+            {/* <TableHead>Status</TableHead> */}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -80,7 +80,6 @@ export const AssetsTable = ({
                   />
                 </TableCell>
                 <TableCell className="font-medium">{asset.itemName}</TableCell>
-                <TableCell>{asset.category}</TableCell>
                 <TableCell>R{asset.monthlyPayment.toFixed(2)}</TableCell>
                 <TableCell>
                   {new Date(asset.dateAdded).toLocaleDateString("en-US", {
@@ -89,16 +88,16 @@ export const AssetsTable = ({
                     day: "numeric",
                   })}
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <Badge variant={getRiskLevelBadgeVariant(asset.riskLevel)}>
                     {asset.riskLevel}
                   </Badge>
-                </TableCell>
-                <TableCell>
+                </TableCell> */}
+                {/* <TableCell>
                   <Badge variant={getStatusBadgeVariant(asset.status)}>
                     {asset.status}
                   </Badge>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))
           )}

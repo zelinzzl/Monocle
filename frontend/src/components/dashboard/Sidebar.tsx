@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Icon } from "../ui/icons/Icon";
-import Logo from "../logo/Logo";
+import Logo from "../Logo/Logo";
 import { P } from "../ui/typography";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
@@ -83,7 +83,7 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
             {!isCollapsed && <P className="text-lg">Vehicles</P>}
           </Link>
 
-          <Link
+          {/* <Link
             href="/claims"
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
@@ -92,9 +92,9 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
           >
             <Icon name="Document" size={"lg"} />
             {!isCollapsed && <P className="text-lg">Claims</P>}
-          </Link>
+          </Link> */}
 
-          <Link
+          {/* <Link
             href="/chat"
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
@@ -103,17 +103,17 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
           >
             <Icon name="ChatBubbleBottomCenter" size={"lg"} />
             {!isCollapsed && <P className="text-lg">Chat</P>}
-          </Link>
+          </Link> */}
 
           <Link
-            href="/map"
+            href="/routes"
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-              pathname === "/map" && "bg-muted text-primary"
+              pathname === "/routes" && "bg-muted text-primary"
             )}
           >
             <Icon name="Map" size={"lg"} />
-            {!isCollapsed && <P className="text-lg">Map</P>}
+            {!isCollapsed && <P className="text-lg">Routes</P>}
           </Link>
 
           <Link
