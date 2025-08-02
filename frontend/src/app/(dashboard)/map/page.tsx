@@ -69,7 +69,7 @@ export default function MapPage() {
   const { routes, addRoute, removeRoute, editRoute, loading } = useRoutes(
     user?.id || ""
   );
-  const { directions, calculateRoute } = useDirections(isLoaded);
+  const { directions, distance, calculateRoute } = useDirections(isLoaded);
 
   const handleAddRoute = () => setIsAddingRoute(true);
   const handleEditRoute = (routeId: string) => {
@@ -111,30 +111,52 @@ export default function MapPage() {
   };
 
   const handleSaveRoute = async () => {
-    if (!newRoute.title || !newRoute.origin || !newRoute.destination) return;
-
+    if (!newRoute.title || !newRoute.origin || !newRoute.destination) {
+      alert("Please fill in all required fields");
+      return;
+    }
+  
     try {
+      // Geocode both addresses first
       const [sourceCoords, destCoords] = await Promise.all([
         geocodeAddress(newRoute.origin),
         geocodeAddress(newRoute.destination),
       ]);
-
+  
+      // Calculate the route and get distance in meters (numeric value)
+      const directionsService = new google.maps.DirectionsService();
+      const results = await directionsService.route({
+        origin: sourceCoords,
+        destination: destCoords,
+        travelMode: google.maps.TravelMode.DRIVING,
+      });
+  
+      // Get the raw distance value in meters (always numeric)
+      const distanceInMeters = results.routes[0]?.legs[0]?.distance?.value || 0;
+      
+      // Convert to kilometers and round to 2 decimal places
+      const distanceInKm = Math.round((distanceInMeters / 1000) * 100) / 100;
+  
       if (editingRouteId) {
         await editRoute(editingRouteId, {
           ...newRoute,
           coordinates: { source: sourceCoords, destination: destCoords },
+          distance: distanceInKm, // Numeric value in kilometers
         });
       } else {
         await addRoute({
           ...newRoute,
           coordinates: { source: sourceCoords, destination: destCoords },
+          distance: distanceInKm, // Numeric value in kilometers
         });
       }
-
+  
+      // Reset form
       handleCancelAddRoute();
       setEditingRouteId(null);
     } catch (error) {
       console.error("Error saving route:", error);
+      alert("Failed to save route. Please try again.");
     }
   };
 
@@ -343,9 +365,9 @@ export default function MapPage() {
             </Card>
           )}
 
-          {filteredRoutes
-            .filter((route) => route.id !== editingRouteId) // 👈 hide the one being edited
-            .map((route) => (
+{filteredRoutes
+  .filter((route) => route.id !== editingRouteId)
+  .map((route) => (
               <Card
                 key={route.id}
                 className={`cursor-pointer hover:shadow-md ${
@@ -373,14 +395,10 @@ export default function MapPage() {
                   <div className="flex items-center gap-4 text-sm text-muted-foreground">
                     <Clock className="h-3 w-3" />
                     <span>{route.frequency}</span>
+                    <span>{route.distance}km</span>
                   </div>
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    className="cursor-pointer hover:bg-red-700 mt-2"
-                    onClick={() => handleDeleteRoute(route.id)}>
-                    Delete
-                  </Button>
+
+                  <div className="flex justify-between">
                   <Button
                     variant="outline"
                     size="sm"
@@ -388,6 +406,15 @@ export default function MapPage() {
                     onClick={() => handleEditRoute(route.id)}>
                     Edit
                   </Button>
+
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    className="cursor-pointer hover:bg-red-700 mt-2"
+                    onClick={() => handleDeleteRoute(route.id)}>
+                    Delete
+                  </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}
