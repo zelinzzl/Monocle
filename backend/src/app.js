@@ -9,6 +9,7 @@ import destinationRoutes from './routes/destinations.js';
 import alertsRoutes from './routes/alerts-routes.js';
 import insuranceRoutes from './routes/insurance-routes.js'; // Add this import // Add this import
 import routesRoutes from './routes/routes-routes.js'; // Import the new routes file
+import routeRiskRoutes from './routes/routeRisk-route.js'; // Import the route risk routes
 dotenv.config();
 
 const app = express();
@@ -39,6 +40,7 @@ app.use('/api/destinations', destinationRoutes);
 app.use('/api/alerts', alertsRoutes);
 app.use('/api/insurance', insuranceRoutes); 
 app.use('/api/routes', routesRoutes); 
+app.use('/api/route-risk', routeRiskRoutes); // Add route risk routes
 
 
 app.get('/', (req, res) => {
