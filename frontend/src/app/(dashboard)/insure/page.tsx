@@ -416,7 +416,7 @@ const handleCreateAsset = () => {
                   min="16"
                   max="100"
                   placeholder="e.g., 25"
-                  value={newAsset.mainDriverAge}
+                  value={newAsset.main_driver_age}
                   onChange={(e) => handleNewAssetChange("mainDriverAge", parseInt(e.target.value, 10) || 25)}
                   className={formErrors.mainDriverAge ? "border-destructive" : ""}
                 />
@@ -502,4 +502,4 @@ const handleCreateAsset = () => {
       </Dialog>
     </div>
   );
-}
+}}

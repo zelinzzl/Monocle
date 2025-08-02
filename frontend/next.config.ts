@@ -5,10 +5,7 @@ const nextConfig: NextConfig = {
   // reactStrictMode: true,
   // swcMinify: true,
   // Add more Next.js config options here if needed
-const nextConfig = {
-    eslint: {
-        ignoreDuringBuilds: true,
-      },
+
 };
 
 export default withPWA({
