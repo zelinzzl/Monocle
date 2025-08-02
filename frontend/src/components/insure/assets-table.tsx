@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/UI/table";
+} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { InsuredAsset } from "@/types/insure";
 import {
