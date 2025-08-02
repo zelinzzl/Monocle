@@ -90,7 +90,7 @@ function DashboardHeader({
                     key={alert.id}
                     className={clsx(
                       "flex items-start gap-3 p-4 border-b hover:bg-muted/50 cursor-pointer",
-                      alert.status === "new" && "bg-blue-50/50"
+                      alert.status === "new" && "bg-accent"
                     )}
                     onClick={() => handleNotificationClick(alert.id, alert.status)}
                   >
