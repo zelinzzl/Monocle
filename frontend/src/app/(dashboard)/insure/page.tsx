@@ -11,13 +11,13 @@ export default function InsuredAssetsPage() {
     assets,
     searchTerm,
     sortBy,
-    filterBy,
+    // filterBy,
     selectedAssets,
     selectedAsset,
     filteredAndSortedAssets,
     setSearchTerm,
     setSortBy,
-    setFilterBy,
+    // setFilterBy,
     setSelectedAsset,
     // handleAddAsset,
     handleRemoveAssets,
@@ -33,12 +33,12 @@ export default function InsuredAssetsPage() {
         selectedAssetsCount={selectedAssets.length}
         searchTerm={searchTerm}
         sortBy={sortBy}
-        filterBy={filterBy}
+        // filterBy={filterBy}
         // onAddAsset={handleAddAsset}
         onRemoveAssets={handleRemoveAssets}
         onSearchChange={setSearchTerm}
         onSortChange={setSortBy}
-        onFilterChange={setFilterBy}
+        // onFilterChange={setFilterBy}
       />
 
       <AssetsTable

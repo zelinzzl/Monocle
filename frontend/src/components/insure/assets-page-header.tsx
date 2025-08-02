@@ -5,37 +5,36 @@ import { Input } from "@/components/ui/input";
 import { Icon } from "@/components/ui/icons/Icon";
 import {
   DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { SortBy, FilterBy } from "@/types/insure";
+} from "@/components/UI/dropdown-menu";
+import { SortBy} from "@/types/insure";
 
 interface AssetsPageHeaderProps {
   selectedAssetsCount: number;
   searchTerm: string;
   sortBy: SortBy;
-  filterBy: FilterBy;
+  // filterBy: FilterBy;
   // onAddAsset: () => void;
   onRemoveAssets: () => void;
   onSearchChange: (value: string) => void;
   onSortChange: (value: SortBy) => void;
-  onFilterChange: (value: FilterBy) => void;
+  // onFilterChange: (value: FilterBy) => void;
 }
 
 export const AssetsPageHeader = ({
   selectedAssetsCount,
   searchTerm,
   sortBy,
-  filterBy,
+  // filterBy,
   // onAddAsset,
   onRemoveAssets,
   onSearchChange,
   onSortChange,
-  onFilterChange,
+  // onFilterChange,
 }: AssetsPageHeaderProps) => {
   return (
     <div className="flex flex-col space-y-4">
@@ -73,8 +72,8 @@ export const AssetsPageHeader = ({
             />
           </div>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+          {/* <DropdownMenu> */}
+            {/* <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
                 className="flex items-center gap-2 bg-transparent"
@@ -82,14 +81,14 @@ export const AssetsPageHeader = ({
                 <Icon name="Filter" isLottie className="h-4 w-4" />
                 Filter/Sort
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-              <DropdownMenuLabel>Filter by Status</DropdownMenuLabel>
-              <DropdownMenuRadioGroup
+            </DropdownMenuTrigger> */}
+            {/* <DropdownMenuContent className="w-56"> */}
+              {/* <DropdownMenuLabel>Filter by Status</DropdownMenuLabel> */}
+              {/* <DropdownMenuRadioGroup
                 value={filterBy}
                 onValueChange={(value) => onFilterChange(value as FilterBy)}
-              >
-                <DropdownMenuRadioItem value="all">
+              > */}
+                {/* <DropdownMenuRadioItem value="all">
                   All Statuses
                 </DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="active">
@@ -104,11 +103,11 @@ export const AssetsPageHeader = ({
                 <DropdownMenuRadioItem value="cancelled">
                   Cancelled
                 </DropdownMenuRadioItem>
-              </DropdownMenuRadioGroup>
+              </DropdownMenuRadioGroup> */}
 
-              <DropdownMenuSeparator />
+              {/* <DropdownMenuSeparator /> */}
 
-              <DropdownMenuLabel>Sort by</DropdownMenuLabel>
+              {/* <DropdownMenuLabel>Sort by</DropdownMenuLabel>
               <DropdownMenuRadioGroup
                 value={sortBy}
                 onValueChange={(value) => onSortChange(value as SortBy)}
@@ -125,9 +124,9 @@ export const AssetsPageHeader = ({
                 <DropdownMenuRadioItem value="dateAdded">
                   Date Added
                 </DropdownMenuRadioItem>
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
+              </DropdownMenuRadioGroup> */}
+            {/* </DropdownMenuContent> */}
+          {/* </DropdownMenu> */}
         </div>
       </div>
     </div>

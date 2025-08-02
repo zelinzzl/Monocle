@@ -12,7 +12,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "../UI/select";
 import { InsuredAsset } from "@/types/insure";
 import {
   getStatusBadgeVariant,
@@ -90,7 +90,7 @@ export const ItemInformationSheet = ({
           </div>
 
           <div className="grid grid-cols-2 gap-4 mb-6">
-            <div>
+            {/* <div>
               <p className="text-sm text-muted-foreground">Status</p>
               {isEditing ? (
                 <Select
@@ -114,8 +114,8 @@ export const ItemInformationSheet = ({
                   {asset.status}
                 </Badge>
               )}
-            </div>
-            <div>
+            </div> */}
+            {/* <div>
               <p className="text-sm text-muted-foreground">Risk Level</p>
               {isEditing ? (
                 <Select
@@ -141,7 +141,7 @@ export const ItemInformationSheet = ({
                   {asset.riskLevel}
                 </Badge>
               )}
-            </div>
+            </div> */}
             {/* <div>
               <p className="text-sm text-muted-foreground">Category</p>
               {isEditing ? (

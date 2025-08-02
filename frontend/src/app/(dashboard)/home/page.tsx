@@ -15,8 +15,8 @@ import {
   TableHead,
   TableBody,
   TableCell,
-} from "@/components/ui/table";
-import { Progress } from "@/components/ui/progress";
+} from "@/components/UI/table";
+import { Progress } from "@/components/UI/progress";
 
 export default function DashboardPage() {
   const router = useRouter();
