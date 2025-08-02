@@ -54,27 +54,19 @@ export default function DashboardPage() {
     description: 'Vehicles currently being tracked'
   }];
   return (
-    <main className="flex min-h-screen w-full flex-col p-4 md:p-8 gap-6">
-      {/* Welcome Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Welcome back, {}</h1>
-          <p className="text-muted-foreground">
-            Here's what's happening with your insurance portfolio today.
-          </p>
-        </div>
-      </div>
+    <main >
+
 
 
     
-   <div className="flex h-screen bg-gray-50">
+   <div >
       <div className="flex-1 flex flex-col overflow-hidden">
         <main className="flex-1 overflow-y-auto p-6">
           <div className="mb-6">
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-2xl font-bold text-dark">
               Travel Risk Dashboard
             </h1>
-            <p className="text-gray-600">
+            <p className="text-muted-foreground">
               Monitor weather-related travel risks in real-time
             </p>
           </div>
@@ -84,18 +76,18 @@ export default function DashboardPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {riskSummaries.map((summary, index) => <RiskSummaryCard key={index} title={summary.title} count={summary.count} icon={summary.icon} color={summary.color} description={summary.description} />)}
               </div>
-              <div className="bg-white rounded-lg shadow p-6">
+              <div className="bg-background rounded-lg shadow p-6">
                 <h2 className="text-lg font-semibold mb-4">
                   Recent Weather Alerts
                 </h2>
                 <div className="space-y-4">
                   {recentAlerts.map(alert => <div key={alert.id} className="flex items-start border-b pb-3 last:border-0 last:pb-0">
-                      <div className="p-2 rounded-full bg-gray-100 mr-3">
+                      <div className="p-2 rounded-full bg-sidebar mr-3">
                         {alert.icon}
                       </div>
                       <div>
                         <h3 className="font-medium">{alert.title}</h3>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-muted-foreground">
                           {alert.location}
                         </p>
                         <p className="text-xs text-gray-500">{alert.time}</p>
@@ -103,8 +95,8 @@ export default function DashboardPage() {
                     </div>)}
                 </div>
               </div>
-              <div className="bg-white rounded-lg shadow p-6">
-                <h2 className="text-lg font-semibold mb-4">
+              <div className="bg-background rounded-lg shadow p-6">
+                <h2 className="text-lg font-semibold mb-4 text-dark">
                   Travel Recommendations
                 </h2>
                 <ul className="space-y-2">
@@ -125,14 +117,14 @@ export default function DashboardPage() {
               </div>
             </div>
             {/* Right Column - Chart */}
-            <div className="bg-white rounded-lg shadow p-6">
+            <div className="bg-background rounded-lg shadow p-6">
               <h2 className="text-lg font-semibold mb-4">
                 Route Risk Analysis
               </h2>
               <RouteRiskChart data={routeRiskData} />
               <div className="mt-6 grid grid-cols-2 gap-4">
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="text-sm font-medium text-gray-700">
+                <div className="bg-sidebar p-4 rounded-lg">
+                  <h3 className="text-sm font-medium text-dark">
                     Risk Breakdown
                   </h3>
                   <ul className="mt-2 space-y-1">
@@ -170,11 +162,11 @@ export default function DashboardPage() {
                     </li>
                   </ul>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="text-sm font-medium text-gray-700">
+                <div className="bg-sidebar p-4 rounded-lg">
+                  <h3 className="text-sm font-medium text-dark">
                     Risk Mitigation
                   </h3>
-                  <p className="mt-2 text-sm text-gray-600">
+                  <p className="mt-2 text-sm text-gray">
                     {Math.round(routeRiskData.good / Object.values(routeRiskData).reduce((a, b) => a + b, 0) * 100)}
                     % of routes currently have good weather conditions. Consider
                     rescheduling travel for high-risk routes.

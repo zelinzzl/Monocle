@@ -43,7 +43,7 @@ const RouteRiskChart: React.FC<RouteRiskChartProps> = ({
           border: 'none',
           boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
         }} />
-          <Legend layout="vertical" verticalAlign="middle" align="right" formatter={value => <span className="text-sm text-gray-700">{value}</span>} />
+          <Legend layout="vertical" verticalAlign="middle" align="right" formatter={value => <span className="text-sm text-primary">{value}</span>} />
         </PieChart>
       </ResponsiveContainer>
     </div>;

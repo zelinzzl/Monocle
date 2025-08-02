@@ -15,14 +15,14 @@ const RiskSummaryCard: React.FC<RiskSummaryCardProps> = ({
   color,
   description
 }) => {
-  return <div className="bg-white rounded-lg shadow p-4">
+  return <div className="bg-background rounded-lg shadow p-4">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-medium text-gray-700">{title}</h3>
+        <h3 className="text-sm font-medium text-dark">{title}</h3>
         <div className={`p-2 rounded-full ${color.split(' ')[0]}`}>{icon}</div>
       </div>
       <div className="flex items-end space-x-1">
         <span className="text-2xl font-bold">{count}</span>
-        <span className="text-xs text-gray-500 mb-1">routes</span>
+        <span className="text-xs text-muted-foreground mb-1">routes</span>
       </div>
       <p className="text-xs text-gray-500 mt-1">{description}</p>
     </div>;
