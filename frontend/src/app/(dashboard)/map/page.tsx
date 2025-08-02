@@ -149,133 +149,150 @@ export default function MapPage() {
         </div>
       </div>
 
-      {/* Content */}
-      <div className="container mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Map Section */}
-        <div className="lg:col-span-2">
-          <Card className="h-full p-0">
-            <CardContent className="p-0 h-full">
-              <div className="relative h-[500px] lg:h-full bg-background rounded-lg overflow-hidden">
-                <GoogleMap
-                  mapContainerStyle={containerStyle}
-                  center={defaultCenter}
-                  zoom={12}>
-                  {filteredRoutes.map((route) => (
-                    <>
-                      <Marker
-                        key={`origin-${route.id}`}
-                        position={route.coordinates.source}
-                        onClick={() => {
-                          setSelectedRoute(route.id);
-                          calculateRoute(route);
-                        }}
-                      />
-                      <Marker
-                        key={`dest-${route.id}`}
-                        position={route.coordinates.destination}
-                        onClick={() => {
-                          setSelectedRoute(route.id);
-                          calculateRoute(route);
-                        }}
-                      />
-                      {selectedRoute === route.id && directions && (
-                        <DirectionsRenderer directions={directions} />
-                      )}
-                    </>
-                  ))}
-                </GoogleMap>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Routes List */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold">
-              My Routes ({filteredRoutes.length})
-            </h2>
-            <Button size="sm" onClick={() => setIsAddingRoute(true)}>
-              <Plus className="h-4 w-4 mr-2" />
-              Add Route
-            </Button>
+      <div className="container mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Map Section */}
+          <div className="lg:col-span-2">
+            <Card className="h-[500px] lg:h-[600px]">
+              <CardContent className="p-0 h-full">
+          <div className="relative h-full bg-background rounded-lg overflow-hidden">
+            <GoogleMap
+              mapContainerStyle={containerStyle}
+              center={center}
+              zoom={zoom}
+              onLoad={onLoad}
+              onUnmount={onUnmount}
+              options={{
+                streetViewControl: false,
+                mapTypeControl: false,
+                fullscreenControl: false,
+              }}
+            >
+              {filteredRoutes.map((route) => (
+                <>
+            <Marker
+              key={`source-${route.id}`}
+              position={route.coordinates.source}
+              onClick={() => handleRouteClick(route.id)}
+              icon={{
+                url: `https://maps.google.com/mapfiles/ms/icons/${selectedRoute === route.id ? 'red-dot.png' : 'green-dot.png'}`,
+                scaledSize: new google.maps.Size(30, 30)
+              }}
+            />
+            <Marker
+              key={`dest-${route.id}`}
+              position={route.coordinates.destination}
+              onClick={() => handleRouteClick(route.id)}
+              icon={{
+                url: `https://maps.google.com/mapfiles/ms/icons/${selectedRoute === route.id ? 'red-dot.png' : 'blue-dot.png'}`,
+                scaledSize: new google.maps.Size(30, 30)
+              }}
+            />
+            {selectedRoute === route.id && directions && (
+              <DirectionsRenderer directions={directions} />
+            )}
+                </>
+              ))}
+            </GoogleMap>
           </div>
-
-          {isAddingRoute && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Add New Route</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <Input
-                  placeholder="Route title"
-                  value={newRoute.title}
-                  onChange={(e) =>
-                    setNewRoute({ ...newRoute, title: e.target.value })
-                  }
-                />
-                <Input
-                  placeholder="Source address"
-                  value={newRoute.origin}
-                  onChange={(e) =>
-                    setNewRoute({ ...newRoute, origin: e.target.value })
-                  }
-                />
-                <Input
-                  placeholder="Destination address"
-                  value={newRoute.destination}
-                  onChange={(e) =>
-                    setNewRoute({ ...newRoute, destination: e.target.value })
-                  }
-                />
-                <div className="grid grid-cols-2 gap-4">
-                  <Select
-                    value={newRoute.category}
-                    onValueChange={(value) =>
-                      setNewRoute({ ...newRoute, category: value })
-                    }>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Commute">Commute</SelectItem>
-                      <SelectItem value="Leisure">Leisure</SelectItem>
-                      <SelectItem value="Shopping">Shopping</SelectItem>
-                      <SelectItem value="Vacation">Vacation</SelectItem>
-                      <SelectItem value="Other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Select
-                    value={newRoute.frequency}
-                    onValueChange={(value) =>
-                      setNewRoute({ ...newRoute, frequency: value })
-                    }>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Frequency" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Daily">Daily</SelectItem>
-                      <SelectItem value="Weekly">Weekly</SelectItem>
-                      <SelectItem value="Monthly">Monthly</SelectItem>
-                      <SelectItem value="Yearly">Yearly</SelectItem>
-                      <SelectItem value="Occasionally">Occasionally</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="flex gap-2 pt-2">
-                  <Button
-                    variant="outline"
-                    className="flex-1"
-                    onClick={() => setIsAddingRoute(false)}>
-                    Cancel
-                  </Button>
-                  <Button className="flex-1" onClick={handleSaveRoute}>
-                    Save Route
-                  </Button>
-                </div>
               </CardContent>
             </Card>
-          )}
+          </div>
+
+          {/* Routes List */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold">My Routes ({filteredRoutes.length})</h2>
+              <Button size="sm" onClick={handleAddRoute}>
+          <Plus className="h-4 w-4 mr-2" />
+          Add Route
+              </Button>
+            </div>
+
+            {isAddingRoute && (
+              <Card>
+          <CardHeader>
+            <CardTitle>Add New Route</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Input
+              placeholder="Route name (e.g. Work Commute)"
+              value={newRoute.name}
+              onChange={(e) => setNewRoute({...newRoute, name: e.target.value})}
+            />
+            <div className="relative">
+              <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                ref={sourceInputRef}
+                id="source-input"
+                placeholder="Source address"
+                value={newRoute.source}
+                onChange={(e) => setNewRoute({...newRoute, source: e.target.value})}
+                className="pl-10"
+              />
+            </div>
+            <div className="relative">
+              <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                ref={destInputRef}
+                id="destination-input"
+                placeholder="Destination address"
+                value={newRoute.destination}
+                onChange={(e) => setNewRoute({...newRoute, destination: e.target.value})}
+                className="pl-10"
+              />
+            </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <Select 
+                      value={newRoute.category} 
+                      onValueChange={(value) => setNewRoute({...newRoute, category: value})}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Commute">Commute</SelectItem>
+                        <SelectItem value="Leisure">Leisure</SelectItem>
+                        <SelectItem value="Shopping">Shopping</SelectItem>
+                        <SelectItem value="Vacation">Vacation</SelectItem>
+                        <SelectItem value="Other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Select 
+                      value={newRoute.frequency} 
+                      onValueChange={(value) => setNewRoute({...newRoute, frequency: value})}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Frequency" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Daily">Daily</SelectItem>
+                        <SelectItem value="Weekly">Weekly</SelectItem>
+                        <SelectItem value="Monthly">Monthly</SelectItem>
+                        <SelectItem value="Yearly">Yearly</SelectItem>
+                        <SelectItem value="Occasionally">Occasionally</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="flex gap-2 pt-2">
+                    <Button 
+                      variant="outline" 
+                      className="flex-1" 
+                      onClick={handleCancelAddRoute}
+                    >
+                      Cancel
+                    </Button>
+                    <Button 
+                      className="flex-1" 
+                      onClick={handleSaveRoute}
+                      disabled={!newRoute.name || !newRoute.source || !newRoute.destination}
+                    >
+                      Save Route
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
           {filteredRoutes.map((route) => (
             <Card
