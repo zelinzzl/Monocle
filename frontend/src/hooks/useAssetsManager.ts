@@ -1,28 +1,28 @@
 "use client";
 
 import { useState } from "react";
-import { InsuredAsset, SortBy, FilterBy } from "@/types/insure";
-import { mockAssets } from "@/data/mockAssets";
+import { InsuredAsset, SortBy } from "@/types/insure";
 import { filterAndSortAssets } from "@/utils/assetFilters";
 
 export const useAssetsManager = () => {
-  const [assets, setAssets] = useState<InsuredAsset[]>(mockAssets);
+  const [assets, setAssets] = useState<InsuredAsset[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState<SortBy>("itemName");
-  const [filterBy, setFilterBy] = useState<FilterBy>("all");
+  // const [filterBy, setFilterBy] = useState<FilterBy>("all");
   const [selectedAssets, setSelectedAssets] = useState<string[]>([]);
   const [selectedAsset, setSelectedAsset] = useState<InsuredAsset | null>(null);
 
   const filteredAndSortedAssets = filterAndSortAssets(assets, {
     searchTerm,
     sortBy,
-    filterBy,
+    // filterBy,
   });
 
-  const handleAddAsset = () => {
-    console.log("Add new asset");
-  };
 
+  const handleAddAsset = (newAsset: InsuredAsset) => {
+    setAssets((prev) => [...prev, newAsset]);
+  };
+  
   const handleRemoveAssets = () => {
     if (selectedAssets.length > 0) {
       setAssets(assets.filter((asset) => !selectedAssets.includes(asset.id)));
@@ -63,7 +63,7 @@ export const useAssetsManager = () => {
     assets,
     searchTerm,
     sortBy,
-    filterBy,
+    // filterBy,
     selectedAssets,
     selectedAsset,
     filteredAndSortedAssets,
@@ -71,7 +71,7 @@ export const useAssetsManager = () => {
     // Setters
     setSearchTerm,
     setSortBy,
-    setFilterBy,
+    // setFilterBy,
     setSelectedAsset,
 
     // Actions

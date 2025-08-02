@@ -1,0 +1,453 @@
+{
+  "high_risk_routes": [
+    {
+      "route_id": "JHB_CBD_ALEXANDRA",
+      "start": {"name": "Johannesburg CBD", "lat": -26.2041, "lng": 28.0473},
+      "end": {"name": "Alexandra", "lat": -26.1009, "lng": 28.0963},
+      "risk_score": 9.2,
+      "distance_km": 15.8,
+      "primary_risks": ["hijacking", "smash_and_grab", "vehicle_theft"],
+      "peak_risk_hours": [17, 18, 19, 20, 21, 22],
+      "alternative_routes": ["Via Sandton", "Via Rosebank"],
+      "monthly_incidents": 125,
+      "police_presence": "medium"
+    },
+    {
+      "route_id": "CPT_CBD_KHAYELITSHA",
+      "start": {"name": "Cape Town CBD", "lat": -33.9249, "lng": 18.4241},
+      "end": {"name": "Khayelitsha", "lat": -34.0500, "lng": 18.6820},
+      "risk_score": 8.8,
+      "distance_km": 22.4,
+      "primary_risks": ["hijacking", "vehicle_theft", "armed_robbery"],
+      "peak_risk_hours": [18, 19, 20, 21, 22, 23],
+      "alternative_routes": ["Via N2 Highway", "Via Philippi"],
+      "monthly_incidents": 98,
+      "police_presence": "low"
+    },
+    {
+      "route_id": "DBN_CENTRAL_UMLAZI",
+      "start": {"name": "Durban Central", "lat": -29.8587, "lng": 31.0218},
+      "end": {"name": "Umlazi", "lat": -29.9729, "lng": 30.8827},
+      "risk_score": 8.1,
+      "distance_km": 18.2,
+      "primary_risks": ["hijacking", "vehicle_theft"],
+      "peak_risk_hours": [17, 18, 19, 20, 21],
+      "alternative_routes": ["Via M30", "Via Chatsworth"],
+      "monthly_incidents": 78,
+      "police_presence": "medium"
+    },
+    {
+      "route_id": "JHB_SANDTON_HILLBROW",
+      "start": {"name": "Sandton", "lat": -26.1402, "lng": 28.0265},
+      "end": {"name": "Hillbrow", "lat": -26.1849, "lng": 28.0488},
+      "risk_score": 9.5,
+      "distance_km": 8.5,
+      "primary_risks": ["hijacking", "smash_and_grab", "armed_robbery"],
+      "peak_risk_hours": [19, 20, 21, 22, 23, 0, 1],
+      "alternative_routes": ["Via Rosebank", "Via M1 Highway"],
+      "monthly_incidents": 145,
+      "police_presence": "high"
+    }
+  ],
+  "safe_routes": [
+    {
+      "route_id": "CPT_CBD_STELLENBOSCH",
+      "start": {"name": "Cape Town CBD", "lat": -33.9249, "lng": 18.4241},
+      "end": {"name": "Stellenbosch", "lat": -33.9352, "lng": 18.8648},
+      "risk_score": 2.8,
+      "distance_km": 52.3,
+      "primary_advantages": ["highway_route", "good_lighting", "regular_patrols"],
+      "recommended_hours": [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+      "monthly_incidents": 12,
+      "police_presence": "high"
+    },
+    {
+      "route_id": "PTA_SANDTON",
+      "start": {"name": "Pretoria CBD", "lat": -25.7479, "lng": 28.2293},
+      "end": {"name": "Sandton", "lat": -26.1402, "lng": 28.0265},
+      "risk_score": 3.2,
+      "distance_km": 58.4,
+      "primary_advantages": ["highway_route", "toll_road", "good_visibility"],
+      "recommended_hours": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+      "monthly_incidents": 18,
+      "police_presence": "medium"
+    }
+  ],
+  "highway_risk_segments": [
+    {
+      "highway": "N1",
+      "segment": "Johannesburg to Pretoria",
+      "start_km": 0,
+      "end_km": 58,
+      "risk_level": "medium",
+      "accident_rate": 2.8,
+      "construction_zones": [
+        {"start_km": 15, "end_km": 22, "risk_increase": 1.8},
+        {"start_km": 45, "end_km": 50, "risk_increase": 1.5}
+      ],
+      "weather_risks": ["mist", "thunderstorms"],
+      "peak_traffic_hours": [6, 7, 8, 16, 17, 18, 19]
+    },
+    {
+      "highway": "N2",
+      "segment": "Cape Town to George",
+      "start_km": 0,
+      "end_km": 420,
+      "risk_level": "low",
+      "accident_rate": 2.1,
+      "construction_zones": [],
+      "weather_risks": ["wind", "rain", "mist"],
+      "peak_traffic_hours": [16, 17, 18]
+    },
+    {
+      "highway": "N3",
+      "segment": "Johannesburg to Durban",
+      "start_km": 0,
+      "end_km": 566,
+      "risk_level": "high",
+      "accident_rate": 3.2,
+      "construction_zones": [
+        {"start_km": 180, "end_km": 195, "risk_increase": 1.9}
+      ],
+      "weather_risks": ["mist", "thunderstorms", "frost"],
+      "peak_traffic_hours": [6, 7, 8, 16, 17, 18, 19],
+      "high_accident_zones": [
+        {"name": "Van Reenen's Pass", "start_km": 165, "end_km": 185},
+        {"name": "Tugela Toll Plaza", "start_km": 320, "end_km": 325}
+      ]
+    },
+    {
+      "highway": "R300",
+      "segment": "Cape Town Ring Road",
+      "start_km": 0,
+      "end_km": 42,
+      "risk_level": "high",
+      "accident_rate": 4.1,
+      "construction_zones": [],
+      "weather_risks": ["wind", "rain"],
+      "peak_traffic_hours": [6, 7, 8, 16, 17, 18, 19, 20]
+    }
+  ],
+  "border_crossing_risks": [
+    {
+      "crossing": "Beitbridge (Zimbabwe)",
+      "coordinates": {"lat": -22.2167, "lng": 30.0000},
+      "risk_score": 8.5,
+      "primary_risks": ["vehicle_theft", "documentation_fraud", "smuggling"],
+      "processing_time_hours": "2-8",
+      "recommended_travel_times": [8, 9, 10, 11, 12, 13],
+      "security_level": "high"
+    },
+    {
+      "crossing": "Lebombo (Mozambique)",
+      "coordinates": {"lat": -25.9333, "lng": 32.0833},
+      "risk_score": 7.8,
+      "primary_risks": ["vehicle_theft", "hijacking", "armed_robbery"],
+      "processing_time_hours": "1-4",
+      "recommended_travel_times": [7, 8, 9, 10, 11, 12, 13, 14],
+      "security_level": "medium"
+    },
+    {
+      "crossing": "Ficksburg (Lesotho)",
+      "coordinates": {"lat": -28.8714, "lng": 27.8933},
+      "risk_score": 4.2,
+      "primary_risks": ["vehicle_theft", "stock_theft"],
+      "processing_time_hours": "0.5-2",
+      "recommended_travel_times": [6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      "security_level": "medium"
+    }
+  ],
+  "urban_danger_zones": [
+    {
+      "city": "Johannesburg",
+      "zones": [
+        {
+          "name": "Johannesburg CBD",
+          "polygon": [
+            {"lat": -26.1950, "lng": 28.0380},
+            {"lat": -26.1950, "lng": 28.0580},
+            {"lat": -26.2150, "lng": 28.0580},
+            {"lat": -26.2150, "lng": 28.0380}
+          ],
+          "risk_score": 9.2,
+          "avoid_hours": [20, 21, 22, 23, 0, 1, 2, 3, 4, 5]
+        },
+        {
+          "name": "Hillbrow",
+          "polygon": [
+            {"lat": -26.1800, "lng": 28.0420},
+            {"lat": -26.1800, "lng": 28.0520},
+            {"lat": -26.1900, "lng": 28.0520},
+            {"lat": -26.1900, "lng": 28.0420}
+          ],
+          "risk_score": 9.5,
+          "avoid_hours": [18, 19, 20, 21, 22, 23, 0, 1, 2, 3, 4, 5, 6]
+        }
+      ]
+    },
+    {
+      "city": "Cape Town",
+      "zones": [
+        {
+          "name": "Cape Flats General",
+          "polygon": [
+            {"lat": -34.0200, "lng": 18.6000},
+            {"lat": -34.0200, "lng": 18.7000},
+            {"lat": -34.0600, "lng": 18.7000},
+            {"lat": -34.0600, "lng": 18.6000}
+          ],
+          "risk_score": 8.8,
+          "avoid_hours": [19, 20, 21, 22, 23, 0, 1, 2, 3, 4, 5]
+        }
+      ]
+    }
+  ],
+  "weather_impact_zones": [
+    {
+      "region": "Gauteng Highveld",
+      "coordinates": {"center_lat": -26.2000, "center_lng": 28.0000, "radius_km": 50},
+      "weather_risks": {
+        "thunderstorms": {
+          "season": "summer",
+          "risk_multiplier": 2.5,
+          "peak_months": [11, 12, 1, 2, 3]
+        },
+        "hail": {
+          "season": "summer",
+          "risk_multiplier": 3.2,
+          "peak_months": [11, 12, 1, 2]
+        },
+        "mist": {
+          "season": "winter",
+          "risk_multiplier": 1.8,
+          "peak_months": [5, 6, 7, 8]
+        }
+      }
+    },
+    {
+      "region": "Western Cape Coast",
+      "coordinates": {"center_lat": -33.9000, "center_lng": 18.4000, "radius_km": 80},
+      "weather_risks": {
+        "wind": {
+          "season": "all_year",
+          "risk_multiplier": 1.9,
+          "peak_months": [6, 7, 8, 9]
+        },
+        "rain": {
+          "season": "winter",
+          "risk_multiplier": 1.6,
+          "peak_months": [5, 6, 7, 8, 9]
+        }
+      }
+    },
+    {
+      "region": "KwaZulu-Natal Coast",
+      "coordinates": {"center_lat": -29.8000, "center_lng": 31.0000, "radius_km": 60},
+      "weather_risks": {
+        "flooding": {
+          "season": "summer",
+          "risk_multiplier": 2.8,
+          "peak_months": [12, 1, 2, 3, 4]
+        },
+        "thunderstorms": {
+          "season": "summer",
+          "risk_multiplier": 2.2,
+          "peak_months": [10, 11, 12, 1, 2, 3]
+        }
+      }
+    }
+  ],
+  "emergency_services": [
+    {
+      "province": "Gauteng",
+      "services": [
+        {
+          "type": "police",
+          "contact": "10111",
+          "response_time_minutes": {"urban": 8, "suburban": 15, "rural": 25}
+        },
+        {
+          "type": "medical",
+          "contact": "10177",
+          "response_time_minutes": {"urban": 12, "suburban": 18, "rural": 35}
+        },
+        {
+          "type": "fire",
+          "contact": "10177",
+          "response_time_minutes": {"urban": 10, "suburban": 16, "rural": 30}
+        },
+        {
+          "type": "roadside_assistance",
+          "providers": [
+            {"name": "AA", "contact": "0861 000 234", "response_time": 45},
+            {"name": "MasterDrive", "contact": "0861 111 156", "response_time": 50}
+          ]
+        }
+      ]
+    },
+    {
+      "province": "Western Cape",
+      "services": [
+        {
+          "type": "police",
+          "contact": "10111",
+          "response_time_minutes": {"urban": 10, "suburban": 18, "rural": 40}
+        },
+        {
+          "type": "medical",
+          "contact": "10177",
+          "response_time_minutes": {"urban": 15, "suburban": 22, "rural": 45}
+        },
+        {
+          "type": "fire",
+          "contact": "021 480 7700",
+          "response_time_minutes": {"urban": 8, "suburban": 14, "rural": 25}
+        }
+      ]
+    },
+    {
+      "province": "KwaZulu-Natal",
+      "services": [
+        {
+          "type": "police",
+          "contact": "10111",
+          "response_time_minutes": {"urban": 12, "suburban": 20, "rural": 45}
+        },
+        {
+          "type": "medical",
+          "contact": "10177",
+          "response_time_minutes": {"urban": 18, "suburban": 25, "rural": 50}
+        }
+      ]
+    }
+  ],
+  "safe_havens": [
+    {
+      "type": "police_station",
+      "name": "Sandton Police Station",
+      "coordinates": {"lat": -26.1067, "lng": 28.0567},
+      "hours": "24/7",
+      "services": ["emergency_assistance", "incident_reporting", "safe_parking"]
+    },
+    {
+      "type": "hospital",
+      "name": "Charlotte Maxeke Hospital",
+      "coordinates": {"lat": -26.1867, "lng": 28.0367},
+      "hours": "24/7",
+      "services": ["emergency_medical", "trauma_unit", "safe_zone"]
+    },
+    {
+      "type": "shopping_center",
+      "name": "Sandton City",
+      "coordinates": {"lat": -26.1067, "lng": 28.0567},
+      "hours": "09:00-21:00",
+      "services": ["security", "safe_parking", "emergency_contact"]
+    },
+    {
+      "type": "petrol_station",
+      "name": "Engen Sandton",
+      "coordinates": {"lat": -26.1100, "lng": 28.0600},
+      "hours": "24/7",
+      "services": ["fuel", "convenience_store", "security_cameras", "well_lit"]
+    }
+  ],
+  "traffic_patterns": {
+    "johannesburg": {
+      "peak_morning": {"start": "06:30", "end": "09:30", "congestion_level": 8},
+      "peak_evening": {"start": "16:00", "end": "19:00", "congestion_level": 9},
+      "weekend_peaks": {"saturday": [10, 11, 12, 13, 14], "sunday": [14, 15, 16, 17, 18]},
+      "major_bottlenecks": [
+        {"location": "M1 South at Grayston", "peak_delay_minutes": 25},
+        {"location": "N1 at Woodmead", "peak_delay_minutes": 30},
+        {"location": "R21 at OR Tambo", "peak_delay_minutes": 20}
+      ]
+    },
+    "cape_town": {
+      "peak_morning": {"start": "07:00", "end": "09:00", "congestion_level": 7},
+      "peak_evening": {"start": "16:30", "end": "18:30", "congestion_level": 8},
+      "weekend_peaks": {"saturday": [10, 11, 12, 13], "sunday": [15, 16, 17, 18]},
+      "major_bottlenecks": [
+        {"location": "N1 at Parow", "peak_delay_minutes": 20},
+        {"location": "M3 at Muizenberg", "peak_delay_minutes": 15},
+        {"location": "N2 at Somerset West", "peak_delay_minutes": 18}
+      ]
+    },
+    "durban": {
+      "peak_morning": {"start": "06:45", "end": "08:45", "congestion_level": 7},
+      "peak_evening": {"start": "16:15", "end": "18:15", "congestion_level": 8},
+      "weekend_peaks": {"saturday": [9, 10, 11, 12], "sunday": [15, 16, 17]},
+      "major_bottlenecks": [
+        {"location": "M4 at Umhlanga", "peak_delay_minutes": 22},
+        {"location": "N3 at Westville", "peak_delay_minutes": 18}
+      ]
+    }
+  },
+  "route_recommendations": {
+    "avoid_during_high_crime": [
+      {
+        "route": "Any route through Hillbrow",
+        "times": "20:00-06:00",
+        "alternative": "Use M1 Highway bypass"
+      },
+      {
+        "route": "Cape Flats direct routes",
+        "times": "19:00-06:00", 
+        "alternative": "Use N2 Highway"
+      },
+      {
+        "route": "Alexandra direct access",
+        "times": "18:00-06:00",
+        "alternative": "Via Sandton with escort"
+      }
+    ],
+    "weather_alternative_routes": [
+      {
+        "condition": "Heavy thunderstorms Gauteng",
+        "avoid": ["N1 open sections", "R21 airport route"],
+        "prefer": ["M1 covered sections", "Urban routes with shelter"]
+      },
+      {
+        "condition": "Cape Town strong winds",
+        "avoid": ["R27 West Coast road", "Chapman's Peak"],
+        "prefer": ["N1 inland route", "M3 sheltered sections"]
+      },
+      {
+        "condition": "KZN coastal flooding",
+        "avoid": ["M4 coastal road", "Low-lying routes"],
+        "prefer": ["N3 inland route", "Higher elevation roads"]
+      }
+    ]
+  },
+  "real_time_risk_factors": {
+    "current_construction": [
+      {
+        "location": "N1 Johannesburg-Pretoria km 15-22",
+        "impact": "Lane closures, 30-minute delays",
+        "risk_increase": 1.8,
+        "expected_completion": "2025-03-15"
+      },
+      {
+        "location": "N2 Cape Town-Somerset West km 8-12",
+        "impact": "Single lane traffic",
+        "risk_increase": 1.5,
+        "expected_completion": "2025-02-28"
+      }
+    ],
+    "special_events": [
+      {
+        "event": "Soweto Marathon",
+        "date": "2024-11-03",
+        "affected_areas": ["Soweto", "Johannesburg South"],
+        "road_closures": ["M70", "portions of M1"],
+        "risk_impact": "High traffic, road closures"
+      },
+      {
+        "event": "Cape Town Cycle Tour",
+        "date": "2025-03-09",
+        "affected_areas": ["Cape Peninsula"],
+        "road_closures": ["M3", "M4", "Chapman's Peak"],
+        "risk_impact": "Major road closures, detours required"
+      }
+    ]
+  }
+}

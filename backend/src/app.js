@@ -1,14 +1,17 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import cookieParser from 'cookie-parser'; // Add this import
+import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import healthRoutes from './routes/health-check.js';
 import authRoutes from './routes/auth.js';
 import destinationRoutes from './routes/destinations.js';
 import alertsRoutes from './routes/alerts-routes.js';
-import insuranceRoutes from './routes/insurance-routes.js'; // Add this import // Add this import
-import routesRoutes from './routes/routes-routes.js'; // Import the new routes file
+import insuranceRoutes from './routes/insurance-routes.js';
+import routesRoutes from './routes/routes-routes.js';
+import mlRoutes from './routes/ml-Routes.js';
+
+import routeRiskRoutes from './routes/routeRisk-route.js'; // Import the route risk routes
 dotenv.config();
 
 const app = express();
@@ -38,7 +41,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/destinations', destinationRoutes);
 app.use('/api/alerts', alertsRoutes);
 app.use('/api/insurance', insuranceRoutes); 
-app.use('/api/routes', routesRoutes); 
+app.use('/api/routes', routesRoutes);
+app.use('/api/ml', mlRoutes);app.use('/api/route-risk', routeRiskRoutes); // Add route risk routes
 
 
 app.get('/', (req, res) => {

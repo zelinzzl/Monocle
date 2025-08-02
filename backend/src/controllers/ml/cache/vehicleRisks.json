@@ -1,0 +1,348 @@
+{
+  "high_theft_models": [
+    {
+      "make": "Toyota",
+      "model": "Hilux",
+      "theft_rank": 1,
+      "annual_thefts": 2850,
+      "risk_multiplier": 3.5,
+      "primary_target_reason": "High resale value, parts demand, export market",
+      "vulnerable_years": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
+      "hotspot_provinces": ["Gauteng", "KwaZulu-Natal", "Western Cape"]
+    },
+    {
+      "make": "Toyota",
+      "model": "Fortuner",
+      "theft_rank": 2,
+      "annual_thefts": 2650,
+      "risk_multiplier": 3.4,
+      "primary_target_reason": "Luxury SUV, high demand, cross-border smuggling",
+      "vulnerable_years": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023],
+      "hotspot_provinces": ["Gauteng", "Limpopo", "Western Cape"]
+    },
+    {
+      "make": "BMW",
+      "model": "3 Series",
+      "theft_rank": 3,
+      "annual_thefts": 1950,
+      "risk_multiplier": 3.1,
+      "primary_target_reason": "Luxury vehicle, parts market, status symbol",
+      "vulnerable_years": [2018, 2019, 2020, 2021, 2022, 2023, 2024],
+      "hotspot_provinces": ["Gauteng", "Western Cape", "KwaZulu-Natal"]
+    },
+    {
+      "make": "Volkswagen",
+      "model": "Polo",
+      "theft_rank": 4,
+      "annual_thefts": 1850,
+      "risk_multiplier": 2.8,
+      "primary_target_reason": "High volume, easy to steal, parts availability",
+      "vulnerable_years": [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021],
+      "hotspot_provinces": ["Gauteng", "Western Cape", "Eastern Cape"]
+    },
+    {
+      "make": "Ford",
+      "model": "Ranger",
+      "theft_rank": 5,
+      "annual_thefts": 1750,
+      "risk_multiplier": 3.2,
+      "primary_target_reason": "Commercial vehicle demand, cross-border trade",
+      "vulnerable_years": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023],
+      "hotspot_provinces": ["Gauteng", "Limpopo", "Mpumalanga"]
+    },
+    {
+      "make": "Toyota",
+      "model": "Corolla",
+      "theft_rank": 6,
+      "annual_thefts": 1650,
+      "risk_multiplier": 2.5,
+      "primary_target_reason": "Popular model, reliable resale, parts demand",
+      "vulnerable_years": [2014, 2015, 2016, 2017, 2018, 2019, 2020],
+      "hotspot_provinces": ["Gauteng", "Western Cape", "KwaZulu-Natal"]
+    },
+    {
+      "make": "Audi",
+      "model": "A4",
+      "theft_rank": 7,
+      "annual_thefts": 1450,
+      "risk_multiplier": 3.0,
+      "primary_target_reason": "Luxury appeal, high-value parts, export market",
+      "vulnerable_years": [2017, 2018, 2019, 2020, 2021, 2022, 2023],
+      "hotspot_provinces": ["Gauteng", "Western Cape"]
+    },
+    {
+      "make": "Mercedes-Benz",
+      "model": "C-Class",
+      "theft_rank": 8,
+      "annual_thefts": 1350,
+      "risk_multiplier": 3.1,
+      "primary_target_reason": "Luxury brand, sophisticated theft networks",
+      "vulnerable_years": [2016, 2017, 2018, 2019, 2020, 2021, 2022],
+      "hotspot_provinces": ["Gauteng", "Western Cape"]
+    },
+    {
+      "make": "Nissan",
+      "model": "NP200",
+      "theft_rank": 9,
+      "annual_thefts": 1250,
+      "risk_multiplier": 2.3,
+      "primary_target_reason": "Commercial use, affordable parts, easy target",
+      "vulnerable_years": [2012, 2013, 2014, 2015, 2016, 2017, 2018],
+      "hotspot_provinces": ["Gauteng", "Western Cape", "KwaZulu-Natal"]
+    },
+    {
+      "make": "Hyundai",
+      "model": "i20",
+      "theft_rank": 10,
+      "annual_thefts": 1150,
+      "risk_multiplier": 2.2,
+      "primary_target_reason": "Compact popularity, urban target, parts market",
+      "vulnerable_years": [2015, 2016, 2017, 2018, 2019, 2020],
+      "hotspot_provinces": ["Gauteng", "Western Cape"]
+    }
+  ],
+  "driver_demographics_sa": {
+    "age_risk_profiles": {
+      "16-20": {
+        "risk_multiplier": 2.8,
+        "accident_rate_per_1000": 85,
+        "primary_risks": ["inexperience", "risk_taking", "peer_pressure"],
+        "insurance_loading": 180
+      },
+      "21-25": {
+        "risk_multiplier": 2.2,
+        "accident_rate_per_1000": 65,
+        "primary_risks": ["inexperience", "night_driving", "alcohol_related"],
+        "insurance_loading": 140
+      },
+      "26-30": {
+        "risk_multiplier": 1.4,
+        "accident_rate_per_1000": 35,
+        "primary_risks": ["distracted_driving", "work_stress"],
+        "insurance_loading": 110
+      },
+      "31-45": {
+        "risk_multiplier": 1.0,
+        "accident_rate_per_1000": 22,
+        "primary_risks": ["family_distractions", "rushing"],
+        "insurance_loading": 100
+      },
+      "46-60": {
+        "risk_multiplier": 1.1,
+        "accident_rate_per_1000": 25,
+        "primary_risks": ["health_issues", "medication_effects"],
+        "insurance_loading": 105
+      },
+      "61-70": {
+        "risk_multiplier": 1.3,
+        "accident_rate_per_1000": 32,
+        "primary_risks": ["vision_decline", "reaction_time"],
+        "insurance_loading": 115
+      },
+      "70+": {
+        "risk_multiplier": 1.8,
+        "accident_rate_per_1000": 48,
+        "primary_risks": ["cognitive_decline", "medical_conditions"],
+        "insurance_loading": 135
+      }
+    },
+    "gender_statistics": {
+      "male": {
+        "risk_multiplier": 1.3,
+        "accident_involvement": 68,
+        "theft_target_likelihood": 1.2,
+        "primary_risks": ["aggressive_driving", "speed_violations"]
+      },
+      "female": {
+        "risk_multiplier": 1.0,
+        "accident_involvement": 32,
+        "theft_target_likelihood": 1.1,
+        "primary_risks": ["parking_lot_incidents", "night_vulnerability"]
+      }
+    },
+    "experience_factors": {
+      "0-2_years": {
+        "risk_multiplier": 2.5,
+        "claims_frequency": 0.18,
+        "average_claim_amount": 45000
+      },
+      "3-5_years": {
+        "risk_multiplier": 1.6,
+        "claims_frequency": 0.12,
+        "average_claim_amount": 38000
+      },
+      "6-10_years": {
+        "risk_multiplier": 1.2,
+        "claims_frequency": 0.08,
+        "average_claim_amount": 42000
+      },
+      "11-20_years": {
+        "risk_multiplier": 1.0,
+        "claims_frequency": 0.06,
+        "average_claim_amount": 48000
+      },
+      "20+_years": {
+        "risk_multiplier": 1.1,
+        "claims_frequency": 0.07,
+        "average_claim_amount": 52000
+      }
+    }
+  },
+  "weather_vulnerability_sa": {
+    "hail_susceptible_vehicles": [
+      {
+        "category": "luxury_sedans",
+        "vulnerability_score": 9,
+        "repair_cost_multiplier": 2.8,
+        "examples": ["BMW 3 Series", "Mercedes C-Class", "Audi A4"],
+        "vulnerable_parts": ["sunroof", "body_panels", "windscreen"]
+      },
+      {
+        "category": "soft_top_convertibles",
+        "vulnerability_score": 10,
+        "repair_cost_multiplier": 4.2,
+        "examples": ["BMW Z4", "Mercedes SLK", "Audi TT Roadster"],
+        "vulnerable_parts": ["soft_roof", "rear_window", "electronics"]
+      },
+      {
+        "category": "large_suvs",
+        "vulnerability_score": 7,
+        "repair_cost_multiplier": 2.2,
+        "examples": ["Toyota Fortuner", "Ford Everest", "Isuzu MU-X"],
+        "vulnerable_parts": ["roof", "windscreen", "side_panels"]
+      },
+      {
+        "category": "economy_cars",
+        "vulnerability_score": 6,
+        "repair_cost_multiplier": 1.8,
+        "examples": ["VW Polo", "Toyota Corolla", "Hyundai i20"],
+        "vulnerable_parts": ["roof", "windscreen"]
+      }
+    ],
+    "flood_risk_factors": {
+      "low_lying_areas": [
+        "Cape Town low-lying suburbs",
+        "Durban coastal areas",
+        "Johannesburg mine areas",
+        "Port Elizabeth beachfront"
+      ],
+      "vehicle_vulnerability": {
+        "electric_vehicles": {
+          "risk_score": 8,
+          "damage_type": "electrical_system_failure",
+          "recovery_probability": 0.3
+        },
+        "luxury_vehicles": {
+          "risk_score": 7,
+          "damage_type": "electronic_component_damage",
+          "recovery_probability": 0.4
+        },
+        "standard_vehicles": {
+          "risk_score": 5,
+          "damage_type": "engine_water_damage",
+          "recovery_probability": 0.6
+        },
+        "pickup_trucks": {
+          "risk_score": 3,
+          "damage_type": "minimal_if_high_clearance",
+          "recovery_probability": 0.8
+        }
+      }
+    }
+  },
+  "provincial_risk_factors": {
+    "Gauteng": {
+      "overall_risk": 3.2,
+      "primary_risks": ["hijacking", "smash_and_grab", "vehicle_theft"],
+      "peak_crime_months": [11, 12, 1, 2],
+      "road_accident_rate": 145,
+      "insurance_claims_frequency": 0.28
+    },
+    "Western Cape": {
+      "overall_risk": 2.8,
+      "primary_risks": ["vehicle_theft", "smash_and_grab", "hijacking"],
+      "peak_crime_months": [12, 1, 2, 3],
+      "road_accident_rate": 132,
+      "insurance_claims_frequency": 0.24
+    },
+    "KwaZulu-Natal": {
+      "overall_risk": 2.6,
+      "primary_risks": ["hijacking", "vehicle_theft"],
+      "peak_crime_months": [12, 1, 4, 7],
+      "road_accident_rate": 156,
+      "insurance_claims_frequency": 0.26
+    },
+    "Eastern Cape": {
+      "overall_risk": 2.1,
+      "primary_risks": ["vehicle_theft", "stock_theft"],
+      "peak_crime_months": [12, 1, 2],
+      "road_accident_rate": 98,
+      "insurance_claims_frequency": 0.18
+    },
+    "Limpopo": {
+      "overall_risk": 1.9,
+      "primary_risks": ["cross_border_smuggling", "vehicle_theft"],
+      "peak_crime_months": [11, 12, 1],
+      "road_accident_rate": 87,
+      "insurance_claims_frequency": 0.16
+    },
+    "Mpumalanga": {
+      "overall_risk": 1.8,
+      "primary_risks": ["vehicle_theft", "cross_border_crime"],
+      "peak_crime_months": [12, 1, 7],
+      "road_accident_rate": 92,
+      "insurance_claims_frequency": 0.17
+    },
+    "Free State": {
+      "overall_risk": 1.5,
+      "primary_risks": ["vehicle_theft", "farm_attacks"],
+      "peak_crime_months": [12, 1],
+      "road_accident_rate": 76,
+      "insurance_claims_frequency": 0.14
+    },
+    "Northern Cape": {
+      "overall_risk": 1.3,
+      "primary_risks": ["vehicle_theft", "stock_theft"],
+      "peak_crime_months": [12, 1],
+      "road_accident_rate": 65,
+      "insurance_claims_frequency": 0.12
+    },
+    "North West": {
+      "overall_risk": 1.6,
+      "primary_risks": ["vehicle_theft", "hijacking"],
+      "peak_crime_months": [12, 1, 2],
+      "road_accident_rate": 83,
+      "insurance_claims_frequency": 0.15
+    }
+  },
+  "seasonal_patterns": {
+    "summer": {
+      "months": [12, 1, 2],
+      "crime_increase": 35,
+      "weather_risks": ["thunderstorms", "hail", "flooding"],
+      "travel_increase": 45,
+      "holiday_factor": 2.1
+    },
+    "autumn": {
+      "months": [3, 4, 5],
+      "crime_increase": 5,
+      "weather_risks": ["occasional_rain"],
+      "travel_increase": 0,
+      "holiday_factor": 1.0
+    },
+    "winter": {
+      "months": [6, 7, 8],
+      "crime_increase": -10,
+      "weather_risks": ["frost", "mist", "cold_temperatures"],
+      "travel_increase": -15,
+      "holiday_factor": 1.1
+    },
+    "spring": {
+      "months": [9, 10, 11],
+      "crime_increase": 15,
+      "weather_risks": ["wind", "thunderstorms"],
+      "travel_increase": 20,
+      "holiday_factor": 1.3
+    }
+  }
+}

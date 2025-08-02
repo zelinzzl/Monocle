@@ -49,9 +49,9 @@ export const AssetsTable = ({
             <TableHead>Item Name</TableHead>
             {/* <TableHead>Category</TableHead> */}
             <TableHead>Monthly Payment</TableHead>
-            <TableHead>Date Added</TableHead>
-            <TableHead>Risk Level</TableHead>
-            <TableHead>Status</TableHead>
+            <TableHead>Date Approved</TableHead>
+            {/* <TableHead>Risk Level</TableHead> */}
+            {/* <TableHead>Status</TableHead> */}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -88,16 +88,16 @@ export const AssetsTable = ({
                     day: "numeric",
                   })}
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <Badge variant={getRiskLevelBadgeVariant(asset.riskLevel)}>
                     {asset.riskLevel}
                   </Badge>
-                </TableCell>
-                <TableCell>
+                </TableCell> */}
+                {/* <TableCell>
                   <Badge variant={getStatusBadgeVariant(asset.status)}>
                     {asset.status}
                   </Badge>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))
           )}

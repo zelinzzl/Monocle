@@ -8,6 +8,7 @@ import {
   Clock,
   Route as RouteIcon,
   MapPin,
+  X,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
@@ -16,7 +17,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/UI/select";
 import {
   Card,
   CardContent,
@@ -99,6 +100,36 @@ export default function RoutePage() {
     }
   }, [isAddingRoute, markers]);
 
+  // Handle address input changes
+  const handleAddressChange = async (type: 'origin' | 'destination', value: string) => {
+    setNewRoute(prev => ({ ...prev, [type]: value }));
+    
+    // If the input is cleared, clear the corresponding marker
+    if (!value.trim()) {
+      setMarkers(prev => ({ ...prev, [type === 'origin' ? 'source' : 'destination']: null }));
+      return;
+    }
+
+    // Geocode the address when user stops typing (you might want to debounce this)
+    try {
+      const position = await geocodeAddress(value);
+      if (position) {
+        setMarkers(prev => ({
+          ...prev,
+          [type === 'origin' ? 'source' : 'destination']: position
+        }));
+        
+        // Center map on the new location
+        if (mapRef.current) {
+          mapRef.current.panTo(position);
+        }
+      }
+    } catch (error) {
+      console.error(`Failed to geocode ${type}:`, error);
+      // Keep the text input value even if geocoding fails
+    }
+  };
+
   // Reset markers when cancelling or completing route addition
   const resetMarkers = () => {
     setMarkers({ source: null, destination: null });
@@ -156,22 +187,16 @@ export default function RoutePage() {
   const handleSaveRoute = async () => {
     if (
       !newRoute.title ||
-      !newRoute.origin ||
-      !newRoute.destination ||
       !newRoute.category ||
       !newRoute.frequency ||
       !markers.source ||
       !markers.destination
     ) {
-      alert("Please fill in all required fields and set both markers.");
+      alert("Please fill in all required fields and set both locations.");
       return;
     }
     
     try {
-      // Get addresses if they weren't set manually
-      const originAddress = newRoute.origin || await reverseGeocode(markers.source);
-      const destinationAddress = newRoute.destination || await reverseGeocode(markers.destination);
-
       // Calculate the route and get distance in meters
       const directionsService = new google.maps.DirectionsService();
       const results = await directionsService.route({
@@ -186,16 +211,12 @@ export default function RoutePage() {
       if (editingRouteId) {
         await editRoute(editingRouteId, {
           ...newRoute,
-          origin: originAddress,
-          destination: destinationAddress,
           coordinates: { source: markers.source, destination: markers.destination },
           distance: distanceInKm,
         });
       } else {
         await addRoute({
           ...newRoute,
-          origin: originAddress,
-          destination: destinationAddress,
           coordinates: { source: markers.source, destination: markers.destination },
           distance: distanceInKm,
         });
@@ -373,7 +394,11 @@ export default function RoutePage() {
                   {editingRouteId ? "Edit Route" : "Add New Route"}
                 </CardTitle>
                 <CardDescription>
-                  Click on the map to set {!markers.source ? "source" : "destination"} location
+                  {!markers.source 
+                    ? "Click on the map or enter address to set origin" 
+                    : !markers.destination 
+                      ? "Click on the map or enter address to set destination"
+                      : "Both locations set. You can drag markers to adjust."}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -385,22 +410,67 @@ export default function RoutePage() {
                     setNewRoute({ ...newRoute, title: e.target.value })
                   }
                 />
-                <P>Origin</P>
-                <Input
-                  placeholder="Origin address"
-                  value={newRoute.origin}
-                  onChange={(e) =>
-                    setNewRoute({ ...newRoute, origin: e.target.value })
-                  }
-                />
-                <P>Destination</P>
-                <Input
-                  placeholder="Destination address"
-                  value={newRoute.destination}
-                  onChange={(e) =>
-                    setNewRoute({ ...newRoute, destination: e.target.value })
-                  }
-                />
+                
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <P>Origin</P>
+                    {markers.source && (
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => {
+                          setMarkers(prev => ({ ...prev, source: null }));
+                          setNewRoute(prev => ({ ...prev, origin: "" }));
+                        }}
+                      >
+                        <X className="h-4 w-4 mr-1" />
+                        Clear
+                      </Button>
+                    )}
+                  </div>
+                  <Input
+                    placeholder="Origin address"
+                    value={newRoute.origin}
+                    onChange={(e) => handleAddressChange('origin', e.target.value)}
+                  />
+                  {markers.source && (
+                    <div className="text-xs text-muted-foreground flex items-center">
+                      <MapPin className="h-3 w-3 mr-1" />
+                      {newRoute.origin || "Location set on map"}
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <P>Destination</P>
+                    {markers.destination && (
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => {
+                          setMarkers(prev => ({ ...prev, destination: null }));
+                          setNewRoute(prev => ({ ...prev, destination: "" }));
+                        }}
+                      >
+                        <X className="h-4 w-4 mr-1" />
+                        Clear
+                      </Button>
+                    )}
+                  </div>
+                  <Input
+                    placeholder="Destination address"
+                    value={newRoute.destination}
+                    onChange={(e) => handleAddressChange('destination', e.target.value)}
+                  />
+                  {markers.destination && (
+                    <div className="text-xs text-muted-foreground flex items-center">
+                      <MapPin className="h-3 w-3 mr-1" />
+                      {newRoute.destination || "Location set on map"}
+                    </div>
+                  )}
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <P>Category</P>
                   <Select

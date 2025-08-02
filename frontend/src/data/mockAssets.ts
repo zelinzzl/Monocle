@@ -4,9 +4,9 @@ export const mockAssets: InsuredAsset[] = [
   {
     id: "1",
     itemName: "2023 Honda Civic",
-    status: "Active",
+    // status: "Active",
     monthlyPayment: 125.5,
-    riskLevel: "Low",
+    // riskLevel: "Low",
     dateAdded: "2024-01-15",
     description: "Silver Honda Civic with 15,000 miles",
     coverageAmount: 25000,
@@ -55,9 +55,9 @@ export const mockAssets: InsuredAsset[] = [
   {
     id: "2",
     itemName: "2022 Yamaha R6",
-    status: "Expired",
+    // status: "Expired",
     monthlyPayment: 95.75,
-    riskLevel: "High",
+    // riskLevel: "High",
     dateAdded: "2023-12-05",
     description: "Blue sports motorcycle, 600cc",
     coverageAmount: 12000,
