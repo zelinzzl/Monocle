@@ -1,30 +1,20 @@
 {
-  "name": "Monocle",
-  "short_name": "Monocle",
-  "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "display": "standalone",
-  "scope": "/",
-  "start_url": "",
-  "id": "/",
-  "icons": [
-    {
-      "src": "/Logo-light.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    },
-    {
-      "src": "/bitmap.png",
-      "type": "image/png",
-      "sizes": "150x150"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/screenshots/desktop-wide.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide"
-    }
-  ]
-}
+    "name": "Monocle",
+    "short_name": "Monocle",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "icons": [
+      {
+        "src": "/Logo.svg",
+        "type": "image/svg",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/Logo-light.svg",
+        "type": "image/svg",
+        "sizes": "512x512"
+      }
+    ]
+  }
