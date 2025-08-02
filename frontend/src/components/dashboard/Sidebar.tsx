@@ -106,14 +106,14 @@ export function Sidebar({ isCollapsed }: { isCollapsed: boolean }) {
           </Link> */}
 
           <Link
-            href="/map"
+            href="/routes"
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-              pathname === "/map" && "bg-muted text-primary"
+              pathname === "/routes" && "bg-muted text-primary"
             )}
           >
             <Icon name="Map" size={"lg"} />
-            {!isCollapsed && <P className="text-lg">Map</P>}
+            {!isCollapsed && <P className="text-lg">Routes</P>}
           </Link>
 
           <Link

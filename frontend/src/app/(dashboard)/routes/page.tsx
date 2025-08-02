@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import {
   Search,
   Filter,
@@ -34,23 +34,29 @@ import {
 } from "@react-google-maps/api";
 import { useRoutes } from "@/hooks/useRoutes";
 import { useDirections } from "@/hooks/useDirections";
-import { geocodeAddress, Route } from "@/services/routeService";
+import { geocodeAddress, reverseGeocode, Route } from "@/services/routeService";
 import { useAuth } from "@/context/auth-context";
+import { P } from "@/components/ui/typography";
 
 const containerStyle = { width: "100%", height: "100%", minHeight: "500px" };
 const defaultCenter = { lat: -26.2041, lng: 28.0473 };
 
-export default function MapPage() {
+export default function RoutePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const { user } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedRoute, setSelectedRoute] = useState<string | null>(null);
   const [isAddingRoute, setIsAddingRoute] = useState(false);
   const [editingRouteId, setEditingRouteId] = useState<string | null>(null);
-  const [originalRoute, setOriginalRoute] = useState<Omit<
-    Route,
-    "coordinates"
-  > | null>(null);
+  const [originalRoute, setOriginalRoute] = useState<Omit<Route, "coordinates"> | null>(null);
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+  const mapRef = useRef<google.maps.Map | null>(null);
+
+  // State for drag-and-drop markers
+  const [markers, setMarkers] = useState<{
+    source: google.maps.LatLngLiteral | null;
+    destination: google.maps.LatLngLiteral | null;
+  }>({ source: null, destination: null });
 
   const [newRoute, setNewRoute] = useState<Omit<Route, "id" | "coordinates">>({
     title: "",
@@ -63,7 +69,7 @@ export default function MapPage() {
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
-    libraries: ["places"],
+    libraries: ["places", "geometry"],
   });
 
   const { routes, addRoute, removeRoute, editRoute, loading } = useRoutes(
@@ -71,13 +77,44 @@ export default function MapPage() {
   );
   const { directions, distance, calculateRoute } = useDirections(isLoaded);
 
-  const handleAddRoute = () => setIsAddingRoute(true);
+  // Initialize map
+  const onLoad = useCallback((map: google.maps.Map) => {
+    mapRef.current = map;
+    setMap(map);
+  }, []);
+
+  // Handle map click for adding markers
+  const handleMapClick = useCallback(async (e: google.maps.MapMouseEvent) => {
+    if (!isAddingRoute || !mapRef.current || !e.latLng) return;
+
+    const position = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+    const address = await reverseGeocode(position);
+
+    if (!markers.source) {
+      setMarkers(prev => ({ ...prev, source: position }));
+      setNewRoute(prev => ({ ...prev, origin: address }));
+    } else if (!markers.destination) {
+      setMarkers(prev => ({ ...prev, destination: position }));
+      setNewRoute(prev => ({ ...prev, destination: address }));
+    }
+  }, [isAddingRoute, markers]);
+
+  // Reset markers when cancelling or completing route addition
+  const resetMarkers = () => {
+    setMarkers({ source: null, destination: null });
+  };
+
+  const handleAddRoute = () => {
+    setIsAddingRoute(true);
+    resetMarkers();
+  };
+
   const handleEditRoute = (routeId: string) => {
     const routeToEdit = routes.find((r) => r.id === routeId);
     if (!routeToEdit) return;
 
-    setEditingRouteId(routeId); // ✅ track which route is being edited
-    setIsAddingRoute(true); // ✅ opens the same card
+    setEditingRouteId(routeId);
+    setIsAddingRoute(true);
     setNewRoute({
       user_id: routeToEdit.user_id,
       title: routeToEdit.title,
@@ -85,6 +122,10 @@ export default function MapPage() {
       destination: routeToEdit.destination,
       category: routeToEdit.category,
       frequency: routeToEdit.frequency,
+    });
+    setMarkers({
+      source: routeToEdit.coordinates.source,
+      destination: routeToEdit.coordinates.destination
     });
   };
 
@@ -97,6 +138,7 @@ export default function MapPage() {
       }
     }
   };
+
   const handleCancelAddRoute = () => {
     setIsAddingRoute(false);
     setEditingRouteId(null);
@@ -108,52 +150,58 @@ export default function MapPage() {
       category: "",
       frequency: "",
     });
+    resetMarkers();
   };
 
   const handleSaveRoute = async () => {
-    if (!newRoute.title || !newRoute.origin || !newRoute.destination) {
-      alert("Please fill in all required fields");
+    if (
+      !newRoute.title ||
+      !newRoute.origin ||
+      !newRoute.destination ||
+      !newRoute.category ||
+      !newRoute.frequency ||
+      !markers.source ||
+      !markers.destination
+    ) {
+      alert("Please fill in all required fields and set both markers.");
       return;
     }
-  
+    
     try {
-      // Geocode both addresses first
-      const [sourceCoords, destCoords] = await Promise.all([
-        geocodeAddress(newRoute.origin),
-        geocodeAddress(newRoute.destination),
-      ]);
-  
-      // Calculate the route and get distance in meters (numeric value)
+      // Get addresses if they weren't set manually
+      const originAddress = newRoute.origin || await reverseGeocode(markers.source);
+      const destinationAddress = newRoute.destination || await reverseGeocode(markers.destination);
+
+      // Calculate the route and get distance in meters
       const directionsService = new google.maps.DirectionsService();
       const results = await directionsService.route({
-        origin: sourceCoords,
-        destination: destCoords,
+        origin: markers.source,
+        destination: markers.destination,
         travelMode: google.maps.TravelMode.DRIVING,
       });
-  
-      // Get the raw distance value in meters (always numeric)
+
       const distanceInMeters = results.routes[0]?.legs[0]?.distance?.value || 0;
-      
-      // Convert to kilometers and round to 2 decimal places
       const distanceInKm = Math.round((distanceInMeters / 1000) * 100) / 100;
-  
+
       if (editingRouteId) {
         await editRoute(editingRouteId, {
           ...newRoute,
-          coordinates: { source: sourceCoords, destination: destCoords },
-          distance: distanceInKm, // Numeric value in kilometers
+          origin: originAddress,
+          destination: destinationAddress,
+          coordinates: { source: markers.source, destination: markers.destination },
+          distance: distanceInKm,
         });
       } else {
         await addRoute({
           ...newRoute,
-          coordinates: { source: sourceCoords, destination: destCoords },
-          distance: distanceInKm, // Numeric value in kilometers
+          origin: originAddress,
+          destination: destinationAddress,
+          coordinates: { source: markers.source, destination: markers.destination },
+          distance: distanceInKm,
         });
       }
-  
-      // Reset form
+
       handleCancelAddRoute();
-      setEditingRouteId(null);
     } catch (error) {
       console.error("Error saving route:", error);
       alert("Failed to save route. Please try again.");
@@ -190,9 +238,7 @@ export default function MapPage() {
                 className="pl-10 w-full sm:w-64"
               />
             </div>
-            <Select
-              value={selectedCategory}
-              onValueChange={setSelectedCategory}>
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
               <SelectTrigger className="w-full sm:w-40">
                 <Filter className="h-4 w-4 mr-2" />
                 <SelectValue placeholder="Category" />
@@ -221,11 +267,51 @@ export default function MapPage() {
                 mapContainerStyle={containerStyle}
                 center={defaultCenter}
                 zoom={12}
+                onLoad={onLoad}
+                onClick={handleMapClick}
                 options={{
                   streetViewControl: false,
                   mapTypeControl: false,
                   fullscreenControl: false,
-                }}>
+                }}
+              >
+                {/* Drag-and-drop markers when adding a route */}
+                {isAddingRoute && markers.source && (
+                  <Marker
+                    position={markers.source}
+                    draggable={true}
+                    onDragEnd={async (e) => {
+                      if (!e.latLng) return;
+                      const newPos = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+                      setMarkers(prev => ({ ...prev, source: newPos }));
+                      const address = await reverseGeocode(newPos);
+                      setNewRoute(prev => ({ ...prev, origin: address }));
+                    }}
+                    icon={{
+                      url: "https://maps.google.com/mapfiles/ms/icons/green-dot.png",
+                      scaledSize: new google.maps.Size(30, 30),
+                    }}
+                  />
+                )}
+                {isAddingRoute && markers.destination && (
+                  <Marker
+                    position={markers.destination}
+                    draggable={true}
+                    onDragEnd={async (e) => {
+                      if (!e.latLng) return;
+                      const newPos = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+                      setMarkers(prev => ({ ...prev, destination: newPos }));
+                      const address = await reverseGeocode(newPos);
+                      setNewRoute(prev => ({ ...prev, destination: address }));
+                    }}
+                    icon={{
+                      url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                      scaledSize: new google.maps.Size(30, 30),
+                    }}
+                  />
+                )}
+
+                {/* Existing route markers */}
                 {filteredRoutes.map((route) => (
                   <div key={route.id}>
                     <Marker
@@ -286,8 +372,12 @@ export default function MapPage() {
                 <CardTitle>
                   {editingRouteId ? "Edit Route" : "Add New Route"}
                 </CardTitle>
+                <CardDescription>
+                  Click on the map to set {!markers.source ? "source" : "destination"} location
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
+                <P>Title</P>
                 <Input
                   placeholder="Route title"
                   value={newRoute.title}
@@ -295,6 +385,7 @@ export default function MapPage() {
                     setNewRoute({ ...newRoute, title: e.target.value })
                   }
                 />
+                <P>Origin</P>
                 <Input
                   placeholder="Origin address"
                   value={newRoute.origin}
@@ -302,6 +393,7 @@ export default function MapPage() {
                     setNewRoute({ ...newRoute, origin: e.target.value })
                   }
                 />
+                <P>Destination</P>
                 <Input
                   placeholder="Destination address"
                   value={newRoute.destination}
@@ -310,11 +402,13 @@ export default function MapPage() {
                   }
                 />
                 <div className="grid grid-cols-2 gap-4">
+                  <P>Category</P>
                   <Select
                     value={newRoute.category}
                     onValueChange={(value) =>
                       setNewRoute({ ...newRoute, category: value })
-                    }>
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Category" />
                     </SelectTrigger>
@@ -326,11 +420,13 @@ export default function MapPage() {
                       <SelectItem value="Other">Other</SelectItem>
                     </SelectContent>
                   </Select>
+                  <P>Frequency</P>
                   <Select
                     value={newRoute.frequency}
                     onValueChange={(value) =>
                       setNewRoute({ ...newRoute, frequency: value })
-                    }>
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Frequency" />
                     </SelectTrigger>
@@ -347,7 +443,8 @@ export default function MapPage() {
                   <Button
                     variant="outline"
                     className="flex-1"
-                    onClick={handleCancelAddRoute}>
+                    onClick={handleCancelAddRoute}
+                  >
                     Cancel
                   </Button>
                   <Button
@@ -355,9 +452,10 @@ export default function MapPage() {
                     onClick={handleSaveRoute}
                     disabled={
                       !newRoute.title ||
-                      !newRoute.origin ||
-                      !newRoute.destination
-                    }>
+                      !markers.source ||
+                      !markers.destination
+                    }
+                  >
                     Save Route
                   </Button>
                 </div>
@@ -365,9 +463,9 @@ export default function MapPage() {
             </Card>
           )}
 
-{filteredRoutes
-  .filter((route) => route.id !== editingRouteId)
-  .map((route) => (
+          {filteredRoutes
+            .filter((route) => route.id !== editingRouteId)
+            .map((route) => (
               <Card
                 key={route.id}
                 className={`cursor-pointer hover:shadow-md ${
@@ -376,7 +474,8 @@ export default function MapPage() {
                 onClick={() => {
                   setSelectedRoute(route.id);
                   calculateRoute(route);
-                }}>
+                }}
+              >
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div>
@@ -399,21 +498,29 @@ export default function MapPage() {
                   </div>
 
                   <div className="flex justify-between">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="cursor-pointer hover:bg-gray-200 mt-2"
-                    onClick={() => handleEditRoute(route.id)}>
-                    Edit
-                  </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="cursor-pointer hover:bg-gray-200 mt-2"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEditRoute(route.id);
+                      }}
+                    >
+                      Edit
+                    </Button>
 
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    className="cursor-pointer hover:bg-red-700 mt-2"
-                    onClick={() => handleDeleteRoute(route.id)}>
-                    Delete
-                  </Button>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      className="cursor-pointer hover:bg-red-700 mt-2"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteRoute(route.id);
+                      }}
+                    >
+                      Delete
+                    </Button>
                   </div>
                 </CardContent>
               </Card>

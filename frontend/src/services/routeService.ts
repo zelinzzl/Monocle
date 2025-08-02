@@ -28,7 +28,6 @@ export async function getRouteById(id: string): Promise<Route> {
 
 // Create a new route
 export async function createRoute(data: Omit<Route, "id">): Promise<Route> {
-  console.log("Creating route with data:", data);
   return apiFetch("/api/routes/create-route", {
     method: "POST",
     body: JSON.stringify(data),
@@ -56,6 +55,11 @@ export const geocodeAddress = async (
   address: string
 ): Promise<{ lat: number; lng: number }> => {
   return new Promise((resolve, reject) => {
+    if (!window.google || !window.google.maps) {
+      reject("Google Maps API not loaded");
+      return;
+    }
+
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ address }, (results, status) => {
       if (status === "OK" && results?.[0]?.geometry?.location) {
@@ -64,8 +68,67 @@ export const geocodeAddress = async (
           lng: results[0].geometry.location.lng(),
         });
       } else {
-        reject(`Geocode failed: ${status}`);
+        reject(new Error(`Geocode failed: ${status}`));
       }
     });
+  });
+};
+
+// Reverse geocode LatLng → Address
+export const reverseGeocode = async (
+  location: google.maps.LatLngLiteral
+): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    if (!window.google || !window.google.maps) {
+      reject("Google Maps API not loaded");
+      return;
+    }
+
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ location }, (results, status) => {
+      if (status === "OK" && results?.[0]?.formatted_address) {
+        resolve(results[0].formatted_address);
+      } else if (results?.[0]?.formatted_address) {
+        // Fallback to less precise address if available
+        resolve(results[0].formatted_address);
+      } else {
+        // Fallback to coordinates if no address found
+        resolve(`${location.lat.toFixed(6)}, ${location.lng.toFixed(6)}`);
+      }
+    });
+  });
+};
+
+// Calculate route distance and duration
+export const calculateRouteDetails = async (
+  origin: google.maps.LatLngLiteral,
+  destination: google.maps.LatLngLiteral,
+  travelMode: google.maps.TravelMode = google.maps.TravelMode.DRIVING
+): Promise<{ distance: number; duration: number }> => {
+  return new Promise((resolve, reject) => {
+    if (!window.google || !window.google.maps) {
+      reject("Google Maps API not loaded");
+      return;
+    }
+
+    const directionsService = new google.maps.DirectionsService();
+    directionsService.route(
+      {
+        origin,
+        destination,
+        travelMode,
+      },
+      (response, status) => {
+        if (status === "OK" && response?.routes?.[0]?.legs?.[0]) {
+          const leg = response.routes[0].legs[0];
+          resolve({
+            distance: leg.distance?.value || 0, // in meters
+            duration: leg.duration?.value || 0, // in seconds
+          });
+        } else {
+          reject(new Error(`Directions request failed: ${status}`));
+        }
+      }
+    );
   });
 };
