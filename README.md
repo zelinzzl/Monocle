@@ -2,6 +2,7 @@
 
 # Monocle
 
+## NOTE: MAIN BRANCH IS BROKE, PLEASE REFER TO DEVELOPMENT BRANCH TO LOOK AT CODE 
 ## 📢 Introduction
 
 **Monocle** is a full-stack Travel Risk Monitoring application. The application helps users monitor travel destinations and assess risk levels for safer travel planning.
