@@ -4,9 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
+    "build": "next build",     
+    "deploy": "npm run build" ,
     "generate-icons": "tsx scripts/icon-generation.ts",
     "setup-backend-start": "powershell ./scripts/setup-alias.ps1",
     "setup-backend-start-MACOS": "bash ./scripts/setup-alias.sh",

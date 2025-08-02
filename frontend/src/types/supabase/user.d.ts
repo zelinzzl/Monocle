@@ -1,4 +1,5 @@
 export interface User {
+  profilePhoto: string | undefined;
   id: string;
   firstName: string;
   lastName: string;

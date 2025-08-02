@@ -236,7 +236,7 @@ export default function InsuredAssetsPage() {
       ) : (
         <>
           <AssetsTable
-            assets={filteredAndSortedAssets}
+            assets={filteredAndSortedAssets }
             selectedAssets={selectedAssets}
             onSelectAll={handleSelectAll}
             onSelectAsset={toggleAssetSelection}

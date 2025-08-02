@@ -1,9 +1,10 @@
 "use client";
 
+import { InsuranceAsset } from "@/services/insuranceApi";
 import { InsuredAsset } from "@/types/insure";
 
 interface AssetsSummaryProps {
-  filteredAssets: InsuredAsset[];
+  filteredAssets: InsuranceAsset[];
   totalAssets: number;
 }
 

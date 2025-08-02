@@ -106,7 +106,7 @@ export default function ProfilePage() {
           firstName: user.firstName || '',
           lastName: user.lastName || '',
           email: user.email || '',
-          picture: user.profilePictureUrl || user.profilePhoto || '',
+          picture: user.profilePictureUrl || '',
           emailNotifications: user.settings?.emailNotifications ?? true,
           twoFactorAuth: user.settings?.twoFactorEnabled ?? false,
         });

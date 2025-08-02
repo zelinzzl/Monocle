@@ -50,6 +50,7 @@ export interface InsuranceAsset {
   riskScore?: number;
   createdAt: string;
   updatedAt: string;
+  deductible?: number;
 }
 
 export interface InsuranceSummary {

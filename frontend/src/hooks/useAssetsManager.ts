@@ -18,18 +18,7 @@ export const useAssetsManager = () => {
   // Get auth state to know when we're ready to make API calls
   const { isAuthenticated, isLoading: authLoading, accessToken } = useAuth();
 
-  // Load assets when authentication is ready
-  useEffect(() => {
-    if (!authLoading && isAuthenticated && accessToken) {
-      console.log('🔄 Auth ready, loading assets...');
-      loadAssets();
-    } else if (!authLoading && !isAuthenticated) {
-      console.log('❌ User not authenticated, stopping asset load');
-      setLoading(false);
-    }
-  }, [authLoading, isAuthenticated, accessToken]);
-
-  const loadAssets = async () => {
+  const loadAssets = useCallback(async () => {
     try {
       setLoading(true);
       console.log('🔄 Loading assets...');
@@ -44,11 +33,22 @@ export const useAssetsManager = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [accessToken]);
+
+  // Load assets when authentication is ready
+  useEffect(() => {
+    if (!authLoading && isAuthenticated && accessToken) {
+      console.log('🔄 Auth ready, loading assets...');
+      loadAssets();
+    } else if (!authLoading && !isAuthenticated) {
+      console.log('❌ User not authenticated, stopping asset load');
+      setLoading(false);
+    }
+  }, [authLoading, isAuthenticated, accessToken, loadAssets]);
 
   // Filter and sort assets
   const filteredAndSortedAssets = useMemo(() => {
-    let filtered = assets.filter(asset =>
+    const filtered = assets.filter(asset =>
       asset.itemName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       asset.make.toLowerCase().includes(searchTerm.toLowerCase()) ||
       asset.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -201,7 +201,7 @@ export const useAssetsManager = () => {
     if (isAuthenticated && accessToken) {
       loadAssets();
     }
-  }, [isAuthenticated, accessToken]);
+  }, [isAuthenticated, accessToken, loadAssets]);
 
   return {
     assets,

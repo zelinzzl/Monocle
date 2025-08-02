@@ -14,9 +14,10 @@ import {
   getStatusBadgeVariant,
   getRiskLevelBadgeVariant,
 } from "@/utils/badgeVariants";
+import { InsuranceAsset } from "@/services/insuranceApi";
 
 interface AssetsTableProps {
-  assets: InsuredAsset[];
+  assets: InsuranceAsset[];
   selectedAssets: string[];
   onSelectAll: (checked: boolean) => void;
   onSelectAsset: (assetId: string) => void;
@@ -68,7 +69,7 @@ export const AssetsTable = ({
             assets.map((asset) => (
               <TableRow
                 key={asset.id}
-                onClick={() => onRowClick(asset)}
+                onClick={() => onRowClick(asset as InsuredAsset)}
                 className="cursor-pointer hover:bg-muted/50"
               >
                 <TableCell onClick={(e) => e.stopPropagation()}>
@@ -103,7 +104,7 @@ export const AssetsTable = ({
                 </TableCell>
                 <TableCell>
                   <Badge variant={getRiskLevelBadgeVariant(asset.riskLevel)}>
-                    {asset.riskLevel === 'pending' ? 'Assessing...' : asset.riskLevel}
+                    {asset.riskLevel === 'Pending' ? 'Assessing...' : asset.riskLevel}
                   </Badge>
                 </TableCell>
                 <TableCell>

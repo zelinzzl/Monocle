@@ -5,7 +5,7 @@ export interface InsuredAsset {
   category: string;
   monthlyPayment: number;
   dateAdded: string;
-  riskLevel: 'Low' | 'Medium' | 'High' | 'Critical' | 'pending';
+  riskLevel: 'Low' | 'Medium' | 'High' | 'Critical' | 'Pending';
   status: 'Pending' | 'Active' | 'Suspended' | 'Expired' | 'Cancelled' | 'Declined';
   make: string;
   model: string;

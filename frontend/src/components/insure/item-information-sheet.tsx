@@ -2,29 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Icon } from "../ui/icons/Icon";
 import { Input } from "../ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../UI/select";
 import { InsuredAsset } from "@/types/insure";
-import {
-  getStatusBadgeVariant,
-  getRiskLevelBadgeVariant,
-} from "@/utils/badgeVariants";
+import { InsuranceAsset } from "@/services/insuranceApi";
 
 export const ItemInformationSheet = ({
   asset,
   onClose,
   onSave,
 }: {
-  asset: InsuredAsset | null;
+  asset: InsuranceAsset | null;
   onClose: () => void;
   onSave: (updatedAsset: InsuredAsset) => void;
 }) => {
@@ -35,7 +24,7 @@ export const ItemInformationSheet = ({
   // Initialize edited asset when asset changes
   useEffect(() => {
     if (asset) {
-      setEditedAsset({ ...asset });
+      setEditedAsset({ ...asset as InsuredAsset});
     }
   }, [asset]);
 
@@ -239,7 +228,7 @@ export const ItemInformationSheet = ({
                   />
                 ) : (
                   <p className="font-medium">
-                    R{asset.deductible?.toLocaleString()}
+                R{(asset as any).deductible?.toLocaleString()}
                   </p>
                 )}
               </div>
