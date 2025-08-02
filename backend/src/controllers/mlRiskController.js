@@ -1,6 +1,6 @@
-import RiskCalculator from '../utils/riskCalculator.js';
-import DataIntegrator from '../utils/dataIntegrator.js';
-import RouteRiskService from '../utils/routeRiskService.js';
+import RiskCalculator from "../utils/riskCalculator.js";
+import DataIntegrator from "../utils/dataIntegrator.js";
+import RouteRiskService from "../utils/routeRiskService.js";
 
 class MLRiskController {
   constructor() {
@@ -16,19 +16,28 @@ class MLRiskController {
   async getDashboard(req, res) {
     try {
       const userId = req.user.id;
-      
+
       // Get mock user vehicles and routes
       const vehicles = this.getMockVehicles(userId);
       const recentRoutes = this.routeRiskService.getMockUserRoutes(userId);
-      
+
       // Analyze all routes
-      const routeAnalysis = await this.routeRiskService.analyzeMultipleRoutes(recentRoutes, userId);
-      
+      const routeAnalysis = await this.routeRiskService.analyzeMultipleRoutes(
+        recentRoutes,
+        userId
+      );
+
       // Get recent weather alerts
-      const weatherAlerts = await this.routeRiskService.getRecentWeatherAlerts(userId);
-      
+      const weatherAlerts = await this.routeRiskService.getRecentWeatherAlerts(
+        userId
+      );
+
       // Generate travel recommendations
-      const recommendations = await this.routeRiskService.generateTravelRecommendations(routeAnalysis, vehicles);
+      const recommendations =
+        await this.routeRiskService.generateTravelRecommendations(
+          routeAnalysis,
+          vehicles
+        );
 
       res.json({
         success: true,
@@ -37,21 +46,20 @@ class MLRiskController {
           routes: {
             protected: routeAnalysis.categorized.protected,
             atRisk: routeAnalysis.categorized.atRisk,
-            monitored: routeAnalysis.categorized.monitored
+            monitored: routeAnalysis.categorized.monitored,
           },
           recentAlerts: weatherAlerts,
           recommendations,
-          vehicles: vehicles.filter(v => v.status === 'Active'),
-          lastUpdated: new Date().toISOString()
-        }
+          vehicles: vehicles.filter((v) => v.status === "Active"),
+          lastUpdated: new Date().toISOString(),
+        },
       });
-
     } catch (error) {
-      console.error('Dashboard error:', error);
+      console.error("Dashboard error:", error);
       res.status(500).json({
         success: false,
-        error: 'Failed to load dashboard',
-        details: error.message
+        error: "Failed to load dashboard",
+        details: error.message,
       });
     }
   }
@@ -69,7 +77,7 @@ class MLRiskController {
       if (!start || !end) {
         return res.status(400).json({
           success: false,
-          error: 'Start and end locations are required'
+          error: "Start and end locations are required",
         });
       }
 
@@ -78,23 +86,25 @@ class MLRiskController {
         end,
         waypoints: waypoints || [],
         vehicleId,
-        routeName
+        routeName,
       };
 
       // Analyze the route
-      const analysis = await this.routeRiskService.analyzeSingleRoute(routeData, userId);
+      const analysis = await this.routeRiskService.analyzeSingleRoute(
+        routeData,
+        userId
+      );
 
       res.json({
         success: true,
-        data: analysis
+        data: analysis,
       });
-
     } catch (error) {
-      console.error('Route analysis error:', error);
+      console.error("Route analysis error:", error);
       res.status(500).json({
         success: false,
-        error: 'Route analysis failed',
-        details: error.message
+        error: "Route analysis failed",
+        details: error.message,
       });
     }
   }
@@ -111,7 +121,7 @@ class MLRiskController {
       if (!lat || !lng) {
         return res.status(400).json({
           success: false,
-          error: 'Latitude and longitude are required'
+          error: "Latitude and longitude are required",
         });
       }
 
@@ -133,16 +143,15 @@ class MLRiskController {
           forecast: weatherData.forecast,
           ml_predictions: mlPredictions,
           weather_alerts: weatherData.alerts,
-          prediction_timestamp: new Date().toISOString()
-        }
+          prediction_timestamp: new Date().toISOString(),
+        },
       });
-
     } catch (error) {
-      console.error('Weather predictions error:', error);
+      console.error("Weather predictions error:", error);
       res.status(500).json({
         success: false,
-        error: 'Weather predictions failed',
-        details: error.message
+        error: "Weather predictions failed",
+        details: error.message,
       });
     }
   }
@@ -160,7 +169,7 @@ class MLRiskController {
       if (!vehicleId || !currentLocation) {
         return res.status(400).json({
           success: false,
-          error: 'Vehicle ID and current location are required'
+          error: "Vehicle ID and current location are required",
         });
       }
 
@@ -169,13 +178,13 @@ class MLRiskController {
       if (!vehicle) {
         return res.status(404).json({
           success: false,
-          error: 'Vehicle not found'
+          error: "Vehicle not found",
         });
       }
 
       // Get weather data for current location
       const weatherData = await this.dataIntegrator.getWeatherData(
-        currentLocation.lat, 
+        currentLocation.lat,
         currentLocation.lng
       );
 
@@ -209,18 +218,22 @@ class MLRiskController {
           weather_data: weatherData,
           claim_probability: {
             percentage: Math.round(claimProbability * 100),
-            level: claimProbability > 0.3 ? 'High' : claimProbability > 0.15 ? 'Medium' : 'Low'
+            level:
+              claimProbability > 0.3
+                ? "High"
+                : claimProbability > 0.15
+                ? "Medium"
+                : "Low",
           },
-          assessment_timestamp: new Date().toISOString()
-        }
+          assessment_timestamp: new Date().toISOString(),
+        },
       });
-
     } catch (error) {
-      console.error('Risk assessment error:', error);
+      console.error("Risk assessment error:", error);
       res.status(500).json({
         success: false,
-        error: 'Risk assessment failed',
-        details: error.message
+        error: "Risk assessment failed",
+        details: error.message,
       });
     }
   }
@@ -236,7 +249,7 @@ class MLRiskController {
       if (!lat || !lng) {
         return res.status(400).json({
           success: false,
-          error: 'Latitude and longitude are required'
+          error: "Latitude and longitude are required",
         });
       }
 
@@ -261,16 +274,15 @@ class MLRiskController {
           alerts,
           predictions,
           forecast: weatherData.forecast,
-          timestamp: new Date().toISOString()
-        }
+          timestamp: new Date().toISOString(),
+        },
       });
-
     } catch (error) {
-      console.error('Weather alerts error:', error);
+      console.error("Weather alerts error:", error);
       res.status(500).json({
         success: false,
-        error: 'Failed to get weather alerts',
-        details: error.message
+        error: "Failed to get weather alerts",
+        details: error.message,
       });
     }
   }
@@ -279,86 +291,107 @@ class MLRiskController {
   getMockVehicles(userId) {
     return [
       {
-        id: 'vehicle_1',
-        make: 'Toyota',
-        model: 'Corolla',
+        id: "vehicle_1",
+        make: "Toyota",
+        model: "Corolla",
         year: 2020,
         main_driver_age: 35,
-        primary_location: 'Johannesburg',
+        primary_location: "Johannesburg",
         coverage_amount: 300000,
-        status: 'Active',
-        policy_number: 'POL-12345'
+        status: "Active",
+        policy_number: "POL-12345",
       },
       {
-        id: 'vehicle_2',
-        make: 'BMW',
-        model: 'X3',
+        id: "vehicle_2",
+        make: "BMW",
+        model: "X3",
         year: 2022,
         main_driver_age: 42,
-        primary_location: 'Cape Town',
+        primary_location: "Cape Town",
         coverage_amount: 800000,
-        status: 'Active',
-        policy_number: 'POL-67890'
-      }
+        status: "Active",
+        policy_number: "POL-67890",
+      },
     ];
   }
 
   getMockVehicle(vehicleId) {
-    const vehicles = this.getMockVehicles('user_1');
-    return vehicles.find(v => v.id === vehicleId);
+    const vehicles = this.getMockVehicles("user_1");
+    return vehicles.find((v) => v.id === vehicleId);
   }
 
   generateMockPredictions(days) {
     const predictions = [];
-    
+
     for (let i = 0; i < days; i++) {
       const date = new Date();
       date.setDate(date.getDate() + i + 1);
-      
+
       predictions.push({
-        date: date.toISOString().split('T')[0],
+        date: date.toISOString().split("T")[0],
         predicted_risk: Math.round(20 + Math.random() * 60),
-        risk_level: ['Low', 'Medium', 'High'][Math.floor(Math.random() * 3)],
-        confidence: Math.round(70 + Math.random() * 25)
+        risk_level: ["Low", "Medium", "High"][Math.floor(Math.random() * 3)],
+        confidence: Math.round(70 + Math.random() * 25),
       });
     }
-    
+
     return predictions;
   }
 
   generateAreaAlerts(weatherData, predictions) {
     const alerts = [];
-    
+
     // Check current weather
     if (weatherData.current?.precipitation > 15) {
       alerts.push({
-        type: 'weather',
-        severity: 'high',
-        title: 'Heavy Rain Warning',
-        message: 'Heavy rainfall detected in the area',
-        timestamp: new Date().toISOString()
+        type: "weather",
+        severity: "high",
+        title: "Heavy Rain Warning",
+        message: "Heavy rainfall detected in the area",
+        timestamp: new Date().toISOString(),
       });
     }
 
     if (weatherData.current?.wind_speed > 50) {
       alerts.push({
-        type: 'weather',
-        severity: 'medium',
-        title: 'Strong Wind Alert',
-        message: 'Strong winds may affect driving conditions',
-        timestamp: new Date().toISOString()
+        type: "weather",
+        severity: "medium",
+        title: "Strong Wind Alert",
+        message: "Strong winds may affect driving conditions",
+        timestamp: new Date().toISOString(),
       });
     }
 
     // Check predictions
-    const highRiskPredictions = predictions.filter(p => p.predicted_risk > 70);
+    const highRiskPredictions = predictions.filter(
+      (p) => p.predicted_risk > 70
+    );
     if (highRiskPredictions.length > 0) {
       alerts.push({
-        type: 'prediction',
-        severity: 'medium',
-        title: 'High Risk Forecast',
+        type: "prediction",
+        severity: "medium",
+        title: "High Risk Forecast",
         message: `High risk conditions predicted for the next ${highRiskPredictions.length} day(s)`,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+      });
+    }
+
+    return alerts;
+  }
+
+  // In your ML controller methods, add timestamp-based variation
+  generateAreaAlerts(weatherData, predictions) {
+    const alerts = [];
+    const timeVariation = Date.now() % 10000; // Changes every 10 seconds
+
+    // Add some randomization based on current time
+    if (timeVariation < 3000) {
+      alerts.push({
+        type: "weather",
+        severity: "medium",
+        title: `Real-time Weather Update`,
+        message: `Updated at ${new Date().toLocaleTimeString()}`,
+        timestamp: new Date().toISOString(),
       });
     }
 
