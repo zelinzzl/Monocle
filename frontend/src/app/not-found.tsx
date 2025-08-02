@@ -22,7 +22,7 @@ function NotFound() {
       <h1 className="text-4xl font-bold mb-2">404 - Page Not Found</h1>
 
       <p className="text-muted-foreground mb-6">
-        Sorry, the page you are looking for doesn't exist.
+        Sorry, the page you are looking for doesn&apos;t exist.
       </p>
       <Button onClick={() => router.push("/")}>Go back home</Button>
     </div>
