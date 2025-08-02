@@ -50,3 +50,38 @@ export async function deleteAlert(alertId) {
 
   return data;
 }
+
+// Function to push a subscription for notifications
+export async function pushSubscription(userId, subscription) {
+  const { error } = await supabase
+    .from('users')
+    .update({ push_subscription: subscription })
+    .eq('id', userId);
+
+  if (error) throw new Error(error.message);
+  
+  return { success: true };
+}
+
+export async function deleteSubscription(userId) {
+  const { error } = await supabase
+    .from('users')
+    .update({ push_subscription: null })
+    .eq('id', userId);
+
+  if (error) throw new Error(error.message);
+  
+  return { success: true };
+}
+
+export async function getPushSubscription(userId) {
+  const { data, error } = await supabase
+    .from('users')
+    .select('push_subscription')
+    .eq('id', userId)
+    .single();
+
+  if (error) throw new Error(error.message);
+  
+  return data ? data.push_subscription : null;
+}
